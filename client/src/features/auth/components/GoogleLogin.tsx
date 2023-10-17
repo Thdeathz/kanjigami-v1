@@ -5,7 +5,7 @@ import { FormInstance, message } from 'antd'
 
 import GoogleLogo from '~/assets/google_logo.svg'
 import { auth, googleProvider } from '~/config/firebase'
-import { useLoginMutation } from '../store/authApiSlice'
+import { useLoginMutation } from '../store/authService'
 
 type PropsType = {
   form: FormInstance<UserCredentials>

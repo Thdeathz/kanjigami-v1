@@ -4,7 +4,7 @@ import { Button, Checkbox, Divider, Form, Input, message } from 'antd'
 import { LoadingOutlined, LockOutlined, MailOutlined } from '@ant-design/icons'
 
 import { DefaultLayout } from '~/components'
-import { useLoginMutation } from './store/authApiSlice'
+import { useLoginMutation } from './store/authService'
 import usePersist from '~/hooks/usePersist'
 import { EMAIL_REGEX } from '~/config/regex'
 import GoogleLogin from './components/GoogleLogin'

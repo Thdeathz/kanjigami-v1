@@ -7,7 +7,7 @@ import { DefaultLayout } from '~/components'
 import { useAppSelector } from '~/hooks/useRedux'
 import { selectResetEmail } from './store/authSlice'
 import CountDownTimer from './components/CountDownTimer'
-import { useVerifyOTPTokenMutation } from './store/authApiSlice'
+import { useVerifyOTPTokenMutation } from './store/authService'
 
 type OTPInputProps = {
   name: string

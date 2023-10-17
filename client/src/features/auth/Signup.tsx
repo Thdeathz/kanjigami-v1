@@ -4,7 +4,7 @@ import { LoadingOutlined, LockOutlined, MailOutlined } from '@ant-design/icons'
 import { Button, Form, Input, message } from 'antd'
 
 import { DefaultLayout } from '~/components'
-import { useSignupMutation } from './store/authApiSlice'
+import { useSignupMutation } from './store/authService'
 import { EMAIL_REGEX, PWD_REGEX } from '~/config/regex'
 
 type FormData = {

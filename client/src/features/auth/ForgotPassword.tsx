@@ -5,7 +5,7 @@ import { ArrowLeftOutlined, LoadingOutlined } from '@ant-design/icons'
 
 import { DefaultLayout } from '~/components'
 import { EMAIL_REGEX } from '~/config/regex'
-import { useForgotPasswordMutation } from './store/authApiSlice'
+import { useForgotPasswordMutation } from './store/authService'
 
 type ForgotPasswordForm = {
   email: string

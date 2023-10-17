@@ -3,7 +3,7 @@ import { message } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { LoadingOutlined } from '@ant-design/icons'
 
-import { useForgotPasswordMutation } from '../store/authApiSlice'
+import { useForgotPasswordMutation } from '../store/authService'
 
 type PropsType = {
   resetEmail: string

@@ -5,7 +5,7 @@ import { DefaultLayout } from '~/components'
 import usePersist from '~/hooks/usePersist'
 import { useAppSelector } from '~/hooks/useRedux'
 import { selectCurrentToken } from '../store/authSlice'
-import { useRefreshMutation } from '../store/authApiSlice'
+import { useRefreshMutation } from '../store/authService'
 
 const PersistLogin = () => {
   const location = useLocation()

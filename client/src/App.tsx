@@ -6,7 +6,7 @@ import RequireAuth from './features/auth/components/RequireAuth'
 import Login from './features/auth/Login'
 import Signup from './features/auth/Signup'
 import ForgotPassword from './features/auth/ForgotPassword'
-import Welcome from './features/users/Welcome'
+import Welcome from './features/user/Welcome'
 import ResetPassword from './features/auth/ResetPassword'
 import VerifyOTP from './features/auth/VerifyOTP'
 
