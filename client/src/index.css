@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Saira Stencil One';
+  src: url('./assets/SairaStencilOne-Regular.ttf');
+}
+
 *,
 *::before,
 *::after {
@@ -20,10 +25,23 @@ body {
   height: 100vh;
 }
 
+p {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
 .ant-modal-footer .ant-btn-primary {
   background-color: #1677ff !important;
 }
 
 .flex-center {
   @apply flex items-center justify-center;
+}
+
+.flex-start {
+  @apply flex items-center justify-start;
+}
+
+.app-icon p {
+  font-family: 'Saira Stencil One';
 }

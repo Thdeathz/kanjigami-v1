@@ -66,8 +66,6 @@ const Login = () => {
 
   return (
     <DefaultLayout>
-      <p className="mb-2 text-4xl font-bold">Login</p>
-
       <Form
         form={form}
         name="login"

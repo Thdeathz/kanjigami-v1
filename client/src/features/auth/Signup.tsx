@@ -77,8 +77,6 @@ const Signup = () => {
 
   return (
     <DefaultLayout>
-      <p className="mb-2 text-4xl font-bold">Sign up</p>
-
       <Form
         form={form}
         name="register"
