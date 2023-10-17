@@ -17,15 +17,23 @@ services:
       - traefik.http.routers.traefik.service=api@internal
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-  mongodb:
-    image: mongo
+
+  postgres:
+    image: postgres:11-alpine
     restart: unless-stopped
-    ports:
-      - ${MONGODB_PORT:-27017}:27017
     volumes:
-      - data:/data/db
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - POSTGRES_DB=${POSTGRES_DB:-postgres}
+    ports:
+      - ${POSTGRES_PORT:-5432}:5432
+
   server:
-    image: node:18-alpine
+    build:
+      context: ./server
+      dockerfile: ./docker/Dockerfile
     restart: unless-stopped
     working_dir: /srv/server
     tty: true
@@ -35,9 +43,12 @@ services:
       - traefik.enable=true
       - traefik.http.routers.${COMPOSE_PROJECT_NAME}-server.rule=Host(`${DOMAIN}`) && PathPrefix(`/api`)
       - traefik.http.services.${COMPOSE_PROJECT_NAME}-server.loadbalancer.server.port=80
+    links:
+      - postgres
     depends_on:
       - traefik
-      - mongodb
+      - postgres
+
   client:
     image: node:18-alpine
     restart: unless-stopped
@@ -54,4 +65,5 @@ services:
       - server
 
 volumes:
-  data:
+  postgres-data:
+  pgadmin-data:

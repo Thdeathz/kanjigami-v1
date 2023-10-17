@@ -19,8 +19,8 @@ const useAuth = () => {
     const decoded = jwtDecode(token) as JwtPayload
     const { email, roles } = decoded.UserInfo
 
-    isUser = roles?.includes('User')
-    isAdmin = roles?.includes('Admin')
+    isUser = roles?.includes('USER')
+    isAdmin = roles?.includes('ADMIN')
 
     return { email, roles, isUser, isAdmin }
   }
