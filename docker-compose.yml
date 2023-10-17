@@ -31,9 +31,7 @@ services:
       - ${POSTGRES_PORT:-5432}:5432
 
   server:
-    build:
-      context: ./server
-      dockerfile: ./docker/Dockerfile
+    image: node:18-alpine
     restart: unless-stopped
     working_dir: /srv/server
     tty: true

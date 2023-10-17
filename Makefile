@@ -11,14 +11,14 @@ devrun:
 	docker exec -it $(COMPOSE_PROJECT_NAME)-client-1 yarn dev
 
 devup:
-	USER=$$(id -u):$$(id -g) docker compose up -d --remove-orphans
+	docker compose up -d --remove-orphans
 
 devdown:
 	docker compose down --remove-orphans
 
 devinstall:
-	@docker exec -it -u $$(id -u):$$(id -g) $(COMPOSE_PROJECT_NAME)-server-1 yarn
-	@docker exec -it -u $$(id -u):$$(id -g) $(COMPOSE_PROJECT_NAME)-client-1 yarn
+	@docker exec -it $(COMPOSE_PROJECT_NAME)-server-1 yarn
+	@docker exec -it $(COMPOSE_PROJECT_NAME)-client-1 yarn
 	@test -f client/.env || cp client/.env.example client/.env
 	@test -f server/.env || cp server/.env.example server/.env
 
