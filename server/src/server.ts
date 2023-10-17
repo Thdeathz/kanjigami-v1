@@ -5,10 +5,8 @@ import morgan from 'morgan'
 import cors from 'cors'
 import path from 'path'
 import cookieParser from 'cookie-parser'
-import mongoose, { Error } from 'mongoose'
 import admin from 'firebase-admin'
 
-import connectDB from '~/config/dbConnect'
 import corsOptions from '~/config/corsOptions'
 import serviceAccount from './config/firebase'
 import { transporter } from './config/mailTransporter'
@@ -24,7 +22,6 @@ const app = express()
 const PORT: string | 3500 = process.env.PORT || 3500
 
 console.log(process.env.NODE_ENV)
-connectDB()
 
 /* MIDDLEWARE */
 app.use(morgan('dev'))
@@ -51,24 +48,15 @@ app.use('*', notFoundRoute)
 
 app.use(errorHandler)
 
-// mongodb connection testing
-mongoose.connection.once('open', () => {
-  console.log('Connected to database ><!')
-
-  // nodemailer transporter testing
-  transporter.verify((error, success) => {
-    if (error) {
-      console.log(error)
-    } else {
-      console.log('Server is ready to send emails')
-    }
-  })
-
-  app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`)
-  })
+// nodemailer transporter testing
+transporter.verify((error, success) => {
+  if (error) {
+    console.log(error)
+  } else {
+    console.log('💌 Server is ready to send emails')
+  }
 })
 
-mongoose.connection.on('error', (err: Error) => {
-  console.log(err)
+app.listen(PORT, () => {
+  console.log(`🚀 Server is running on port ${PORT}`)
 })

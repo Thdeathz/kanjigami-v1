@@ -10,7 +10,7 @@ declare type UserCredentials = {
   password: string
 }
 
-declare type ROLE = 'User' | 'Admin'
+declare type ROLE = 'USER' | 'ADMIN'
 
 declare interface ResetPasswordRequest {
   email: string

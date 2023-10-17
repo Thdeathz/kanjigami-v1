@@ -45,6 +45,12 @@ ACCESS_TOKEN_SECRET=<your access token secret>
 REFRESH_TOKEN_SECRET=<your refresh token secret>
 ```
 
+Deploy database:
+
+```bash
+make prisma-deploy
+```
+
 Set up a Firebase project and configure the necessary environment variables:
 
 1. Create a Firebase project at [https://console.firebase.google.com](https://console.firebase.google.com)

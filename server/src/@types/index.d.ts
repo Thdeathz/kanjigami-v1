@@ -1,9 +1,15 @@
+import { Role } from '@prisma/client'
+
 export declare interface UserData {
   id?: Types.ObjectId
   email: string
   password?: string
-  roles?: ROLE[]
+  roles?: Role[]
   active?: boolean
 }
 
-export declare type ROLE = ['Admin' | 'User']
+export declare interface UserObject {
+  email: string
+  password: string
+  roles?: Role[]
+}

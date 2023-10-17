@@ -2,9 +2,9 @@ import { RequestHandler } from 'express'
 import asyncHandler from 'express-async-handler'
 import bcrypt from 'bcrypt'
 
-import { UserData } from '~/@types'
-import User from '~/models/User.model'
+import { UserData, UserObject } from '~/@types'
 import { sendResWithTokens } from '~/utils/jwtToken'
+import prisma from '~/config/dbConnect'
 
 /**
  * @desc Get all users
@@ -12,14 +12,20 @@ import { sendResWithTokens } from '~/utils/jwtToken'
  * @access Private
  */
 export const getAllUsers: RequestHandler = asyncHandler(async (req, res) => {
-  const users = await User.find().select(['-password', '-refreshToken', '-active']).lean()
+  const users = await prisma.user.findMany({
+    select: {
+      id: true,
+      email: true,
+      roles: true
+    }
+  })
 
   if (!users?.length) {
     res.status(400).json({ message: 'No users found' })
     return
   }
 
-  res.json(users)
+  res.json({ message: 'Get all users successfully', data: users })
 })
 
 /**
@@ -37,10 +43,7 @@ export const createNewUser: RequestHandler = asyncHandler(async (req, res) => {
   }
 
   // Check if user already existed
-  const userExisted = await User.findOne({ email })
-    .collation({ locale: 'en', strength: 2 })
-    .lean()
-    .exec()
+  const userExisted = await prisma.user.findUnique({ where: { email } })
   if (userExisted) {
     res.status(409).json({ message: 'User already existed' })
     return
@@ -48,13 +51,15 @@ export const createNewUser: RequestHandler = asyncHandler(async (req, res) => {
 
   // Hash password
   const hashedPassword: string = await bcrypt.hash(<string>password, 10)
-  const userObject =
+  const userObject: UserObject =
     !Array.isArray(roles) || !roles.length
-      ? { email, password: hashedPassword, roles: ['User'] }
+      ? { email, password: hashedPassword }
       : { email, password: hashedPassword, roles }
 
   // Create new user
-  const user = await User.create(userObject)
+  const user = await prisma.user.create({
+    data: userObject
+  })
   if (user) {
     await sendResWithTokens(user, req.cookies, res)
   } else res.status(400).json({ message: 'Invaild user data received' })

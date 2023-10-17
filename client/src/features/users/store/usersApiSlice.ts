@@ -15,14 +15,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         validateStatus: (response: Response, result: ApiResult) =>
           response.status === 200 && !result.isError
       }),
-      transformResponse: (response: (User & { _id: string })[]) => {
-        const loaderUsers: User[] = response.map(user => {
-          user.id = user._id
-          return user as User
-        })
-
-        return usersAdapter.setAll(initialState, loaderUsers)
-      },
+      transformResponse: (response: User[]) => usersAdapter.setAll(initialState, response),
       providesTags: result => {
         if (result?.ids) {
           return [

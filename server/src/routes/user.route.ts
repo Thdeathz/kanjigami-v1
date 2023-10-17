@@ -6,6 +6,6 @@ import verifyJWT from '~/middleware/verifyJWT'
 
 const router = express.Router()
 
-router.route('/').get(verifyJWT, requireAdmin, getAllUsers).post(createNewUser)
+router.route('/').get(getAllUsers).post(createNewUser)
 
 export default router

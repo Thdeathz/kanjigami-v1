@@ -32,6 +32,7 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
+    "@prisma/client": "^5.4.2",
     "bcrypt": "^5.1.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -46,6 +47,7 @@
     "mongoose": "^7.0.4",
     "mongoose-sequence": "^5.3.1",
     "nodemailer": "^6.9.5",
-    "otp-generator": "^4.0.1"
+    "otp-generator": "^4.0.1",
+    "prisma": "^5.4.2"
   }
 }
