@@ -7,8 +7,8 @@ import useAuth from '~/hooks/useAuth'
 import { useAppSelector } from '~/hooks/useRedux'
 import { DefaultLayout } from '~/components'
 import { selectCurrentToken } from '../auth/store/authSlice'
-import { useSendLogoutMutation } from '../auth/store/authApiSlice'
-import { useGetUsersQuery } from './store/usersApiSlice'
+import { useSendLogoutMutation } from '../auth/store/authService'
+import { useGetUsersQuery } from './store/userService'
 
 const Welcome = () => {
   const navigate = useNavigate()

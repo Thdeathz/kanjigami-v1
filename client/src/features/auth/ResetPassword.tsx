@@ -6,7 +6,7 @@ import { useAppSelector } from '~/hooks/useRedux'
 import { selectResetEmail, selectVerified } from './store/authSlice'
 import { DefaultLayout } from '~/components'
 import { Button, Form, Input, message } from 'antd'
-import { useResetPasswordMutation } from './store/authApiSlice'
+import { useResetPasswordMutation } from './store/authService'
 
 const ResetPassword = () => {
   const navigate = useNavigate()

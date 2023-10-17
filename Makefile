@@ -8,7 +8,8 @@ genkey:
 	node -e "console.log(require('crypto').randomBytes(128).toString('hex'))"
 
 devrun:
-	docker exec -it $(COMPOSE_PROJECT_NAME)-client-1 yarn dev
+	@docker exec -d ${COMPOSE_PROJECT_NAME}-server-1 yarn dev
+	@docker exec -it $(COMPOSE_PROJECT_NAME)-client-1 yarn dev
 
 devup:
 	docker compose up -d --remove-orphans
