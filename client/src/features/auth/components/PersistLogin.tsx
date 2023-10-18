@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Navigate, Outlet, useLocation } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 
 import { DefaultLayout } from '~/components'
 import usePersist from '~/hooks/usePersist'
@@ -8,7 +8,6 @@ import { selectCurrentToken } from '../store/authSlice'
 import { useRefreshMutation } from '../store/authService'
 
 const PersistLogin = () => {
-  const location = useLocation()
   const { persist } = usePersist()
   const token = useAppSelector(selectCurrentToken)
   const effectRan = useRef(false)
@@ -42,7 +41,7 @@ const PersistLogin = () => {
       ) : isLoading ? (
         <DefaultLayout>Loading...</DefaultLayout>
       ) : (
-        trueSuccess && <Navigate to="/login" state={{ from: location }} replace />
+        trueSuccess && <Outlet />
       )}
     </>
   )

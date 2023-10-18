@@ -15,6 +15,8 @@ const useAuth = () => {
   let isUser = false
   let isAdmin = false
 
+  console.log('token', token)
+
   if (token) {
     const decoded = jwtDecode(token) as JwtPayload
     const { email, roles } = decoded.UserInfo
