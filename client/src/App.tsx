@@ -31,12 +31,12 @@ function App() {
           <Route path="/verify-email" element={<VerifyOTP />} />
         </Route>
 
-        {/* <Route element={<PersistLogin />}> */}
         <Route path="/" element={<Home />} />
         <Route path="/kanji" element={<KanjiStack />} />
         <Route path="/battles" element={<OnlineBattles />} />
         <Route path="/leaderboard" element={<Leaderboards />} />
 
+        {/* PRIVATE ROUTES */}
         <Route element={<RequireAuth allowedRoles={[...Object.values(ROLES)]} />}>
           <Route path="/player/:username" element={<Profile />} />
           <Route path="/me" element={<UserStats />} />
