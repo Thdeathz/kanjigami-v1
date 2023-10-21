@@ -14,7 +14,7 @@ const Header = () => {
   const { email } = useAuth()
 
   return (
-    <div className="flex w-full items-center justify-between bg-gradient-to-r from-header-light-start from-50% to-header-end px-6 py-3 backdrop-blur-lg dark:from-rgb-gray-0">
+    <div className="sticky top-0 z-50 flex w-full items-center justify-between bg-gradient-to-r from-header-light-start from-50% to-header-end px-6 py-3 backdrop-blur-lg dark:from-rgb-gray-0">
       <div className="app-icon flex-start group cursor-pointer gap-1.5 rounded border-app-icon border-neutral-13 bg-white px-1.5 py-1 text-neutral-13 shadow-light-app-icon transition-all hover:border-white hover:bg-neutral-13 hover:text-white hover:shadow-light-app-icon-hover active:scale-90 dark:invert">
         <img src={AppIcon} alt="app-icon" className="aspect-square w-[28px] group-hover:invert" />
         <p className="select-none text-xl">KANJIGAMI</p>

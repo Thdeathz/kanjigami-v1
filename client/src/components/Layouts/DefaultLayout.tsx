@@ -13,7 +13,6 @@ const variants = {
   hidden: { opacity: 0 },
   enter: {
     opacity: 1,
-    x: 0,
     transition: { duration: 0.3, type: 'easeOut', when: 'beforeChildren' }
   },
   exit: { opacity: 0 }
@@ -29,13 +28,13 @@ const DefaultLayout = ({ children }: PropsType) => {
         }
       }}
     >
-      <div className="flex h-screen w-screen flex-col items-start justify-start overflow-hidden bg-app-light text-text-light dark:bg-app-dark dark:text-text-dark">
+      <div className="flex h-screen w-screen flex-col items-start justify-start overflow-y-auto overflow-x-hidden bg-app-light text-text-light dark:bg-app-dark dark:text-text-dark">
         <Header />
 
-        <div className="flex h-full w-full grow items-start justify-start">
+        <div className="flex h-max w-full grow items-start justify-start">
           <SideBar />
 
-          <div className="flex h-full w-full grow flex-col items-start justify-start">
+          <div className="flex min-h-full w-full grow flex-col items-start justify-start">
             <motion.div
               className="h-full w-full grow p-12"
               variants={variants}

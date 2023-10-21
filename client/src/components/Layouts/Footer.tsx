@@ -6,7 +6,7 @@ import IconWrapper from '../IconWrapper'
 
 const Footer = () => {
   return (
-    <div className="flex w-full items-center justify-between border border-clr-border-1-light bg-rgb-gray-0.75-light px-5 py-2 font-bold dark:border-clr-border-1-dark dark:bg-rgb-gray-0.75-dark dark:text-white">
+    <div className="flex w-full items-center justify-between border border-clr-border-1-light bg-rgb-gray-0.75 px-5 py-2 font-bold dark:border-clr-border-1-dark dark:bg-rgb-gray-0-0.75 dark:text-white">
       <p className="text-base text-footer-light-text">© 2023満点チーム</p>
       <div className="flex items-center justify-center gap-6">
         <p className="cursor-pointer underline-offset-2 transition-all hover:underline">FAQs</p>

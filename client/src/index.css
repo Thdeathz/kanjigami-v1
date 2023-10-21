@@ -4,7 +4,7 @@
 
 @font-face {
   font-family: 'Saira Stencil One';
-  src: url('./assets/SairaStencilOne-Regular.ttf');
+  src: url('./assets/fonts/SairaStencilOne-Regular.ttf');
 }
 
 *,
@@ -18,6 +18,8 @@
 body {
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  scrollbar-gutter: stable both-edges;
 }
 
 .root {
@@ -28,6 +30,10 @@ body {
 p {
   margin: 0 !important;
   padding: 0 !important;
+}
+
+img {
+  user-select: none !important;
 }
 
 .ant-modal-footer .ant-btn-primary {
@@ -44,4 +50,25 @@ p {
 
 .app-icon p {
   font-family: 'Saira Stencil One';
+}
+
+.root-noti {
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #fff 25px,
+    #fff calc(100% - 25px),
+    transparent
+  );
+
+  mask-image: linear-gradient(90deg, transparent, #fff 25px, #fff calc(100% - 25px), transparent);
+}
+
+.card-item {
+  transition: opacity 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease,
+    z-index 0.25s ease 0.25s !important;
+}
+
+.card-list:hover .card-item {
+  opacity: 40%;
 }

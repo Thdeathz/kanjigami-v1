@@ -4,12 +4,24 @@ type PropsType = {
   className?: string
   onClick?: MouseEventHandler<HTMLAnchorElement> & MouseEventHandler<HTMLButtonElement>
   children: ReactNode
+  type?: 'primary' | 'default'
 }
 
-const Button = ({ className, onClick, children }: PropsType) => {
+const Button = ({ className, onClick, type = 'default', children }: PropsType) => {
   return (
     <button
-      className={`h-10 rounded-full bg-button-light px-4 font-bold text-button-light-text shadow-button transition-all hover:translate-y-[-3px]  hover:bg-button-light-hover active:scale-90 dark:bg-button-dark dark:text-button-dark-text dark:hover:bg-button-dark-hover ${className}`}
+      className={`h-10 whitespace-nowrap rounded-full  px-4 font-bold  shadow-button transition-all hover:translate-y-[-3px] active:scale-90 dark:bg-button-dark  
+      ${
+        type === 'default'
+          ? 'bg-button-light text-button-light-text hover:bg-button-light-hover dark:text-button-dark-text dark:hover:bg-button-dark-hover'
+          : ''
+      }
+      ${
+        type === 'primary'
+          ? 'bg-primary-6 text-white hover:bg-primary-5 dark:bg-primary-6 dark:text-white dark:hover:bg-primary-5'
+          : ''
+      }
+      ${className ?? ''}`}
       onClick={onClick}
     >
       {children}

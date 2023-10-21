@@ -34,7 +34,7 @@ const SideItem = ({ icon, title, href, className }: PropsType) => {
       />
 
       <p
-        className={`transition-colors group-hover:text-side-item-light-link-hover dark:group-hover:text-side-item-dark-link-hover ${
+        className={`font-semibold transition-colors group-hover:text-side-item-light-link-hover dark:group-hover:text-side-item-dark-link-hover ${
           isActive && 'text-side-item-light-link-hover dark:text-side-item-dark-link-hover'
         }`}
       >

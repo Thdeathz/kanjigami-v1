@@ -12,7 +12,7 @@ const SideBar = () => {
   const { email } = useAuth()
 
   return (
-    <div className="flex h-full w-[15rem] flex-col items-start justify-start border-r border-clr-border-1-light bg-gradient-to-br from-side-bar-start from-0% to-side-bar-end to-85% dark:border-clr-border-1-dark dark:from-rgb-gray-1 dark:to-rgb-gray-0.7">
+    <div className="sticky top-16 flex h-main-content w-[15rem] min-w-max flex-col items-start justify-start border-r border-clr-border-1-light bg-gradient-to-br from-side-bar-start from-0% to-side-bar-end to-85% dark:border-clr-border-1-dark dark:from-rgb-gray-1 dark:to-rgb-gray-0.7">
       <div className="w-full pl-4">
         <SideItem className="my-4" icon={<IoHome />} title="Home" href="/" />
       </div>
