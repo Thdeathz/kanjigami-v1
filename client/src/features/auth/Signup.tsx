@@ -1,5 +1,6 @@
 import React, { ChangeEventHandler, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useDocumentTitle } from 'usehooks-ts'
 import { LoadingOutlined, LockOutlined, MailOutlined } from '@ant-design/icons'
 import { Button, Form, Input, message } from 'antd'
 
@@ -51,6 +52,8 @@ const InputPassword = ({ value, onChange, visible, onVisibleChange }: CustomInpu
 }
 
 const Signup = () => {
+  useDocumentTitle('Register | 漢字ガミ')
+
   const navigate = useNavigate()
 
   const [form] = Form.useForm()

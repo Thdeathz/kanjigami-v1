@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Button, Checkbox, Divider, Form, Input, message } from 'antd'
 import { LoadingOutlined, LockOutlined, MailOutlined } from '@ant-design/icons'
+import { useDocumentTitle } from 'usehooks-ts'
 
 import { DefaultLayout } from '~/components'
 import { useLoginMutation } from './store/authService'
@@ -10,6 +11,8 @@ import { EMAIL_REGEX } from '~/config/regex'
 import GoogleLogin from './components/GoogleLogin'
 
 const Login = () => {
+  useDocumentTitle('Login | 漢字ガミ')
+
   const navigate = useNavigate()
 
   const [form] = Form.useForm<UserCredentials>()

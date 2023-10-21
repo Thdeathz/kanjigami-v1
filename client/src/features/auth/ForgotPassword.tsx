@@ -2,6 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button, Form, Input, message } from 'antd'
 import { ArrowLeftOutlined, LoadingOutlined } from '@ant-design/icons'
+import { useDocumentTitle } from 'usehooks-ts'
 
 import { DefaultLayout } from '~/components'
 import { EMAIL_REGEX } from '~/config/regex'
@@ -12,6 +13,8 @@ type ForgotPasswordForm = {
 }
 
 const ForgotPassword = () => {
+  useDocumentTitle('Reset password | 漢字ガミ')
+
   const navigate = useNavigate()
   const [form] = Form.useForm<ForgotPasswordForm>()
 

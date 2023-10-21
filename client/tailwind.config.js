@@ -4,17 +4,42 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
+      animation: {
+        'move-noti': 'move-noti 8s linear infinite -1.5s'
+      },
+      aspectRatio: {
+        ratio: '4 / 3'
+      },
       borderWidth: {
         'app-icon': '1.5px'
       },
       boxShadow: {
-        'light-app-icon': '4px 4px 0px rgba(0, 0, 0, 0.8)',
-        'light-app-icon-hover': '-4px -4px 0px rgba(0, 0, 0, 0.8)',
+        button: 'inset 1px 1px 2px hsla(0, 0%, 100%,.1)',
+        card: '0px 0 20px rgba(0, 0, 0, 0.1)',
         'dark-app-icon': '4px 4px 0px rgba(255, 255, 255, 0.8)',
         'dark-app-icon-hover': '-4px -4px 0px rgba(255, 255, 255, 0.8)',
-        button: 'inset 1px 1px 2px hsla(0, 0%, 100%,.1)',
-        'light-side-item': 'inset 1px 1px 2px rgba(0, 0, 0, 0.1)',
-        'dark-side-item': 'inset 1px 1px 2px rgba(255, 255, 255, 0.1)'
+        'dark-panel':
+          '0 0 30px rgba(255,223,0,0),0px 20px 50px rgba(0,0,0,.2),inset 1px 1px 3px hsla(0,0%,100%,.1)',
+        'dark-side-item': 'inset 1px 1px 2px rgba(255, 255, 255, 0.1)',
+        'light-app-icon': '4px 4px 0px rgba(0, 0, 0, 0.8)',
+        'light-app-icon-hover': '-4px -4px 0px rgba(0, 0, 0, 0.8)',
+        'light-panel': '0px 20px 50px rgba(0, 0, 0, 0.07)',
+        'light-side-item': 'inset 1px 1px 2px rgba(0, 0, 0, 0.1)'
+      },
+      height: {
+        'main-content': 'calc(100vh - 4rem)'
+      },
+      keyframes: {
+        'move-noti': {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-500px)' }
+        }
+      },
+      maxWidth: {
+        'main-content': 'calc(100vw - 15rem - 6rem - 1px)'
+      },
+      width: {
+        carousel: 'calc(100vw - 15rem - 6rem - 1px - 1rem)'
       }
     },
     colors: {
@@ -25,6 +50,7 @@ export default {
         3: '#91D5FF',
         4: '#69C0FF',
         5: '#40A9FF',
+        6: '#1890FF',
         8: '#0050B3'
       },
       neutral: {
@@ -52,22 +78,15 @@ export default {
         5: '#73D13D'
       },
       'rgb-gray': {
-        '0.75-light': 'rgba(255, 255, 255, 0.75)',
-        '0.75-dark': 'rgba(24, 29, 35, 0.75)',
+        0.75: 'rgba(255, 255, 255, 0.75)',
+        '0-563': 'rgba(24, 29, 35, 0.563)',
+        '0-0.75': 'rgba(24, 29, 35, 0.75)',
+        '1-0.75': 'rgba(29, 35, 43, 0.75)',
         0: 'rgb(24, 29, 35)',
         1: 'rgb(29, 35, 43)',
         0.7: 'rgba(24, 29, 35, 0.7)'
       },
-      'clr-link': {
-        light: '#050505',
-        dark: '#FFFFFF'
-      },
-      white: '#FFFFFF',
       app: { light: '#EDF2F7', dark: '#07080b' },
-      text: {
-        light: '#1A202C',
-        dark: '#CBD1E1'
-      },
       button: {
         light: '#CBD1D8',
         'light-hover': '#B6C0C9',
@@ -76,13 +95,43 @@ export default {
         'dark-hover': '#43515e',
         'dark-text': '#FFFFFF'
       },
-      header: {
-        end: 'transparent',
-        'light-start': 'rgba(255, 255, 255)'
+      card: {
+        'light-start': 'rgba(255, 255, 255, 1)',
+        'light-end': 'rgba(245, 245, 245, 1)',
+        'dark-start': 'rgba(45, 55, 64, 0.5)',
+        'dark-end': 'rgba(39, 45, 52, 0.5)'
+      },
+      'clr-link': {
+        light: '#050505',
+        dark: '#FFFFFF'
       },
       'clr-border-1': {
         light: '#E0E4E8',
         dark: '#20262E'
+      },
+      'drop-down': {
+        light: '#EDF2F7',
+        dark: '#27313A'
+      },
+      footer: {
+        'light-text': '#6B7B8E'
+      },
+      header: {
+        end: 'transparent',
+        'light-start': 'rgba(255, 255, 255)'
+      },
+      game: {
+        locked: '#252e36'
+      },
+      panel: {
+        'light-start': 'rgba(255, 255, 255, 0.75)',
+        'light-end': 'rgba(245, 245, 245, 0.5625)'
+      },
+      white: '#FFFFFF',
+      text: {
+        light: '#1A202C',
+        dark: '#CBD1E1',
+        secondary: '#6B7B8E'
       },
       'side-bar': {
         background: 'linear-gradient(99deg, #F3F6FA 76.34%, rgba(255, 255, 255, 0.70) 91.22%)',
@@ -105,22 +154,9 @@ export default {
         'dark-icon': '#4C5663',
         'dark-icon-hover': '#7C8C9E'
       },
-      footer: {
-        'light-text': '#6B7B8E'
-      },
-      'drop-down': {
-        light: '#EDF2F7',
-        dark: '#27313A'
-      },
+
       'count-down-timer': 'linear-gradient(90deg, #E7DADA 0.01%, #E0CFCF 99.99%)',
-      section: {
-        background:
-          'linear-gradient(125deg, rgba(255, 255, 255, 0.75) 30.27%, rgba(245, 245, 245, 0.56) 68.16%)',
-        shadown: 'rgba(0, 0, 0, 0.07)'
-      },
-      game: {
-        locked: '#252E36'
-      },
+
       ranking: {
         'top-1':
           'linear-gradient(90deg, #FFF 10.94%, #FFFBDE 99.99%, rgba(255, 255, 255, 0.00) 100%)',
