@@ -1,6 +1,6 @@
 import React from 'react'
 
-import StackItem from './StackItem'
+import StackItem from '~/components/StackItem'
 
 const StacksList = () => {
   return (

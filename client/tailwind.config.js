@@ -23,6 +23,7 @@ export default {
         'dark-side-item': 'inset 1px 1px 2px rgba(255, 255, 255, 0.1)',
         'hard-shadow':
           '0px 8px 20px rgba(0, 0, 0, 0.1), inset 1px 1px 3px rgba(255, 255, 255, 0.1)',
+        filter: 'inset 1px 1px 2px hsla(0, 0%, 100%,.1)',
         'light-app-icon': '4px 4px 0px rgba(0, 0, 0, 0.8)',
         'light-app-icon-hover': '-4px -4px 0px rgba(0, 0, 0, 0.8)',
         'light-panel': '0px 20px 50px rgba(0, 0, 0, 0.07)',
@@ -120,6 +121,12 @@ export default {
       footer: {
         'light-text': '#6B7B8E'
       },
+      filter: {
+        'start-light': 'rgb(218, 222, 226)',
+        'end-light': 'rgb(211, 216, 221)',
+        'start-dark': 'rgb(45, 55, 64)',
+        'end-dark': 'rgb(39, 45, 52)'
+      },
       header: {
         end: 'transparent',
         'light-start': 'rgba(255, 255, 255)'
@@ -190,13 +197,6 @@ export default {
 
       avatar: {
         outline: '#976E06'
-      },
-      border: {
-        clear: '#CBD5E0'
-      },
-      'game-list': {
-        background:
-          'linear-gradient(90deg, rgba(243, 246, 250, 0.75) 46.55%, rgba(255, 255, 255, 0.00) 91.04%)'
       },
       input: {
         background: '#E2E8F0',
