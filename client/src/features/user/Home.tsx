@@ -8,12 +8,12 @@ import useAuth from '~/hooks/useAuth'
 import { DefaultLayout } from '~/components'
 import BattleInfo from '~/components/BattleInfo'
 import Button from '~/components/Button'
-import Panel from '~/components/Layouts/Panel'
 import OnlineRound from '~/components/OnlineRound'
 import Section from '~/components/Section'
 import StacksList from './Components/StacksList'
 import HomeThumbnail from './Components/HomeThumbnail'
 import RootNotification from '~/components/RootNotification'
+import Panel from '~/components/Panel'
 
 const Home = () => {
   useDocumentTitle('漢字ガミ')
@@ -22,7 +22,7 @@ const Home = () => {
   const { email } = useAuth()
 
   return (
-    <DefaultLayout>
+    <DefaultLayout className="flex h-max w-full flex-col items-start justify-start gap-12">
       <HomeThumbnail />
 
       <RootNotification />

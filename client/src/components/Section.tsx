@@ -4,15 +4,16 @@ import IconWrapper from './IconWrapper'
 
 type PropsType = {
   title: string
-  description: string
+  description?: string
   icon?: ReactElement<IconType>
   viewButton?: ReactNode
+  className?: string
   children: ReactNode
 }
 
-const Section = ({ title, description, icon, viewButton, children }: PropsType) => {
+const Section = ({ title, description, icon, viewButton, className, children }: PropsType) => {
   return (
-    <div className="mb-12 w-full">
+    <div className={`w-full ${className ?? ''}`}>
       <div className="mb-4 flex items-center justify-between">
         <div className="flex h-full items-center justify-start gap-3">
           {icon && (
@@ -23,7 +24,7 @@ const Section = ({ title, description, icon, viewButton, children }: PropsType) 
 
           <div className="flex w-full flex-col items-start justify-between">
             <p className="text-xl font-semibold">{title}</p>
-            <p className="text-base">{description}</p>
+            {description && <p className="text-base">{description}</p>}
           </div>
         </div>
 

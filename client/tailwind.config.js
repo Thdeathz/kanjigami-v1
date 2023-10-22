@@ -21,6 +21,8 @@ export default {
         'dark-panel':
           '0 0 30px rgba(255,223,0,0),0px 20px 50px rgba(0,0,0,.2),inset 1px 1px 3px hsla(0,0%,100%,.1)',
         'dark-side-item': 'inset 1px 1px 2px rgba(255, 255, 255, 0.1)',
+        'hard-shadow':
+          '0px 8px 20px rgba(0, 0, 0, 0.1), inset 1px 1px 3px rgba(255, 255, 255, 0.1)',
         'light-app-icon': '4px 4px 0px rgba(0, 0, 0, 0.8)',
         'light-app-icon-hover': '-4px -4px 0px rgba(0, 0, 0, 0.8)',
         'light-panel': '0px 20px 50px rgba(0, 0, 0, 0.07)',
@@ -59,12 +61,14 @@ export default {
         3: '#F5F5F5',
         4: '#F0F0F0',
         5: '#D9D9D9',
+        8: '#595959',
         13: '#000000'
       },
       'dust-red': {
         1: '#FFF1F0',
         2: '#FFCCC7',
         3: '#FFA39E',
+        4: '#FF7875',
         5: '#FF4D4F'
       },
       gold: {
@@ -123,6 +127,31 @@ export default {
       game: {
         locked: '#252e36'
       },
+      ranking: {
+        'start-light': '#FFFFFF',
+        'start-dark': 'rgba(45, 55, 64, 0.5)',
+        1: {
+          'end-light': '#FFFBDE',
+          'end-dark': '#262100',
+          crown: '#CBB30A'
+        },
+        2: {
+          'end-light': '#E1E1E1',
+          'end-dark': '#1D1D1D',
+          crown: '#B0B0B0'
+        },
+        3: {
+          'end-light': '#FBECDE',
+          'end-dark': '#1F1308',
+          crown: '#C5701D'
+        },
+        '4-10': {
+          'end-light': 'rgb(245, 245, 245)',
+          'end-dark': 'rgba(39, 45, 52, 0.5)'
+        },
+        background: 'linear-gradient(109deg, #D2D7DC 42.62%, rgba(225, 230, 235, 0.50) 71.78%)',
+        number: '#B6C1C7'
+      },
       panel: {
         'light-start': 'rgba(255, 255, 255, 0.75)',
         'light-end': 'rgba(245, 245, 245, 0.5625)'
@@ -131,7 +160,9 @@ export default {
       text: {
         light: '#1A202C',
         dark: '#CBD1E1',
-        secondary: '#6B7B8E'
+        secondary: '#6B7B8E',
+        'heading-light': '#050505',
+        'heading-dark': '#EFF5FB'
       },
       'side-bar': {
         background: 'linear-gradient(99deg, #F3F6FA 76.34%, rgba(255, 255, 255, 0.70) 91.22%)',
@@ -157,16 +188,6 @@ export default {
 
       'count-down-timer': 'linear-gradient(90deg, #E7DADA 0.01%, #E0CFCF 99.99%)',
 
-      ranking: {
-        'top-1':
-          'linear-gradient(90deg, #FFF 10.94%, #FFFBDE 99.99%, rgba(255, 255, 255, 0.00) 100%)',
-        'top-2':
-          'linear-gradient(90deg, #FFF 10.94%, #E1E1E1 99.99%, rgba(255, 255, 255, 0.00) 100%)',
-        'top-3': 'linear-gradient(90deg, #FFF 10.94%, #FBECDE 99.99%)',
-        'top-4-10': 'linear-gradient(90deg, #FFF 10.94%, #F5F5F5 99.99%)',
-        background: 'linear-gradient(109deg, #D2D7DC 42.62%, rgba(225, 230, 235, 0.50) 71.78%)',
-        number: '#B6C1C7'
-      },
       avatar: {
         outline: '#976E06'
       },
