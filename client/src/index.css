@@ -36,6 +36,12 @@ img {
   user-select: none !important;
 }
 
+input {
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
 .ant-modal-footer .ant-btn-primary {
   background-color: #1677ff !important;
 }
