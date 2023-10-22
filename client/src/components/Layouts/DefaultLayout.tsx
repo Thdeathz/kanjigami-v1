@@ -6,6 +6,7 @@ import SideBar from './SideBar'
 import Footer from './Footer'
 
 type PropsType = {
+  className?: string
   children: React.ReactNode
 }
 
@@ -18,7 +19,7 @@ const variants = {
   exit: { opacity: 0 }
 }
 
-const DefaultLayout = ({ children }: PropsType) => {
+const DefaultLayout = ({ className, children }: PropsType) => {
   return (
     <AnimatePresence
       initial={true}
@@ -36,7 +37,7 @@ const DefaultLayout = ({ children }: PropsType) => {
 
           <div className="flex min-h-full w-full grow flex-col items-start justify-start">
             <motion.div
-              className="h-full w-full grow p-12"
+              className={`h-full w-full grow p-12 ${className}`}
               variants={variants}
               initial="hidden"
               animate="enter"

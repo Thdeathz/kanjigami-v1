@@ -10,7 +10,7 @@ type PropsType = {
 const OnlineRound = ({ imageSrc, stack }: PropsType) => {
   return (
     <div
-      className={`relative h-full w-full rounded-lg shadow-md transition-transform ${
+      className={`relative aspect-ratio w-full rounded-lg shadow-md transition-transform ${
         stack ? 'cursor-pointer hover:scale-105' : 'flex-center bg-game-locked'
       }`}
     >
@@ -24,7 +24,7 @@ const OnlineRound = ({ imageSrc, stack }: PropsType) => {
         </>
       )}
 
-      {!stack && <img src={LockedIcon} alt="locked-icon" className="w-[3rem]" />}
+      {!stack && <img src={LockedIcon} alt="locked-icon" className="w-[2.5rem]" />}
     </div>
   )
 }

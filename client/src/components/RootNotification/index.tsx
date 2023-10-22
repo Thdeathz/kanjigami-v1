@@ -4,7 +4,7 @@ import NotiItem from './NotiItem'
 
 const RootNotification = () => {
   return (
-    <div className="root-noti mb-12 max-w-main-content overflow-hidden whitespace-nowrap ">
+    <div className="root-noti max-w-main-content overflow-hidden whitespace-nowrap ">
       <div className="animate-move-noti">
         <NotiItem />
 
