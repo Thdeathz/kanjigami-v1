@@ -6,8 +6,8 @@ import { DefaultLayout } from '~/components'
 import PageHeader from '~/components/PageHeader'
 import RootNotification from '~/components/RootNotification'
 import StackItem from '~/components/StackItem'
-import FilterBox from '../../components/FilterBox'
-import FilterItem from './components/FilterItem'
+import FilterBox from '../../components/Filter/FilterBox'
+import FilterItem from '../../components/Filter/FilterItem'
 import IconWrapper from '~/components/IconWrapper'
 
 const KanjiStack = () => {

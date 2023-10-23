@@ -12,8 +12,8 @@ const SideBar = () => {
   const { email } = useAuth()
 
   return (
-    <div className="sticky top-16 flex h-main-content w-[15rem] min-w-max flex-col items-start justify-start border-r border-clr-border-1-light bg-gradient-to-br from-side-bar-start from-0% to-side-bar-end to-85% dark:border-clr-border-1-dark dark:from-rgb-gray-1 dark:to-rgb-gray-0.7">
-      <div className="w-full pl-4">
+    <div className="sticky top-16 flex h-main-content flex-col items-start justify-start border-r border-clr-border-1-light bg-gradient-to-br from-side-bar-start from-0% to-side-bar-end to-85% dark:border-clr-border-1-dark dark:from-rgb-gray-1 dark:to-rgb-gray-0.7">
+      <div className="w-full pl-6">
         <SideItem className="my-4" icon={<IoHome />} title="Home" href="/" />
       </div>
 
@@ -27,7 +27,7 @@ const SideBar = () => {
 
       {email && (
         <SideSection heading="about you">
-          <SideItem icon={<FaUser />} title="Profile" href={`/player/${email}`} />
+          <SideItem icon={<FaUser />} title="Profile" href={`/player/${email.split('@')[0]}`} />
 
           <SideItem icon={<FaChartArea />} title="Stats" href="/me" />
 

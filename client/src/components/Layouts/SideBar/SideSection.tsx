@@ -12,7 +12,7 @@ const SideSection = ({ heading, children }: PropsType) => {
         {heading}
       </div>
 
-      <div className="flex w-full flex-col items-start justify-start gap-2 pl-4">{children}</div>
+      <div className="flex w-full flex-col items-start justify-start gap-2 pl-6">{children}</div>
     </div>
   )
 }
