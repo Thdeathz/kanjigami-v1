@@ -6,7 +6,7 @@ import IconWrapper from './IconWrapper'
 type PropsType = {
   icon: ReactElement<IconType>
   title: string
-  subtitle: string
+  subtitle?: string
   className?: string
   children?: ReactNode
 }
@@ -20,7 +20,7 @@ const PageHeader = ({ icon, title, subtitle, className, children }: PropsType) =
         {title}
       </p>
 
-      <p className="text-base font-medium">{subtitle}</p>
+      {subtitle && <p className="text-base font-medium">{subtitle}</p>}
 
       {children}
     </div>

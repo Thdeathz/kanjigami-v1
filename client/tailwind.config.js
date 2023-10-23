@@ -38,11 +38,8 @@ export default {
           '100%': { transform: 'translateX(-500px)' }
         }
       },
-      maxWidth: {
-        'main-content': 'calc(100vw - 15rem - 6rem - 1px)'
-      },
-      width: {
-        carousel: 'calc(100vw - 15rem - 6rem - 1px - 1rem)'
+      minHeight: {
+        content: 'calc(100vh - 4rem - 2.675rem)'
       }
     },
     colors: {
@@ -156,7 +153,12 @@ export default {
           'end-light': 'rgb(245, 245, 245)',
           'end-dark': 'rgba(39, 45, 52, 0.5)'
         },
-        background: 'linear-gradient(109deg, #D2D7DC 42.62%, rgba(225, 230, 235, 0.50) 71.78%)',
+        background: {
+          'start-light': 'rgb(225, 230, 235)',
+          'start-dark': 'rgba(29, 35, 43)',
+          end: 'rgba(225, 230, 235, 0)'
+        },
+        'top-3': {},
         number: '#B6C1C7'
       },
       panel: {

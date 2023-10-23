@@ -78,3 +78,7 @@ input {
 .card-list:hover .card-item {
   opacity: 40%;
 }
+
+.leader-3d {
+  transform-style: preserve-3d;
+}

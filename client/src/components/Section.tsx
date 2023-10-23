@@ -13,7 +13,7 @@ type PropsType = {
 
 const Section = ({ title, description, icon, viewButton, className, children }: PropsType) => {
   return (
-    <div className={`w-full ${className ?? ''}`}>
+    <div className={`max-w-full ${className ?? ''}`}>
       <div className="mb-4 flex items-center justify-between">
         <div className="flex h-full items-center justify-start gap-3">
           {icon && (

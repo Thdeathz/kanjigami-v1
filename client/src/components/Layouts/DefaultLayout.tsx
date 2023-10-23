@@ -29,15 +29,15 @@ const DefaultLayout = ({ className, children }: PropsType) => {
         }
       }}
     >
-      <div className="flex h-screen w-screen flex-col items-start justify-start overflow-y-auto overflow-x-hidden bg-app-light text-text-light dark:bg-app-dark dark:text-text-dark">
+      <div className="h-screen w-screen overflow-y-auto bg-app-light text-text-light dark:bg-app-dark dark:text-text-dark">
         <Header />
 
-        <div className="flex h-max w-full grow items-start justify-start">
+        <div className="flex h-max items-start justify-start">
           <SideBar />
 
-          <div className="flex min-h-full w-full grow flex-col items-start justify-start">
+          <div className="w-0 shrink grow">
             <motion.div
-              className={`h-full w-full grow p-12 ${className}`}
+              className={`min-h-content max-w-full grow p-12 ${className}`}
               variants={variants}
               initial="hidden"
               animate="enter"

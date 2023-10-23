@@ -20,7 +20,7 @@ const SideItem = ({ icon, title, href, className }: PropsType) => {
 
   return (
     <div
-      className={`group flex w-full cursor-pointer items-center justify-start gap-2.5 rounded-s-full px-6 py-2 font-medium text-side-item-light-link  dark:text-side-item-dark-link ${
+      className={`group flex w-full cursor-pointer items-center justify-start gap-2.5 rounded-s-full py-2 pl-4 pr-8 font-medium text-side-item-light-link  dark:text-side-item-dark-link ${
         isActive &&
         'bg-gradient-to-r from-side-item-light-start from-0% to-side-item-light-end to-95% dark:from-side-item-dark-start dark:to-side-item-dark-end dark:shadow-dark-side-item'
       } ${className ?? ''}`}
