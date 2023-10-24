@@ -18,7 +18,7 @@ const Avatar = ({ src, className, size = 'base' }: PropsType) => {
         <img
           src={src ?? DefaultAvatar}
           alt="avatar"
-          className={`aspect-square rounded-full object-contain ${height}`}
+          className={`aspect-square rounded-full object-cover ${height}`}
         />
       </button>
     </Tooltip>

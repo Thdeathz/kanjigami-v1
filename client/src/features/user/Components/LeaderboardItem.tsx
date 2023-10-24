@@ -25,7 +25,7 @@ const LeaderboardItem = ({ username, score, games, rank }: PropsType) => {
 
         <p>({games} Games)</p>
 
-        <p className="text-xl text-text-secondary">#{rank}</p>
+        <p className="text-xl text-text-secondary">#{rank < 10 ? `0${rank}` : rank}</p>
       </div>
     </div>
   )

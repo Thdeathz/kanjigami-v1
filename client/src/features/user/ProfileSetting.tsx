@@ -1,14 +1,32 @@
 import React from 'react'
+import { Divider } from 'antd'
+import { RiSettings3Fill } from 'react-icons/ri'
 import { useDocumentTitle } from 'usehooks-ts'
 
 import { DefaultLayout } from '~/components'
+import PageHeader from '~/components/PageHeader'
+import Panel from '~/components/Panel'
+import EditUsername from './Components/EditUsername'
+import EditAvatar from './Components/EditAvatar'
 
 const ProfileSetting = () => {
   useDocumentTitle('Settings | 漢字ガミ')
 
   return (
     <DefaultLayout>
-      <div>Profile Setting Page</div>
+      <PageHeader icon={<RiSettings3Fill />} title="Settings" className="mb-12" />
+
+      <Panel className="mx-auto max-w-[60rem]">
+        <form>
+          <EditUsername />
+
+          <Divider />
+
+          <EditAvatar />
+        </form>
+
+        <p className="mt-4 text-base font-medium">Note: All information entered here is public.</p>
+      </Panel>
     </DefaultLayout>
   )
 }

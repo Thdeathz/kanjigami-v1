@@ -8,7 +8,7 @@ import FilterBoxWrapper from '~/components/Filter/FilterBox'
 import FilterItem from '~/components/Filter/FilterItem'
 import PageHeader from '~/components/PageHeader'
 import LeaderboardItem from './Components/LeaderboardItem'
-import TopItem from './Components/TopItem'
+import LeaderItem from './Components/LeaderItem'
 
 const Leaderboards = () => {
   useDocumentTitle('Leaderboard | 漢字ガミ')
@@ -34,25 +34,27 @@ const Leaderboards = () => {
       </PageHeader>
 
       <div className="mx-auto max-w-[45rem]">
-        <div className="mb-6 flex items-end justify-end gap-1">
-          <TopItem rank={2} />
+        <div className="leader-top mb-6 flex items-end justify-end gap-1">
+          <LeaderItem rank={2} />
 
-          <TopItem rank={1} />
+          <LeaderItem rank={1} />
 
-          <TopItem rank={3} />
+          <LeaderItem rank={3} />
         </div>
 
         <div className="flex flex-col items-center justify-start gap-4">
           <>
-            {Array.from(Array(15).keys()).map((_, index) => (
-              <LeaderboardItem
-                key={index}
-                username="Kantan kanji"
-                score={368435}
-                games={23}
-                rank={index}
-              />
-            ))}
+            {Array.from(Array(15).keys())
+              .slice(3)
+              .map((rank, index) => (
+                <LeaderboardItem
+                  key={index}
+                  username="Kantan kanji"
+                  score={368435}
+                  games={23}
+                  rank={rank + 1}
+                />
+              ))}
           </>
         </div>
       </div>

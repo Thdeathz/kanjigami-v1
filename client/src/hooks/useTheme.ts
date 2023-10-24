@@ -5,7 +5,14 @@ const useTheme = () => {
 
   useEffect(() => {
     localStorage.setItem('theme', theme)
-    theme === 'dark' ? document.body.classList.add('dark') : document.body.classList.remove('dark')
+    const body = document.body
+    if (theme === 'dark') {
+      body.classList.add('dark')
+      body.style.colorScheme = 'dark'
+    } else {
+      body.classList.remove('dark')
+      body.style.colorScheme = 'light'
+    }
   }, [theme])
 
   return { theme, setTheme }

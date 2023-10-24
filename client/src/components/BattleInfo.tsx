@@ -38,23 +38,25 @@ const BattleInfo = ({ status, tagName, title, desciption, endTime, className }: 
       </p>
 
       <div className="flex items-center justify-start gap-2">
-        <Button className="flex items-center justify-start gap-1">
-          <p>Leaders</p>
-          <Avatar.Group>
-            <Avatar
-              size="small"
-              src="https://firebasestorage.googleapis.com/v0/b/kanjigami-61289.appspot.com/o/default-avatar.jpg?alt=media&token=aeabe6fd-0a4f-4eaa-805b-f27d7b6b6ef3"
-            />
-            <Avatar
-              size="small"
-              src="https://firebasestorage.googleapis.com/v0/b/kanjigami-61289.appspot.com/o/default-avatar.jpg?alt=media&token=aeabe6fd-0a4f-4eaa-805b-f27d7b6b6ef3"
-            />
-            <Avatar
-              size="small"
-              src="https://firebasestorage.googleapis.com/v0/b/kanjigami-61289.appspot.com/o/default-avatar.jpg?alt=media&token=aeabe6fd-0a4f-4eaa-805b-f27d7b6b6ef3"
-            />
-          </Avatar.Group>
-        </Button>
+        {status !== 'upcoming' && (
+          <Button className="flex items-center justify-start gap-1">
+            <p>Leaders</p>
+            <Avatar.Group>
+              <Avatar
+                size="small"
+                src="https://firebasestorage.googleapis.com/v0/b/kanjigami-61289.appspot.com/o/default-avatar.jpg?alt=media&token=aeabe6fd-0a4f-4eaa-805b-f27d7b6b6ef3"
+              />
+              <Avatar
+                size="small"
+                src="https://firebasestorage.googleapis.com/v0/b/kanjigami-61289.appspot.com/o/default-avatar.jpg?alt=media&token=aeabe6fd-0a4f-4eaa-805b-f27d7b6b6ef3"
+              />
+              <Avatar
+                size="small"
+                src="https://firebasestorage.googleapis.com/v0/b/kanjigami-61289.appspot.com/o/default-avatar.jpg?alt=media&token=aeabe6fd-0a4f-4eaa-805b-f27d7b6b6ef3"
+              />
+            </Avatar.Group>
+          </Button>
+        )}
 
         <Button className="px-8" type={status === 'finished' ? 'disabled' : 'primary'}>
           Play

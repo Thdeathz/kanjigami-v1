@@ -4,9 +4,6 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
-      animation: {
-        'move-noti': 'move-noti 8s linear infinite -1.5s'
-      },
       aspectRatio: {
         ratio: '4 / 3'
       },
@@ -31,12 +28,6 @@ export default {
       },
       height: {
         'main-content': 'calc(100vh - 4rem)'
-      },
-      keyframes: {
-        'move-noti': {
-          '0%': { transform: 'translateX(0)' },
-          '100%': { transform: 'translateX(-500px)' }
-        }
       },
       minHeight: {
         content: 'calc(100vh - 4rem - 2.675rem)'
@@ -156,7 +147,7 @@ export default {
         background: {
           'start-light': 'rgb(225, 230, 235)',
           'start-dark': 'rgba(29, 35, 43)',
-          end: 'rgba(225, 230, 235, 0)'
+          end: 'rgba(255, 255, 255, 0)'
         },
         'top-3': {},
         number: '#B6C1C7'
@@ -201,8 +192,10 @@ export default {
         outline: '#976E06'
       },
       input: {
-        background: '#E2E8F0',
-        border: '#CBD5E0'
+        light: '#E2E8F0',
+        dark: '#0F1117',
+        'border-light': '#CBD5E0',
+        'border-dark': '#323F4A'
       }
     }
   },
