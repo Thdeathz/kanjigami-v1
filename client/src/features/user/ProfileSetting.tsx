@@ -8,6 +8,7 @@ import PageHeader from '~/components/PageHeader'
 import Panel from '~/components/Panel'
 import EditUsername from './Components/EditUsername'
 import EditAvatar from './Components/EditAvatar'
+import CustomDivider from '~/components/CustomDivider'
 
 const ProfileSetting = () => {
   useDocumentTitle('Settings | 漢字ガミ')
@@ -20,7 +21,7 @@ const ProfileSetting = () => {
         <form>
           <EditUsername />
 
-          <Divider />
+          <CustomDivider />
 
           <EditAvatar />
         </form>

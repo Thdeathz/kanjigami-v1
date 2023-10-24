@@ -16,6 +16,7 @@ import ProfileSetting from './features/user/ProfileSetting'
 import Leaderboards from './features/user/Leaderboards'
 import OnlineBattles from './features/battle/OnlineBattles'
 import KanjiStack from './features/kanji/KanjiStack'
+import BattleDetail from './features/battle/BattleDetail'
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/kanji" element={<KanjiStack />} />
         <Route path="/battles" element={<OnlineBattles />} />
+        <Route path="/battle/:id" element={<BattleDetail />} />
         <Route path="/leaderboard" element={<Leaderboards />} />
 
         {/* PRIVATE ROUTES */}

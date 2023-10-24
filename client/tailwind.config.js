@@ -24,7 +24,11 @@ export default {
         'light-app-icon': '4px 4px 0px rgba(0, 0, 0, 0.8)',
         'light-app-icon-hover': '-4px -4px 0px rgba(0, 0, 0, 0.8)',
         'light-panel': '0px 20px 50px rgba(0, 0, 0, 0.07)',
-        'light-side-item': 'inset 1px 1px 2px rgba(0, 0, 0, 0.1)'
+        'light-side-item': 'inset 1px 1px 2px rgba(0, 0, 0, 0.1)',
+        timer: '0 10px 5px -5px rgba(0, 0, 0, .2)'
+      },
+      gridTemplateColumns: {
+        'auto-fill': 'repeat(auto-fill, minmax(14rem, 1fr))'
       },
       height: {
         'main-content': 'calc(100vh - 4rem)'
@@ -72,7 +76,7 @@ export default {
       },
       'rgb-gray': {
         0.75: 'rgba(255, 255, 255, 0.75)',
-        '0-563': 'rgba(24, 29, 35, 0.563)',
+        '0-0.563': 'rgba(24, 29, 35, 0.563)',
         '0-0.75': 'rgba(24, 29, 35, 0.75)',
         '1-0.75': 'rgba(29, 35, 43, 0.75)',
         0: 'rgb(24, 29, 35)',
@@ -93,6 +97,11 @@ export default {
         'light-end': 'rgba(245, 245, 245, 1)',
         'dark-start': 'rgba(45, 55, 64, 0.5)',
         'dark-end': 'rgba(39, 45, 52, 0.5)'
+      },
+      'count-down': {
+        start: '#E7DADA',
+        end: '#E0CFCF',
+        dark: 'rgb(39, 45, 52)'
       },
       'clr-link': {
         light: '#050505',
@@ -115,12 +124,18 @@ export default {
         'start-dark': 'rgb(45, 55, 64)',
         'end-dark': 'rgb(39, 45, 52)'
       },
+      game: {
+        locked: '#252e36'
+      },
       header: {
         end: 'transparent',
         'light-start': 'rgba(255, 255, 255)'
       },
-      game: {
-        locked: '#252e36'
+      input: {
+        light: '#E2E8F0',
+        dark: '#0F1117',
+        'border-light': '#CBD5E0',
+        'border-dark': '#323F4A'
       },
       ranking: {
         'start-light': '#FFFFFF',
@@ -160,7 +175,8 @@ export default {
       text: {
         light: '#1A202C',
         dark: '#CBD1E1',
-        secondary: '#6B7B8E',
+        'secondary-light': '#4A5568',
+        'secondary-dark': '#91A7BE',
         'heading-light': '#050505',
         'heading-dark': '#EFF5FB'
       },
@@ -185,17 +201,8 @@ export default {
         'dark-icon': '#4C5663',
         'dark-icon-hover': '#7C8C9E'
       },
-
-      'count-down-timer': 'linear-gradient(90deg, #E7DADA 0.01%, #E0CFCF 99.99%)',
-
       avatar: {
         outline: '#976E06'
-      },
-      input: {
-        light: '#E2E8F0',
-        dark: '#0F1117',
-        'border-light': '#CBD5E0',
-        'border-dark': '#323F4A'
       }
     }
   },

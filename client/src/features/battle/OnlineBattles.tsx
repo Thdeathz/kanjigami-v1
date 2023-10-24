@@ -3,7 +3,6 @@ import { RiSwordFill } from 'react-icons/ri'
 import { useDocumentTitle } from 'usehooks-ts'
 
 import { DefaultLayout } from '~/components'
-import BattleInfo from '~/components/BattleInfo'
 import Button from '~/components/Button'
 import OnlineRound from '~/components/OnlineRound'
 import PageHeader from '~/components/PageHeader'
@@ -11,6 +10,7 @@ import RootNotification from '~/components/RootNotification'
 import Section from '~/components/Section'
 import EventLeaderboards from './components/EventLeaderboards'
 import Panel from '~/components/Panel'
+import BattleInfo from './components/BattleInfo'
 
 const OnlineBattles = () => {
   useDocumentTitle('Battles | 漢字ガミ')
@@ -34,9 +34,9 @@ const OnlineBattles = () => {
 
       <RootNotification />
 
-      <div className="flex w-full items-start justify-start gap-12">
+      <div className="mt-12 flex w-full items-start justify-start gap-12">
         <div className="w-full grow">
-          <Section title="Latest battles" className="mt-12">
+          <Section title="Latest battles">
             <div className="flex flex-col items-start justify-start gap-8">
               <Panel className="group flex items-start justify-start gap-8">
                 <BattleInfo
@@ -170,7 +170,7 @@ const OnlineBattles = () => {
           </Section>
         </div>
 
-        <div className="mt-12 basis-[30%]">
+        <div className="basis-1/4">
           <p className="mb-4 text-xl font-semibold">All-time leaders</p>
 
           <EventLeaderboards />

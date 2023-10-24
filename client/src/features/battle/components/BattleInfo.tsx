@@ -1,8 +1,10 @@
 import React from 'react'
-import { Avatar, Divider } from 'antd'
+import { Avatar } from 'antd'
+import { useNavigate } from 'react-router-dom'
 
-import Tag from './Tag'
-import Button from './Button'
+import Tag from '../../../components/Tag'
+import Button from '../../../components/Button'
+import CustomDivider from '~/components/CustomDivider'
 
 type PropsType = {
   status: 'ongoing' | 'upcoming' | 'finished'
@@ -14,6 +16,8 @@ type PropsType = {
 }
 
 const BattleInfo = ({ status, tagName, title, desciption, endTime, className }: PropsType) => {
+  const navigate = useNavigate()
+
   return (
     <div className={`flex w-full flex-col items-start justify-start gap-2 ${className ?? ''}`}>
       <div className="flex items-center justify-start gap-2">
@@ -30,7 +34,7 @@ const BattleInfo = ({ status, tagName, title, desciption, endTime, className }: 
 
       <p className="font-medium">{desciption}</p>
 
-      <Divider className="my-2" />
+      <CustomDivider className="my-2" />
 
       <p className="my-2 font-semibold opacity-70">
         Ends in <span className="">{endTime.getDate()}d</span> : <span>{endTime.getHours()}h</span>{' '}
@@ -58,7 +62,11 @@ const BattleInfo = ({ status, tagName, title, desciption, endTime, className }: 
           </Button>
         )}
 
-        <Button className="px-8" type={status === 'finished' ? 'disabled' : 'primary'}>
+        <Button
+          className="px-8"
+          type={status === 'finished' ? 'disabled' : 'primary'}
+          onClick={() => navigate('/battle/1')}
+        >
           Play
         </Button>
       </div>
