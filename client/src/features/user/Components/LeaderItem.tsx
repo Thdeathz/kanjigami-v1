@@ -7,7 +7,7 @@ type PropsType = {
   rank: number
 }
 
-const TopItem = ({ rank }: PropsType) => {
+const LeaderItem = ({ rank }: PropsType) => {
   let height = ''
   let crownColor = ''
 
@@ -27,7 +27,7 @@ const TopItem = ({ rank }: PropsType) => {
   }
 
   return (
-    <div className="basis-1/3">
+    <div className="relative basis-1/3">
       <div className="flex-center flex-col gap-4">
         <IconWrapper icon={<FaCrown />} className={`text-2xl ${crownColor}`} />
 
@@ -41,7 +41,7 @@ const TopItem = ({ rank }: PropsType) => {
       </div>
 
       <div
-        className={`leader-3d flex-center w-full rounded-md bg-gradient-to-tr from-ranking-background-start-light to-ranking-background-end text-6xl font-bold text-ranking-number dark:from-ranking-background-start-dark ${height}`}
+        className={`flex-center front bg-gradient-to-tr from-ranking-background-start-light to-ranking-background-end text-6xl font-bold text-ranking-number dark:from-ranking-background-start-dark ${height}`}
       >
         {rank}
       </div>
@@ -49,4 +49,4 @@ const TopItem = ({ rank }: PropsType) => {
   )
 }
 
-export default TopItem
+export default LeaderItem

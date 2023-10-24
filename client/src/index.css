@@ -22,6 +22,10 @@ body {
   scrollbar-gutter: stable both-edges;
 }
 
+.scheme-dark {
+  color-scheme: dark;
+}
+
 .root {
   width: 100vw;
   height: 100vh;
@@ -38,7 +42,6 @@ img {
 
 input {
   background-color: transparent;
-  border: none;
   outline: none;
 }
 
@@ -70,6 +73,10 @@ input {
   mask-image: linear-gradient(90deg, transparent, #fff 25px, #fff calc(100% - 25px), transparent);
 }
 
+.looper__innerList[data-animate='true'] .looper__listInstance {
+  animation: slideToLeftAnimation linear infinite;
+}
+
 .card-item {
   transition: opacity 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease,
     z-index 0.25s ease 0.25s !important;
@@ -79,6 +86,79 @@ input {
   opacity: 40%;
 }
 
-.leader-3d {
+.leader-top {
+  perspective: 600px;
+}
+
+@keyframes slideToLeftAnimation {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* .leader-3d {
   transform-style: preserve-3d;
 }
+
+.cubic-3d {
+  --w: clamp(0px, 24vw, 20rem);
+  --h: 220px;
+  --b: 12rem;
+  --rx: -40deg;
+  --ry: 5deg;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--rx));
+  width: var(--w);
+  height: var(--h);
+}
+
+.rank-1 {
+  transform: rotateX(var(--rx)) translateY(24px);
+}
+
+.cubic-3d div {
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  position: absolute;
+  overflow: hidden;
+  transform-origin: 0 0;
+  backface-visibility: hidden;
+}
+
+.front {
+  border-image: linear-gradient(180deg, hsla(0, 0%, 100%, 0.2), hsla(0, 0%, 100%, 0)) 1;
+}
+
+.front:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  opacity: 0.6;
+}
+
+.back {
+  left: 100%;
+  transform: translateZ(-12em) rotateY(180deg);
+}
+
+.top {
+  width: var(--w);
+  height: var(--b);
+  transform: translateZ(calc(var(--b) * -0.5)) rotateX(90deg) translateY(-50%);
+}
+
+.bottom {
+  transform: translateZ(-6em) rotateX(-90deg) translateY(-50%);
+}
+
+.left {
+  transform: translateZ(-6em) rotateY(-90deg) translateX(-50%);
+  width: 12em !important;
+  height: 220px !important;
+} */

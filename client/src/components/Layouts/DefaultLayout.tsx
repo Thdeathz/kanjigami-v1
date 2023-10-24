@@ -37,7 +37,7 @@ const DefaultLayout = ({ className, children }: PropsType) => {
 
           <div className="w-0 shrink grow">
             <motion.div
-              className={`min-h-content max-w-full grow p-12 ${className}`}
+              className={`mx-auto min-h-content max-w-[1600px] grow p-12 ${className}`}
               variants={variants}
               initial="hidden"
               animate="enter"

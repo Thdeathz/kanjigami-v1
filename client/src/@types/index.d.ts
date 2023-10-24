@@ -14,3 +14,7 @@ declare interface ApiResult {
   isError: boolean
   message: string
 }
+
+declare interface FilePreview extends File {
+  preview: string
+}
