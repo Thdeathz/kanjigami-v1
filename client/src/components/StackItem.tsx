@@ -13,7 +13,7 @@ type PropsType = {
 const StackItem = ({ imageSrc, stack, hightScore, className }: PropsType) => {
   return (
     <div
-      className={`card-item pointer-events-auto z-10 cursor-pointer rounded-lg bg-gradient-to-tl from-card-light-start from-0% to-card-light-end to-100% p-3 shadow-card hover:translate-y-[-10px] hover:scale-105 hover:opacity-100 active:translate-y-0 dark:from-card-dark-start dark:to-card-dark-end dark:shadow-dark-panel ${
+      className={`card-item pointer-events-auto z-10 cursor-pointer rounded-2xl bg-gradient-to-tl from-card-light-start from-0% to-card-light-end to-100% p-2.5 shadow-card hover:translate-y-[-10px] hover:scale-105 hover:opacity-100 active:translate-y-0 dark:from-card-dark-start dark:to-card-dark-end dark:shadow-dark-panel ${
         className ?? ''
       }`}
     >
@@ -25,11 +25,13 @@ const StackItem = ({ imageSrc, stack, hightScore, className }: PropsType) => {
         />
       </div>
 
-      <p className="my-2 text-lg font-semibold">{stack}</p>
+      <p className="mt-2 px-2 text-lg font-semibold">{stack}</p>
 
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between p-2">
         <div>
-          <p className="text-sm font-medium text-text-secondary">Your hi-score</p>
+          <p className="text-sm font-medium text-text-secondary-light dark:text-text-secondary-dark">
+            Your hi-score
+          </p>
           <p className="text-base font-medium">{hightScore ?? 'Not played'}</p>
         </div>
 

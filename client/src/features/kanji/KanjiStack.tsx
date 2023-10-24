@@ -17,8 +17,8 @@ const KanjiStack = () => {
     <DefaultLayout>
       <PageHeader
         icon={<BsStack />}
-        title="Online battles"
-        subtitle="Compete with players around the world"
+        title="Kanji stack"
+        subtitle="Play game and learn more kanji"
         className="mb-12"
       />
 
@@ -47,7 +47,7 @@ const KanjiStack = () => {
         </FilterBox>
       </div>
 
-      <div className="card-list group pointer-events-none row-auto mt-12 grid grid-cols-5 gap-8 transition-opacity">
+      <div className="card-list group pointer-events-none mt-12 grid auto-rows-fr grid-cols-5 gap-8 transition-opacity">
         {Array.from(Array(18).keys()).map(index => (
           <StackItem
             imageSrc="https://firebasestorage.googleapis.com/v0/b/kanjigami-61289.appspot.com/o/213.png?alt=media&token=3eef68c5-c33c-4eb7-99ff-fb4474f405f8"

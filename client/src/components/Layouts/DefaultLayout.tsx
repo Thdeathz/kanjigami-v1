@@ -4,8 +4,10 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Header from './Header'
 import SideBar from './SideBar'
 import Footer from './Footer'
+import { BreadcrumbItem } from './Header/Breadcrumb'
 
 type PropsType = {
+  breadcrumbs?: BreadcrumbItem[]
   className?: string
   children: React.ReactNode
 }
@@ -19,7 +21,7 @@ const variants = {
   exit: { opacity: 0 }
 }
 
-const DefaultLayout = ({ className, children }: PropsType) => {
+const DefaultLayout = ({ breadcrumbs, className, children }: PropsType) => {
   return (
     <AnimatePresence
       initial={true}
@@ -30,7 +32,7 @@ const DefaultLayout = ({ className, children }: PropsType) => {
       }}
     >
       <div className="h-screen w-screen overflow-y-auto bg-app-light text-text-light dark:bg-app-dark dark:text-text-dark">
-        <Header />
+        <Header breadcrumbs={breadcrumbs} />
 
         <div className="flex h-max items-start justify-start">
           <SideBar />

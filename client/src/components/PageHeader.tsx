@@ -4,7 +4,7 @@ import { IconType } from 'react-icons/lib'
 import IconWrapper from './IconWrapper'
 
 type PropsType = {
-  icon: ReactElement<IconType>
+  icon?: ReactElement<IconType>
   title: string
   subtitle?: string
   className?: string
@@ -13,14 +13,20 @@ type PropsType = {
 
 const PageHeader = ({ icon, title, subtitle, className, children }: PropsType) => {
   return (
-    <div className={`flex-center w-full flex-col gap-4 ${className ?? ''}`}>
-      <IconWrapper icon={icon} className="text-4xl" />
+    <div
+      className={`flex-center mx-auto max-w-[25rem] flex-col gap-4 text-center ${className ?? ''}`}
+    >
+      {icon && <IconWrapper icon={icon} className="text-4xl" />}
 
       <p className="text-2xl font-semibold text-text-heading-light dark:text-text-heading-dark">
         {title}
       </p>
 
-      {subtitle && <p className="text-base font-medium">{subtitle}</p>}
+      {subtitle && (
+        <p className="text-base font-medium text-text-secondary-light dark:text-text-secondary-dark">
+          {subtitle}
+        </p>
+      )}
 
       {children}
     </div>

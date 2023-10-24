@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom'
 
 import useAuth from '~/hooks/useAuth'
 import { DefaultLayout } from '~/components'
-import BattleInfo from '~/components/BattleInfo'
 import Button from '~/components/Button'
 import OnlineRound from '~/components/OnlineRound'
 import Section from '~/components/Section'
@@ -14,6 +13,7 @@ import StacksList from './Components/StacksList'
 import HomeThumbnail from './Components/HomeThumbnail'
 import RootNotification from '~/components/RootNotification'
 import Panel from '~/components/Panel'
+import BattleInfo from '../battle/components/BattleInfo'
 
 const Home = () => {
   useDocumentTitle('漢字ガミ')
