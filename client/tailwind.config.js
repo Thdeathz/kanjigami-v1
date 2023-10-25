@@ -18,6 +18,11 @@ export default {
         'dark-panel':
           '0 0 30px rgba(255,223,0,0),0px 20px 50px rgba(0,0,0,.2),inset 1px 1px 3px hsla(0,0%,100%,.1)',
         'dark-side-item': 'inset 1px 1px 2px rgba(255, 255, 255, 0.1)',
+        'glory-dark':
+          '0 0 15px rgba(255, 224, 0, 0.3), 0 0 0 2px #FFDF00, 0px 10px 50px rgba(0, 0, 0, 0.15)',
+        'glory-hover': '0px 10px 50px rgba(0, 0, 0, 0.15)',
+        'glory-light':
+          '0 0 15px rgba(255, 224, 0, 0.15), 0 0 0 2px #976E06, 0px 10px 50px rgba(0, 0, 0, 0.15)',
         'hard-shadow':
           '0px 8px 20px rgba(0, 0, 0, 0.1), inset 1px 1px 3px rgba(255, 255, 255, 0.1)',
         filter: 'inset 1px 1px 2px hsla(0, 0%, 100%,.1)',

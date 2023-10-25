@@ -17,6 +17,7 @@ import Leaderboards from './features/user/Leaderboards'
 import OnlineBattles from './features/battle/OnlineBattles'
 import KanjiStack from './features/kanji/KanjiStack'
 import BattleDetail from './features/battle/BattleDetail'
+import StackDetail from './features/kanji/StackDetail'
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
 
         <Route path="/" element={<Home />} />
         <Route path="/kanji" element={<KanjiStack />} />
+        <Route path="/kanji/:id" element={<StackDetail />} />
         <Route path="/battles" element={<OnlineBattles />} />
         <Route path="/battle/:id" element={<BattleDetail />} />
         <Route path="/leaderboard" element={<Leaderboards />} />
