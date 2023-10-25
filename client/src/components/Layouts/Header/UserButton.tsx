@@ -8,6 +8,7 @@ import DefaultAvatar from '~/assets/default-avatar.jpg'
 import IconWrapper from '~/components/IconWrapper'
 import useAuth from '~/hooks/useAuth'
 import { useSendLogoutMutation } from '~/features/auth/store/authService'
+import Image from '~/components/Image'
 
 const UserButton = () => {
   const navigate = useNavigate()
@@ -54,7 +55,7 @@ const UserButton = () => {
     >
       <div>
         <Button className="flex-center gap-1.5">
-          <img
+          <Image
             src={DefaultAvatar}
             alt="default-avatar"
             className="aspect-square h-7 rounded-full object-contain"

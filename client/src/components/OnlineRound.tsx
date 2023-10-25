@@ -1,6 +1,7 @@
 import React from 'react'
 
 import LockedIcon from '~/assets/lock-icon.svg'
+import Image from './Image'
 
 type PropsType = {
   imageSrc?: string
@@ -16,7 +17,7 @@ const OnlineRound = ({ imageSrc, stack }: PropsType) => {
     >
       {stack && (
         <>
-          <img src={imageSrc} alt="round-game" className="max-w-full rounded-lg object-cover" />
+          <Image src={imageSrc} alt="round-game" className="max-w-full rounded-lg object-cover" />
 
           <p className="absolute right-2 top-2 rounded bg-neutral-13 px-1.5 py-0.5 text-sm text-white">
             {stack}
@@ -24,7 +25,7 @@ const OnlineRound = ({ imageSrc, stack }: PropsType) => {
         </>
       )}
 
-      {!stack && <img src={LockedIcon} alt="locked-icon" className="w-[2.5rem]" />}
+      {!stack && <Image src={LockedIcon} alt="locked-icon" className="w-[2.5rem]" />}
     </div>
   )
 }

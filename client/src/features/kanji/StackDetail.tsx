@@ -7,7 +7,7 @@ import PageHeader from '~/components/PageHeader'
 import Panel from '~/components/Panel'
 import RootNotification from '~/components/RootNotification'
 import SearchKanji from './components/SearchKanji'
-import EventLeaderboards from '../battle/components/EventLeaderboards'
+import EventLeaderboards from '../battle/components/LeaderList/EventLeaderboards'
 import Button from '~/components/Button'
 import GamesList from './components/GamesList'
 

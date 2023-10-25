@@ -6,13 +6,16 @@ import 'antd/dist/reset.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import store from './app/store'
+import ReloadPrompt from './components/Layouts/ReloadPromt'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
-          <Route path="/*" element={<App />} />
+          <Route element={<ReloadPrompt />}>
+            <Route path="/*" element={<App />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </Provider>

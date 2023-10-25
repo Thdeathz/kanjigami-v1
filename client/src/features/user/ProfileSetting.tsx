@@ -6,8 +6,8 @@ import { useDocumentTitle } from 'usehooks-ts'
 import { DefaultLayout } from '~/components'
 import PageHeader from '~/components/PageHeader'
 import Panel from '~/components/Panel'
-import EditUsername from './Components/EditUsername'
-import EditAvatar from './Components/EditAvatar'
+import EditUsername from './components/EditUsername'
+import EditAvatar from './components/EditAvatar'
 import CustomDivider from '~/components/CustomDivider'
 
 const ProfileSetting = () => {

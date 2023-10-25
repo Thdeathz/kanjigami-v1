@@ -1,7 +1,10 @@
 import React from 'react'
 import { FaCrown } from 'react-icons/fa'
+import { motion } from 'framer-motion'
+
 import Avatar from '~/components/Avatar'
 import IconWrapper from '~/components/IconWrapper'
+import { topLeader } from '~/config/variants'
 
 type PropsType = {
   rank: number
@@ -12,23 +15,29 @@ const LeaderItem = ({ rank }: PropsType) => {
   let crownColor = ''
 
   if (rank === 1) {
-    height = 'h-44'
+    // height = 'h-44'
+    height = '11rem'
     crownColor = 'text-ranking-1-crown'
   }
 
   if (rank === 2) {
-    height = 'h-32'
+    height = '8rem'
     crownColor = 'text-ranking-2-crown'
   }
 
   if (rank === 3) {
-    height = 'h-24'
+    height = '5rem'
     crownColor = 'text-ranking-3-crown'
   }
 
   return (
-    <div className="relative basis-1/3">
-      <div className="flex-center flex-col gap-4">
+    <motion.div
+      className="relative basis-1/3"
+      variants={topLeader.container}
+      initial="hidden"
+      animate="enter"
+    >
+      <motion.div className="flex-center flex-col gap-4" variants={topLeader.userInfo}>
         <IconWrapper icon={<FaCrown />} className={`text-2xl ${crownColor}`} />
 
         <Avatar size="large" />
@@ -38,14 +47,15 @@ const LeaderItem = ({ rank }: PropsType) => {
 
           <p>234534</p>
         </div>
-      </div>
+      </motion.div>
 
-      <div
-        className={`flex-center front bg-gradient-to-tr from-ranking-background-start-light to-ranking-background-end text-6xl font-bold text-ranking-number dark:from-ranking-background-start-dark ${height}`}
+      <motion.div
+        className={`flex-center front bg-gradient-to-tr from-ranking-background-start-light to-ranking-background-end text-6xl font-bold text-ranking-number dark:from-ranking-background-start-dark`}
+        variants={topLeader.topBar(height)}
       >
         {rank}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   )
 }
 

@@ -1,8 +1,11 @@
 import React from 'react'
 import { BsBookFill } from 'react-icons/bs'
 import { useNavigate } from 'react-router-dom'
+import { motion } from 'framer-motion'
 
 import IconWrapper from '~/components/IconWrapper'
+import { gridList } from '~/config/variants'
+import Image from './Image'
 
 type PropsType = {
   stackId: number
@@ -16,14 +19,15 @@ const StackItem = ({ stackId, imageSrc, stack, hightScore, className }: PropsTyp
   const navigate = useNavigate()
 
   return (
-    <div
+    <motion.div
       className={`card-item pointer-events-auto z-10 cursor-pointer rounded-2xl bg-gradient-to-tl from-card-light-start from-0% to-card-light-end to-100% p-2.5 shadow-card hover:translate-y-[-10px] hover:scale-105 hover:opacity-100 active:translate-y-0 dark:from-card-dark-start dark:to-card-dark-end dark:shadow-dark-panel ${
         className ?? ''
       }`}
+      variants={gridList.item()}
       onClick={() => navigate(`/kanji/${stackId}`)}
     >
       <div className="w-full rounded-lg border-[3px] border-white dark:border-[#111217]">
-        <img
+        <Image
           src={imageSrc}
           alt="stack-thumbnail"
           className="aspect-ratio w-full rounded-lg object-cover"
@@ -44,7 +48,7 @@ const StackItem = ({ stackId, imageSrc, stack, hightScore, className }: PropsTyp
           <IconWrapper icon={<BsBookFill />} />
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }
 
