@@ -1,5 +1,5 @@
 import React from 'react'
-import { BsSearchHeartFill, BsStack } from 'react-icons/bs'
+import { BsStack } from 'react-icons/bs'
 import { useDocumentTitle } from 'usehooks-ts'
 
 import { DefaultLayout } from '~/components'
@@ -8,7 +8,7 @@ import RootNotification from '~/components/RootNotification'
 import StackItem from '~/components/StackItem'
 import FilterBox from '../../components/Filter/FilterBox'
 import FilterItem from '../../components/Filter/FilterItem'
-import IconWrapper from '~/components/IconWrapper'
+import SearchKanji from './components/SearchKanji'
 
 const KanjiStack = () => {
   useDocumentTitle('Kanji Stack | 漢字ガミ')
@@ -25,16 +25,7 @@ const KanjiStack = () => {
       <RootNotification />
 
       <div className="mt-12 flex items-center justify-between">
-        <FilterBox>
-          <div className="group flex min-w-[20vw] items-center justify-start gap-2 rounded bg-gradient-to-tr from-filter-start-light to-filter-end-light px-2 dark:from-filter-start-dark dark:to-filter-end-dark">
-            <IconWrapper
-              icon={<BsSearchHeartFill />}
-              className="text-lg opacity-60 transition-opacity group-focus:opacity-100"
-            />
-
-            <input className="bg-transparent w-full py-2" placeholder="Enter stack name..." />
-          </div>
-        </FilterBox>
+        <SearchKanji />
 
         <FilterBox>
           <FilterItem actived>All stacks</FilterItem>
@@ -53,6 +44,7 @@ const KanjiStack = () => {
             imageSrc="https://firebasestorage.googleapis.com/v0/b/kanjigami-61289.appspot.com/o/213.png?alt=media&token=3eef68c5-c33c-4eb7-99ff-fb4474f405f8"
             stack="クリスマス"
             key={index}
+            stackId={index}
           />
         ))}
       </div>
