@@ -5,6 +5,7 @@ import LockedIcon from '~/assets/lock-icon.svg'
 import Avatar from '~/components/Avatar'
 import IconWrapper from '~/components/IconWrapper'
 import CountDown from './CountDown'
+import Image from '~/components/Image'
 
 type PropsType = {
   imageSrc?: string
@@ -29,7 +30,7 @@ const OnlineCard = ({ imageSrc, topUsername, topScore, stack, className }: Props
         >
           {stack ? (
             <>
-              <img
+              <Image
                 src={imageSrc}
                 alt="round-game"
                 className="pointer-events-none max-w-full rounded-lg object-cover"
@@ -40,7 +41,7 @@ const OnlineCard = ({ imageSrc, topUsername, topScore, stack, className }: Props
               </p>
             </>
           ) : (
-            <img src={LockedIcon} alt="locked-icon" className="w-[2.5rem]" />
+            <Image src={LockedIcon} alt="locked-icon" className="w-[2.5rem]" />
           )}
         </div>
       </div>

@@ -3,6 +3,7 @@ import { BsFillPlayFill } from 'react-icons/bs'
 
 import Button from '~/components/Button'
 import IconWrapper from '~/components/IconWrapper'
+import Image from '~/components/Image'
 import Panel from '~/components/Panel'
 
 type GameItemPropsType = {
@@ -16,9 +17,9 @@ const GameItem = ({ name }: GameItemPropsType) => {
         {name}
       </p>
 
-      <div className="card-item cursor-pointer flex-col rounded-2xl bg-gradient-to-tl from-card-light-start from-0% to-card-light-end to-100% p-2.5 shadow-glory-light hover:scale-105 hover:shadow-glory-hover dark:from-card-dark-start dark:to-card-dark-end dark:shadow-glory-dark">
+      <div className="card-item pointer-events-auto cursor-pointer flex-col rounded-2xl bg-gradient-to-tl from-card-light-start from-0% to-card-light-end to-100% p-2.5 shadow-glory-light hover:scale-105 hover:opacity-100 hover:shadow-glory-hover dark:from-card-dark-start dark:to-card-dark-end dark:shadow-glory-dark">
         <div className="aspect-ratio w-full rounded-lg border-[3px] border-white dark:border-[#111217]">
-          <img
+          <Image
             src="https://firebasestorage.googleapis.com/v0/b/kanjigami-61289.appspot.com/o/234.png?alt=media&token=4df8d4e0-c249-466c-9be9-b4db8be3806c"
             alt="round-game"
             className="max-w-full rounded-lg object-cover"
@@ -45,7 +46,7 @@ const GameItem = ({ name }: GameItemPropsType) => {
 const GamesList = () => {
   return (
     <Panel className="mt-12">
-      <div className="flex-center w-full gap-12">
+      <div className="card-list pointer-events-none grid w-full grid-cols-4 gap-12 transition-opacity">
         <GameItem name="MULTIPLE CHOOSE" />
 
         <GameItem name="PUNCH A HOLE" />

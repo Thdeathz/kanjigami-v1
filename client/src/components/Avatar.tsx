@@ -2,6 +2,7 @@ import { Tooltip } from 'antd'
 import React from 'react'
 
 import DefaultAvatar from '~/assets/default-avatar.jpg'
+import Image from './Image'
 
 type PropsType = {
   src?: string
@@ -15,7 +16,7 @@ const Avatar = ({ src, className, size = 'base' }: PropsType) => {
   return (
     <Tooltip placement="top" title="@Kantan kanji" mouseEnterDelay={0} mouseLeaveDelay={0}>
       <button className={`${className ?? ''} rounded-full transition-transform hover:scale-105`}>
-        <img
+        <Image
           src={src ?? DefaultAvatar}
           alt="avatar"
           className={`aspect-square rounded-full object-cover ${height}`}

@@ -1,6 +1,7 @@
 import React from 'react'
 import { BsStack } from 'react-icons/bs'
 import { useDocumentTitle } from 'usehooks-ts'
+import { motion } from 'framer-motion'
 
 import { DefaultLayout } from '~/components'
 import PageHeader from '~/components/PageHeader'
@@ -9,6 +10,7 @@ import StackItem from '~/components/StackItem'
 import FilterBox from '../../components/Filter/FilterBox'
 import FilterItem from '../../components/Filter/FilterItem'
 import SearchKanji from './components/SearchKanji'
+import { gridList } from '~/config/variants'
 
 const KanjiStack = () => {
   useDocumentTitle('Kanji Stack | 漢字ガミ')
@@ -38,7 +40,12 @@ const KanjiStack = () => {
         </FilterBox>
       </div>
 
-      <div className="card-list group pointer-events-none mt-12 grid auto-rows-fr grid-cols-5 gap-8 transition-opacity">
+      <motion.div
+        className="card-list group pointer-events-none mt-12 grid auto-rows-fr grid-cols-5 gap-8 transition-opacity"
+        variants={gridList.container()}
+        initial="hidden"
+        animate="enter"
+      >
         {Array.from(Array(18).keys()).map(index => (
           <StackItem
             imageSrc="https://firebasestorage.googleapis.com/v0/b/kanjigami-61289.appspot.com/o/213.png?alt=media&token=3eef68c5-c33c-4eb7-99ff-fb4474f405f8"
@@ -47,7 +54,7 @@ const KanjiStack = () => {
             stackId={index}
           />
         ))}
-      </div>
+      </motion.div>
     </DefaultLayout>
   )
 }

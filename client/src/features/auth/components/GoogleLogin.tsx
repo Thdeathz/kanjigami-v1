@@ -6,6 +6,7 @@ import { FormInstance, message } from 'antd'
 import GoogleLogo from '~/assets/google_logo.svg'
 import { auth, googleProvider } from '~/config/firebase'
 import { useLoginMutation } from '../store/authService'
+import Image from '~/components/Image'
 
 type PropsType = {
   form: FormInstance<UserCredentials>
@@ -38,7 +39,7 @@ const GoogleLogin = ({ form }: PropsType) => {
       className="flex-center group max-h-[2.5rem] min-h-[2.5rem] w-full rounded-md border transition-colors hover:border-primary-5"
       onClick={handleGoogleLogin}
     >
-      <img src={GoogleLogo} className="w-[2rem]" />
+      <Image src={GoogleLogo} className="w-[2rem]" />
       <span className="text-base font-medium transition-colors group-hover:text-primary-5">
         Google
       </span>
