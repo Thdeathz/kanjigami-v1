@@ -1,9 +1,8 @@
 import React from 'react'
-import { Divider } from 'antd'
 import { RiSettings3Fill } from 'react-icons/ri'
 import { useDocumentTitle } from 'usehooks-ts'
 
-import { DefaultLayout } from '~/components'
+import DefaultLayout from '~/components/Layouts/DefaultLayout'
 import PageHeader from '~/components/PageHeader'
 import Panel from '~/components/Panel'
 import EditUsername from './components/EditUsername'

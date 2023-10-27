@@ -1,12 +1,15 @@
 import React, { ChangeEventHandler, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDocumentTitle } from 'usehooks-ts'
-import { LoadingOutlined, LockOutlined, MailOutlined } from '@ant-design/icons'
-import { Button, Form, Input, message } from 'antd'
+import { LoadingOutlined } from '@ant-design/icons'
+import { Form, message } from 'antd'
 
-import { DefaultLayout } from '~/components'
 import { useSignupMutation } from './store/authService'
 import { EMAIL_REGEX, PWD_REGEX } from '~/config/regex'
+import AuthLayout from './components/AuthLayout'
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
+import Button from '~/components/Button'
+import Input from '~/components/Input'
 
 type FormData = {
   email: string
@@ -20,36 +23,36 @@ type CustomInputPropsType = {
   onVisibleChange?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const InputEmail = ({ value, onChange }: CustomInputPropsType) => {
-  const { status } = Form.Item.useStatus()
+// const InputEmail = ({ value, onChange }: CustomInputPropsType) => {
+//   const { status } = Form.Item.useStatus()
 
-  return (
-    <Input
-      className={status === 'success' ? 'border-polar-green-5' : ''}
-      prefix={<MailOutlined className={status === 'success' ? 'text-polar-green-5' : ''} />}
-      placeholder="Email"
-      value={value}
-      onChange={onChange}
-      autoComplete="email"
-    />
-  )
-}
+//   return (
+//     <Input
+//       className={status === 'success' ? 'border-polar-green-5' : ''}
+//       prefix={<MailOutlined className={status === 'success' ? 'text-polar-green-5' : ''} />}
+//       placeholder="Email"
+//       value={value}
+//       onChange={onChange}
+//       autoComplete="email"
+//     />
+//   )
+// }
 
-const InputPassword = ({ value, onChange, visible, onVisibleChange }: CustomInputPropsType) => {
-  const { status } = Form.Item.useStatus()
+// const InputPassword = ({ value, onChange, visible, onVisibleChange }: CustomInputPropsType) => {
+//   const { status } = Form.Item.useStatus()
 
-  return (
-    <Input.Password
-      className={status === 'success' ? 'border-polar-green-5' : ''}
-      prefix={<LockOutlined className={status === 'success' ? 'text-polar-green-5' : ''} />}
-      placeholder="Password"
-      visibilityToggle={{ visible, onVisibleChange }}
-      value={value}
-      onChange={onChange}
-      autoComplete="current-password"
-    />
-  )
-}
+//   return (
+//     <Input.Password
+//       className={status === 'success' ? 'border-polar-green-5' : ''}
+//       prefix={<LockOutlined className={status === 'success' ? 'text-polar-green-5' : ''} />}
+//       placeholder="Password"
+//       visibilityToggle={{ visible, onVisibleChange }}
+//       value={value}
+//       onChange={onChange}
+//       autoComplete="current-password"
+//     />
+//   )
+// }
 
 const Signup = () => {
   useDocumentTitle('Register | 漢字ガミ')
@@ -79,7 +82,7 @@ const Signup = () => {
   }
 
   return (
-    <DefaultLayout>
+    <AuthLayout title="Sign up">
       <Form
         form={form}
         name="register"
@@ -95,7 +98,12 @@ const Signup = () => {
             { pattern: EMAIL_REGEX, message: 'Email is not valid.' }
           ]}
         >
-          <InputEmail />
+          <Input
+            id="email"
+            withPrefix={<p className="w-[4rem]">Email</p>}
+            placeholder="example@gmail.com"
+            autoComplete="email"
+          />
         </Form.Item>
 
         <Form.Item
@@ -105,10 +113,17 @@ const Signup = () => {
             { pattern: PWD_REGEX, message: 'Password must be between 4-12 characters.' }
           ]}
         >
-          <InputPassword visible={passwordVisible} onVisibleChange={setPasswordVisible} />
+          <Input
+            id="password"
+            withPrefix={<p className="w-[4rem]">Password</p>}
+            lastIcon={passwordVisible ? <AiFillEye /> : <AiFillEyeInvisible />}
+            lastIconOnClick={() => setPasswordVisible(prev => !prev)}
+            placeholder="secret password"
+            type={passwordVisible ? 'text' : 'password'}
+          />
         </Form.Item>
 
-        <div className="flex w-full items-center justify-end">
+        <div className="mb-2 flex w-full items-center justify-end text-text-light dark:text-text-dark">
           <p>
             <Link to="/forgot-password" className="transition-colors hover:text-primary-5">
               Forgot password ?
@@ -116,13 +131,11 @@ const Signup = () => {
           </p>
         </div>
 
-        <Form.Item>
-          <Button className="flex-center" type="primary" ghost htmlType="submit" block>
-            {isLoading ? <LoadingOutlined className="flex-center text-lg" /> : 'Create account'}
-          </Button>
-        </Form.Item>
+        <Button className="w-full text-lg" type="primary" htmlType="submit">
+          {isLoading ? <LoadingOutlined /> : 'Create account'}
+        </Button>
 
-        <div className="mt-2 text-base">
+        <div className="mt-2 text-base text-text-light dark:text-text-dark">
           Already has account?{' '}
           <Link
             to="/login"
@@ -132,7 +145,7 @@ const Signup = () => {
           </Link>
         </div>
       </Form>
-    </DefaultLayout>
+    </AuthLayout>
   )
 }
 

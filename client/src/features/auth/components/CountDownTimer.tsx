@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { message } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { LoadingOutlined } from '@ant-design/icons'
+import { useCountdown, useEffectOnce } from 'usehooks-ts'
 
 import { useForgotPasswordMutation } from '../store/authService'
 
@@ -13,50 +14,47 @@ const CountDownTimer = ({ resetEmail }: PropsType) => {
   const navigate = useNavigate()
   const [forgotPassword, { isLoading }] = useForgotPasswordMutation()
 
-  const [timer, setTimer] = useState<number>(90)
-  const [disable, setDisable] = useState<boolean>(true)
+  const [count, { startCountdown, resetCountdown }] = useCountdown({
+    countStart: 90,
+    intervalMs: 1000
+  })
 
   const onReSendOTP = async () => {
-    if (disable || isLoading) return
+    if (count > 0 || isLoading) return
 
     try {
       const response = await forgotPassword(resetEmail)
       if (!response) return
-      setTimer(90)
-      setDisable(true)
+      resetCountdown()
+      startCountdown()
     } catch (error) {
       message.error('No server response. Please try again later ><!')
       navigate('/login')
     }
   }
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTimer(lastTimerCount => {
-        lastTimerCount <= 1 && clearInterval(interval)
-        if (lastTimerCount <= 1) setDisable(false)
-        if (lastTimerCount <= 0) return lastTimerCount
-        return lastTimerCount - 1
-      })
-    }, 1000)
-
-    return () => clearInterval(interval)
-  }, [disable])
+  useEffectOnce(() => {
+    startCountdown()
+  })
 
   return (
-    <div className="mt-2 text-base">
+    <div className="mt-2 text-base font-medium text-text-light dark:text-text-dark">
       Didn't recieve code?{' '}
       <button
         type="button"
         onClick={onReSendOTP}
-        disabled={disable || isLoading}
+        disabled={count > 0 || isLoading}
         className={`
         h-5 cursor-pointer font-medium transition-all
-        ${disable || isLoading ? 'text-disable' : ' text-primary-5 hover:border-b'}
+        ${
+          count > 0 || isLoading
+            ? 'text-text-secondary-light dark:text-text-secondary-dark'
+            : ' text-primary-5 hover:border-b'
+        }
       `}
       >
-        {disable ? (
-          `Resend in ${timer}s`
+        {count > 0 ? (
+          `Resend in ${count}s`
         ) : isLoading ? (
           <LoadingOutlined className="ml-4" />
         ) : (

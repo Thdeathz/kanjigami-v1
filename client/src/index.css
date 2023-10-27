@@ -41,14 +41,11 @@ img {
 }
 
 input {
-  background-color: transparent;
+  background-color: transparent !important;
   outline: none;
 }
 
-.ant-modal-footer .ant-btn-primary {
-  background-color: #1677ff !important;
-}
-
+/* TAILWIND CUSTOM */
 .flex-center {
   @apply flex items-center justify-center;
 }
@@ -57,10 +54,20 @@ input {
   @apply flex items-center justify-start;
 }
 
+/* CUSTOM ANTD */
+.ant-modal-footer .ant-btn-primary {
+  background-color: #1677ff !important;
+}
+
+.ant-form-item-explain-error {
+  margin-left: 1rem;
+}
+
 .app-icon p {
   font-family: 'Saira Stencil One';
 }
 
+/* ROOT NOTIFICATION ANIMATE */
 .root-noti {
   -webkit-mask-image: linear-gradient(
     90deg,
@@ -77,19 +84,6 @@ input {
   animation: slideToLeftAnimation linear infinite;
 }
 
-.card-item {
-  transition: opacity 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease,
-    z-index 0.25s ease 0.25s !important;
-}
-
-.card-list:hover .card-item {
-  opacity: 40%;
-}
-
-.leader-top {
-  perspective: 600px;
-}
-
 @keyframes slideToLeftAnimation {
   from {
     transform: translateX(0%);
@@ -99,66 +93,86 @@ input {
   }
 }
 
-/* .leader-3d {
-  transform-style: preserve-3d;
+/* CARDS LIST HOVER ANIMATE */
+.card-item {
+  transition: opacity 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease,
+    z-index 0.25s ease 0.25s !important;
 }
 
-.cubic-3d {
-  --w: clamp(0px, 24vw, 20rem);
-  --h: 220px;
-  --b: 12rem;
-  --rx: -40deg;
-  --ry: 5deg;
-  transform-style: preserve-3d;
-  transform: rotateX(var(--rx));
-  width: var(--w);
-  height: var(--h);
+.card-list:hover .card-item {
+  opacity: 40%;
 }
 
-.rank-1 {
-  transform: rotateX(var(--rx)) translateY(24px);
+/* LOGIN BOTTOM BACKGROUND */
+.login-bottom {
+  background-image: url('./assets/footer.jpg');
+  background-position: bottom;
+  background-repeat: repeat-x;
+  background-size: contain;
+  background-blend-mode: screen;
 }
 
-.cubic-3d div {
+.login-bottom::before,
+.login-bottom::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 12rem;
+  height: 100%;
+  background-image: linear-gradient(to right, #edf2f7, transparent);
+}
+
+.login-bottom::after {
+  left: auto;
+  right: 0;
+  background-image: linear-gradient(to left, #edf2f7, transparent);
+}
+
+/* COUNT DOWN TIMER ANIMATE */
+.count {
+  perspective: 500px;
+  transform: translateZ(0);
+}
+
+.count span {
+  transform-origin: 0 1.25rem 0;
+}
+
+.count span::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 100%;
+}
+
+.count span::after {
+  content: '';
   width: 100%;
   height: 100%;
-  transform-style: preserve-3d;
-  position: absolute;
-  overflow: hidden;
-  transform-origin: 0 0;
-  backface-visibility: hidden;
-}
-
-.front {
-  border-image: linear-gradient(180deg, hsla(0, 0%, 100%, 0.2), hsla(0, 0%, 100%, 0)) 1;
-}
-
-.front:after {
-  content: '';
   position: absolute;
   top: 0;
   left: 0;
-  z-index: -1;
-  opacity: 0.6;
 }
 
-.back {
-  left: 100%;
-  transform: translateZ(-12em) rotateY(180deg);
+.next-bottom {
+  transform: rotate3d(1, 0, 0, 90deg);
 }
 
-.top {
-  width: var(--w);
-  height: var(--b);
-  transform: translateZ(calc(var(--b) * -0.5)) rotateX(90deg) translateY(-50%);
+.changing .current-top {
+  transform: rotate3d(1, 0, 0, -90deg);
+  transition: transform 0.2625s ease-in, box-shadow 0.2625s ease-in;
 }
 
-.bottom {
-  transform: translateZ(-6em) rotateX(-90deg) translateY(-50%);
+.changing .next-bottom,
+.changed .next-bottom {
+  box-shadow: 0 0 0 0 transparent;
+  transition: box-shadow 0.175s cubic-bezier(0.375, 1.495, 0.61, 0.78) 0.35s,
+    transform 0.35s cubic-bezier(0.375, 1.495, 0.61, 0.78) 0.35s;
+
+  transform: rotate3d(1, 0, 0, 0);
 }
 
-.left {
-  transform: translateZ(-6em) rotateY(-90deg) translateX(-50%);
-  width: 12em !important;
-  height: 220px !important;
-} */
+.changed .current-top,
+.changed .current-bottom {
+  display: none;
+}

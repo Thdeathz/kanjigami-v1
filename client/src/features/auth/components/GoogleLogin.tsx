@@ -7,6 +7,7 @@ import GoogleLogo from '~/assets/google_logo.svg'
 import { auth, googleProvider } from '~/config/firebase'
 import { useLoginMutation } from '../store/authService'
 import Image from '~/components/Image'
+import Button from '~/components/Button'
 
 type PropsType = {
   form: FormInstance<UserCredentials>
@@ -34,16 +35,10 @@ const GoogleLogin = ({ form }: PropsType) => {
   }
 
   return (
-    <button
-      type="button"
-      className="flex-center group max-h-[2.5rem] min-h-[2.5rem] w-full rounded-md border transition-colors hover:border-primary-5"
-      onClick={handleGoogleLogin}
-    >
+    <Button htmlType="button" className="flex-center group w-full" onClick={handleGoogleLogin}>
       <Image src={GoogleLogo} className="w-[2rem]" />
-      <span className="text-base font-medium transition-colors group-hover:text-primary-5">
-        Google
-      </span>
-    </button>
+      <span className="text-base font-semibold">Sign in with Google</span>
+    </Button>
   )
 }
 

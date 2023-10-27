@@ -30,7 +30,8 @@ export default {
         'light-app-icon-hover': '-4px -4px 0px rgba(0, 0, 0, 0.8)',
         'light-panel': '0px 20px 50px rgba(0, 0, 0, 0.07)',
         'light-side-item': 'inset 1px 1px 2px rgba(0, 0, 0, 0.1)',
-        timer: '0 10px 5px -5px rgba(0, 0, 0, .2)'
+        timer: '0 10px 5px -5px rgba(0, 0, 0, .2)',
+        'timer-item': 'inset 0 1px 2px 0 hsla(0, 0%, 100%, .1)'
       },
       gridTemplateColumns: {
         'auto-fill': 'repeat(auto-fill, minmax(14rem, 1fr))'
@@ -40,6 +41,10 @@ export default {
       },
       minHeight: {
         content: 'calc(100vh - 4rem - 2.675rem)'
+      },
+      transformOrigin: {
+        normal: '0 1rem 0',
+        large: '0 1.125rem 0'
       }
     },
     colors: {
@@ -140,7 +145,8 @@ export default {
         light: '#E2E8F0',
         dark: '#0F1117',
         'border-light': '#CBD5E0',
-        'border-dark': '#323F4A'
+        'border-dark': '#323F4A',
+        'glory-light': '#976E06'
       },
       ranking: {
         'start-light': '#FFFFFF',

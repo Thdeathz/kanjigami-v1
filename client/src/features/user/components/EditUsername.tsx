@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 
 import Button from '~/components/Button'
 import InputWrapper from './InputWrapper'
+import Input from '~/components/Input'
 
 const EditUsername = () => {
   const [username, setUsername] = useState<string>('')
@@ -21,19 +22,16 @@ const EditUsername = () => {
         </Button>
       }
     >
-      <div className="flex w-full items-center justify-start gap-2 rounded-full border border-input-border-light bg-input-light pl-4 font-medium dark:border-input-border-dark dark:bg-input-dark">
-        <div>kanjigami/player/</div>
-
-        <input
-          type="text"
-          id="username"
-          value={username}
-          autoComplete="off"
-          maxLength={15}
-          className="w-full rounded-e-full border-l border-input-border-light px-2 py-3 pr-4 dark:border-input-border-dark"
-          onChange={e => setUsername(e.target.value)}
-        />
-      </div>
+      <Input
+        id="username"
+        type="text"
+        withPrefix="kanjigami/player/"
+        value={username}
+        autoComplete="off"
+        maxLength={15}
+        className="w-full"
+        onChange={e => setUsername(e.target.value)}
+      />
     </InputWrapper>
   )
 }

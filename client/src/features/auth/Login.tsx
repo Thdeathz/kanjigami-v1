@@ -1,14 +1,17 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Button, Checkbox, Divider, Form, Input, message } from 'antd'
-import { LoadingOutlined, LockOutlined, MailOutlined } from '@ant-design/icons'
+import { Checkbox, Divider, Form, message } from 'antd'
+import { LoadingOutlined } from '@ant-design/icons'
 import { useDocumentTitle } from 'usehooks-ts'
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 
-import { DefaultLayout } from '~/components'
 import { useLoginMutation } from './store/authService'
 import usePersist from '~/hooks/usePersist'
 import { EMAIL_REGEX } from '~/config/regex'
 import GoogleLogin from './components/GoogleLogin'
+import Button from '~/components/Button'
+import AuthLayout from './components/AuthLayout'
+import Input from '~/components/Input'
 
 const Login = () => {
   useDocumentTitle('Login | 漢字ガミ')
@@ -68,15 +71,8 @@ const Login = () => {
   }
 
   return (
-    <DefaultLayout>
-      <Form
-        form={form}
-        name="login"
-        size="large"
-        onFinish={onFinish}
-        autoComplete="off"
-        className="min-w-[24rem]"
-      >
+    <AuthLayout title="Sign in">
+      <Form form={form} name="login" size="large" onFinish={onFinish} autoComplete="off">
         <Form.Item
           name="email"
           rules={[
@@ -85,26 +81,29 @@ const Login = () => {
           ]}
         >
           <Input
-            prefix={<MailOutlined className="site-form-item-icon" />}
-            placeholder="Email"
+            id="email"
+            withPrefix={<p className="w-[4rem]">Email</p>}
+            placeholder="example@gmail.com"
             autoComplete="email"
           />
         </Form.Item>
 
         <Form.Item name="password" rules={[{ required: true, message: 'Password is required.' }]}>
-          <Input.Password
-            prefix={<LockOutlined className="site-form-item-icon" />}
-            placeholder="Password"
-            autoComplete="current-password"
-            visibilityToggle={{ visible: passwordVisible, onVisibleChange: setPasswordVisible }}
+          <Input
+            id="password"
+            withPrefix={<p className="w-[4rem]">Password</p>}
+            lastIcon={passwordVisible ? <AiFillEye /> : <AiFillEyeInvisible />}
+            lastIconOnClick={() => setPasswordVisible(prev => !prev)}
+            placeholder="secret password"
+            type={passwordVisible ? 'text' : 'password'}
           />
         </Form.Item>
 
-        <div className="flex items-center justify-between">
+        <div className="mb-2 flex items-center justify-between text-text-light dark:text-text-dark">
           <Checkbox
             defaultChecked={persist}
             onChange={() => setPersist(prev => !prev)}
-            className="mb-4"
+            className="text-text-light dark:text-text-dark"
           >
             Remember me
           </Checkbox>
@@ -115,26 +114,18 @@ const Login = () => {
             </Link>
           </p>
         </div>
-        <Form.Item>
-          <Button
-            className="flex-center"
-            type="primary"
-            ghost
-            htmlType="submit"
-            block
-            disabled={isLoading}
-          >
-            {isLoading ? <LoadingOutlined className="flex-center text-lg" /> : 'Login'}
-          </Button>
-        </Form.Item>
 
-        <Divider plain>or sign in with</Divider>
+        <Button className="w-full text-lg" type="primary" htmlType="submit" disabled={isLoading}>
+          {isLoading ? <LoadingOutlined className="flex-center" /> : 'Login'}
+        </Button>
 
-        <div className="flex w-full items-center justify-between gap-4">
-          <GoogleLogin form={form} />
-        </div>
+        <Divider plain className="uppercase text-text-light dark:text-text-dark">
+          or
+        </Divider>
 
-        <div className="mt-2 text-base">
+        <GoogleLogin form={form} />
+
+        <div className="mt-4 text-base text-text-light dark:text-text-dark">
           Haven't account yet?{' '}
           <Link
             to="/signup"
@@ -144,7 +135,7 @@ const Login = () => {
           </Link>
         </div>
       </Form>
-    </DefaultLayout>
+    </AuthLayout>
   )
 }
 

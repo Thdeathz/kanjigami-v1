@@ -1,8 +1,9 @@
 import React from 'react'
 import { RiSwordFill } from 'react-icons/ri'
 import { useParams } from 'react-router-dom'
+import { useDocumentTitle } from 'usehooks-ts'
 
-import { DefaultLayout } from '~/components'
+import DefaultLayout from '~/components/Layouts/DefaultLayout'
 import CustomDivider from '~/components/CustomDivider'
 import PageHeader from '~/components/PageHeader'
 import Tag from '~/components/Tag'
@@ -14,6 +15,7 @@ import Button from '~/components/Button'
 import OnlineCard from './components/OnlineCard'
 
 const BattleDetail = () => {
+  useDocumentTitle('Mid-Autumn Festival | 漢字ガミ')
   const { id: battleId } = useParams()
 
   return (
@@ -52,7 +54,7 @@ const BattleDetail = () => {
           <CustomDivider className="my-1" />
         </div>
 
-        <CountDown size="large" />
+        <CountDown size="large" type="animate" />
       </PageHeader>
 
       <RootNotification />

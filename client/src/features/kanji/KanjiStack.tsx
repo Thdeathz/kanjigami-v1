@@ -3,7 +3,7 @@ import { BsStack } from 'react-icons/bs'
 import { useDocumentTitle } from 'usehooks-ts'
 import { motion } from 'framer-motion'
 
-import { DefaultLayout } from '~/components'
+import DefaultLayout from '~/components/Layouts/DefaultLayout'
 import PageHeader from '~/components/PageHeader'
 import RootNotification from '~/components/RootNotification'
 import StackItem from '~/components/StackItem'
