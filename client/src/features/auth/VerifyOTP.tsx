@@ -1,13 +1,14 @@
 import React from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
-import { Button, Form, Input, message } from 'antd'
+import { Form, Input, message } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
 
-import { DefaultLayout } from '~/components'
 import { useAppSelector } from '~/hooks/useRedux'
 import { selectResetEmail } from './store/authSlice'
 import CountDownTimer from './components/CountDownTimer'
 import { useVerifyOTPTokenMutation } from './store/authService'
+import AuthLayout from './components/AuthLayout'
+import Button from '~/components/Button'
 
 type OTPInputProps = {
   name: string
@@ -16,7 +17,11 @@ type OTPInputProps = {
 const OTPInput = ({ name }: OTPInputProps) => {
   return (
     <Form.Item name={name}>
-      <Input className="h-16 w-16 text-center text-2xl" maxLength={1} autoComplete="off" />
+      <Input
+        className="h-16 w-16 text-center text-2xl text-text-light dark:text-text-dark"
+        maxLength={1}
+        autoComplete="off"
+      />
     </Form.Item>
   )
 }
@@ -77,13 +82,10 @@ const VerifyOTP = () => {
 
   return (
     <>
-      {console.log('==> re-render')}
       {resetEmail ? (
-        <DefaultLayout>
-          <p className="text-3xl font-semibold">Email verification</p>
-
-          <Form size="large" form={form} onFinish={onFinish} className="min-w-[20rem]">
-            <div className="flex w-full flex-row items-center justify-between gap-2">
+        <AuthLayout title="Email verification">
+          <Form size="large" form={form} onFinish={onFinish}>
+            <div className="flex-center w-full flex-row gap-4">
               <OTPInput name="first" />
 
               <OTPInput name="second" />
@@ -93,22 +95,18 @@ const VerifyOTP = () => {
               <OTPInput name="fourth" />
             </div>
 
-            <Form.Item>
-              <Button
-                disabled={isLoading}
-                className="flex-center"
-                type="primary"
-                ghost
-                htmlType="submit"
-                block
-              >
-                {isLoading ? <LoadingOutlined className="flex-center text-lg" /> : 'Verify Account'}
-              </Button>
-            </Form.Item>
+            <Button
+              disabled={isLoading}
+              className="mb-2 w-full text-lg"
+              type="primary"
+              htmlType="submit"
+            >
+              {isLoading ? <LoadingOutlined className="flex-center" /> : 'Verify Account'}
+            </Button>
 
             <CountDownTimer resetEmail={resetEmail} />
           </Form>
-        </DefaultLayout>
+        </AuthLayout>
       ) : (
         <Navigate to="/forgot-password" />
       )}

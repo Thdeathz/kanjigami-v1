@@ -2,10 +2,11 @@ import React, { ReactNode } from 'react'
 import { Avatar } from 'antd'
 import { useNavigate } from 'react-router-dom'
 
-import Tag from '../../../components/Tag'
-import Button from '../../../components/Button'
+import Tag from '~/components/Tag'
+import Button from '~/components/Button'
 import CustomDivider from '~/components/CustomDivider'
 import Panel from '~/components/Panel'
+import CountDown from './CountDown'
 
 type PropsType = {
   status: 'ongoing' | 'upcoming' | 'finished'
@@ -51,11 +52,10 @@ const BattleInfo = ({
 
         <CustomDivider className="my-2" />
 
-        <p className="my-2 font-semibold opacity-70">
-          Ends in <span className="">{endTime.getDate()}d</span> :{' '}
-          <span>{endTime.getHours()}h</span> : <span>{endTime.getMinutes()}m</span> :{' '}
-          <span>{endTime.getSeconds()}s</span>
-        </p>
+        <div className="my-2 flex items-end justify-start gap-2 font-medium opacity-70">
+          <span className="text-text-secondary-light dark:text-text-secondary-dark">Ends in</span>{' '}
+          <CountDown />
+        </div>
 
         <div className="flex items-center justify-start gap-2">
           {status !== 'upcoming' && (

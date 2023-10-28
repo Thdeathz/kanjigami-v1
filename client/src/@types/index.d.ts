@@ -18,3 +18,10 @@ declare interface ApiResult {
 declare interface FilePreview extends File {
   preview: string
 }
+
+declare interface RemainingTime {
+  days: number
+  hours: number
+  minutes: number
+  seconds: number
+}

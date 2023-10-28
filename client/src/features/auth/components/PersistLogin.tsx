@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Outlet } from 'react-router-dom'
 
-import { DefaultLayout } from '~/components'
 import usePersist from '~/hooks/usePersist'
 import { useAppSelector } from '~/hooks/useRedux'
+import DefaultLayout from '~/components/Layouts/DefaultLayout'
 import { selectCurrentToken } from '../store/authSlice'
 import { useRefreshMutation } from '../store/authService'
 

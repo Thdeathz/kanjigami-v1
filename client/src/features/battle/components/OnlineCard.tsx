@@ -65,7 +65,7 @@ const OnlineCard = ({ imageSrc, topUsername, topScore, stack, className }: Props
           <div>
             <p className="mb-4 text-center font-medium text-footer-light-text">Unlock in</p>
 
-            <CountDown type="short" />
+            <CountDown type="animate" maxLength={2} />
           </div>
         )}
       </div>

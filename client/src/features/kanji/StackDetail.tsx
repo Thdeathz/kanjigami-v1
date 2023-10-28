@@ -2,7 +2,7 @@ import React from 'react'
 import { BsStack } from 'react-icons/bs'
 import { useParams } from 'react-router-dom'
 
-import { DefaultLayout } from '~/components'
+import DefaultLayout from '~/components/Layouts/DefaultLayout'
 import PageHeader from '~/components/PageHeader'
 import Panel from '~/components/Panel'
 import RootNotification from '~/components/RootNotification'

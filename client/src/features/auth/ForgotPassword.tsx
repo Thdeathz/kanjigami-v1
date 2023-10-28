@@ -1,12 +1,14 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Button, Form, Input, message } from 'antd'
-import { ArrowLeftOutlined, LoadingOutlined } from '@ant-design/icons'
+import { Form, message } from 'antd'
+import { LoadingOutlined } from '@ant-design/icons'
 import { useDocumentTitle } from 'usehooks-ts'
 
-import { DefaultLayout } from '~/components'
 import { EMAIL_REGEX } from '~/config/regex'
 import { useForgotPasswordMutation } from './store/authService'
+import AuthLayout from './components/AuthLayout'
+import Button from '~/components/Button'
+import Input from '~/components/Input'
 
 type ForgotPasswordForm = {
   email: string
@@ -43,49 +45,28 @@ const ForgotPassword = () => {
   }
 
   return (
-    <DefaultLayout>
-      <div className="min-w-[24rem] max-w-[24rem]">
-        <p className="text-3xl font-bold">Forgot password</p>
-
-        <Form
-          form={form}
-          name="forgot-password"
-          size="large"
-          onFinish={onFinish}
-          autoComplete="off"
+    <AuthLayout title="Forgot password">
+      <Form form={form} name="forgot-password" size="large" onFinish={onFinish} autoComplete="off">
+        <Form.Item
+          name="email"
+          rules={[
+            { required: true, message: 'Email is required.' },
+            { pattern: EMAIL_REGEX, message: 'Email is not valid.' }
+          ]}
         >
-          <Form.Item
-            name="email"
-            rules={[
-              { required: true, message: 'Email is required.' },
-              { pattern: EMAIL_REGEX, message: 'Email is not valid.' }
-            ]}
-          >
-            <Input placeholder="Enter your email" disabled={isSuccess} />
-          </Form.Item>
+          <Input id="forgot-email" placeholder="example@gmail.com" disabled={isSuccess} />
+        </Form.Item>
 
-          <Form.Item>
-            <Button
-              className="flex-center"
-              type="primary"
-              ghost
-              htmlType="submit"
-              block
-              disabled={isLoading || isSuccess}
-            >
-              {isLoading ? <LoadingOutlined className="flex-center text-lg" /> : 'Send OTP'}
-            </Button>
-          </Form.Item>
-
-          <button
-            className="flex-center gap-2 text-base font-medium transition-colors hover:text-primary-5"
-            onClick={() => navigate('/login')}
-          >
-            <ArrowLeftOutlined /> Back to login
-          </button>
-        </Form>
-      </div>
-    </DefaultLayout>
+        <Button
+          type="primary"
+          htmlType="submit"
+          disabled={isLoading || isSuccess}
+          className="mt-2 w-full text-lg"
+        >
+          {isLoading ? <LoadingOutlined /> : 'Send OTP'}
+        </Button>
+      </Form>
+    </AuthLayout>
   )
 }
 

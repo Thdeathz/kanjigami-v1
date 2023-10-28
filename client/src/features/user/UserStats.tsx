@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDocumentTitle } from 'usehooks-ts'
 
-import { DefaultLayout } from '~/components'
+import DefaultLayout from '~/components/Layouts/DefaultLayout'
 
 const UserStats = () => {
   useDocumentTitle('My Analytics | 漢字ガミ')

@@ -3,7 +3,7 @@ import { RiSwordFill } from 'react-icons/ri'
 import { useDocumentTitle } from 'usehooks-ts'
 import { motion } from 'framer-motion'
 
-import { DefaultLayout } from '~/components'
+import DefaultLayout from '~/components/Layouts/DefaultLayout'
 import Button from '~/components/Button'
 import OnlineRound from '~/components/OnlineRound'
 import PageHeader from '~/components/PageHeader'

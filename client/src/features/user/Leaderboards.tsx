@@ -4,7 +4,7 @@ import { IoMdArrowDropdown } from 'react-icons/io'
 import { useDocumentTitle } from 'usehooks-ts'
 import { motion } from 'framer-motion'
 
-import { DefaultLayout } from '~/components'
+import DefaultLayout from '~/components/Layouts/DefaultLayout'
 import FilterBoxWrapper from '~/components/Filter/FilterBox'
 import FilterItem from '~/components/Filter/FilterItem'
 import PageHeader from '~/components/PageHeader'

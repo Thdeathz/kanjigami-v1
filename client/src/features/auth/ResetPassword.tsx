@@ -1,12 +1,16 @@
 import React, { useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
-import { LoadingOutlined, LockOutlined } from '@ant-design/icons'
+import { LoadingOutlined } from '@ant-design/icons'
 
 import { useAppSelector } from '~/hooks/useRedux'
 import { selectResetEmail, selectVerified } from './store/authSlice'
-import { DefaultLayout } from '~/components'
-import { Button, Form, Input, message } from 'antd'
+import { Form, message } from 'antd'
 import { useResetPasswordMutation } from './store/authService'
+import AuthLayout from './components/AuthLayout'
+import Input from '~/components/Input'
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
+import Button from '~/components/Button'
+import { PWD_REGEX } from '~/config/regex'
 
 const ResetPassword = () => {
   const navigate = useNavigate()
@@ -49,19 +53,22 @@ const ResetPassword = () => {
   return (
     <>
       {verified && resetEmail ? (
-        <DefaultLayout>
-          <p className="text-3xl font-semibold">Reset password</p>
-
+        <AuthLayout title="Reset password">
           <Form size="large" form={form} onFinish={onFinish} className="min-w-[24rem]">
             <Form.Item
               name="password"
-              rules={[{ required: true, message: 'Password is required.' }]}
+              rules={[
+                { required: true, message: 'Password is required.' },
+                { pattern: PWD_REGEX, message: 'Password must be between 4-12 characters.' }
+              ]}
             >
-              <Input.Password
-                prefix={<LockOutlined className="site-form-item-icon" />}
-                placeholder="New password"
-                autoComplete="current-password"
-                visibilityToggle={{ visible: passwordVisible, onVisibleChange: setPasswordVisible }}
+              <Input
+                id="new-password"
+                withPrefix={<p className="w-[8rem]">Password</p>}
+                lastIcon={passwordVisible ? <AiFillEye /> : <AiFillEyeInvisible />}
+                lastIconOnClick={() => setPasswordVisible(prev => !prev)}
+                placeholder="secret password"
+                type={passwordVisible ? 'text' : 'password'}
               />
             </Form.Item>
 
@@ -69,28 +76,24 @@ const ResetPassword = () => {
               name="confirmPassword"
               rules={[{ required: true, message: 'Confirm password is required.' }]}
             >
-              <Input.Password
-                prefix={<LockOutlined className="site-form-item-icon" />}
-                placeholder="Confirm password"
-                autoComplete="current-password"
-                visibilityToggle={{ visible: passwordVisible, onVisibleChange: setPasswordVisible }}
+              <Input
+                id="confirm-password"
+                withPrefix={<p className="w-[8rem]">Confirm Password</p>}
+                placeholder="secret password"
+                type="password"
               />
             </Form.Item>
 
-            <Form.Item>
-              <Button
-                className="flex-center"
-                type="primary"
-                ghost
-                htmlType="submit"
-                block
-                disabled={isLoading}
-              >
-                {isLoading ? <LoadingOutlined className="flex-center text-lg" /> : 'Reset password'}
-              </Button>
-            </Form.Item>
+            <Button
+              className="mt-4 w-full text-lg"
+              type="primary"
+              htmlType="submit"
+              disabled={isLoading}
+            >
+              {isLoading ? <LoadingOutlined className="flex-center" /> : 'Reset password'}
+            </Button>
           </Form>
-        </DefaultLayout>
+        </AuthLayout>
       ) : (
         <Navigate to="/forgot-password" />
       )}
