@@ -19,7 +19,7 @@ const OnlineRound = ({ imageSrc, stack }: PropsType) => {
         <>
           <Image src={imageSrc} alt="round-game" className="max-w-full rounded-lg object-cover" />
 
-          <p className="absolute right-2 top-2 rounded bg-neutral-13 px-1.5 py-0.5 text-sm text-white">
+          <p className="absolute right-2 top-2 z-10 rounded bg-neutral-13 px-1.5 py-0.5 text-sm text-white">
             {stack}
           </p>
         </>

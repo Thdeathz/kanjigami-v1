@@ -7,6 +7,9 @@ export default {
       aspectRatio: {
         ratio: '4 / 3'
       },
+      backgroundImage: {
+        'login-bottom': "url('./assets/footer.png')"
+      },
       borderWidth: {
         'app-icon': '1.5px'
       },
@@ -212,8 +215,15 @@ export default {
         'dark-icon': '#4C5663',
         'dark-icon-hover': '#7C8C9E'
       },
-      avatar: {
-        outline: '#976E06'
+      profile: {
+        'avatar-outline-light': '#976E06',
+        'avatar-outline-dark': '#FFDF00',
+        'border-light': '#CBD5E0',
+        'border-dark': '#27313A'
+      },
+      table: {
+        'header-light': 'rgba(0, 0, 0, 0.1)',
+        'header-dark': 'rgba(0, 0, 0, 0.2)'
       }
     }
   },
