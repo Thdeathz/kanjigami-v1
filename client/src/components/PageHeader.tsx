@@ -18,7 +18,7 @@ const PageHeader = ({ icon, title, subtitle, className, children }: PropsType) =
     >
       {icon && <IconWrapper icon={icon} className="text-4xl" />}
 
-      <p className="text-2xl font-semibold text-text-heading-light dark:text-text-heading-dark">
+      <p className="text-3xl font-semibold text-text-heading-light dark:text-text-heading-dark">
         {title}
       </p>
 

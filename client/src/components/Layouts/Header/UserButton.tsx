@@ -37,7 +37,7 @@ const UserButton = () => {
         <div className="flex min-w-[10vw] flex-col items-start justify-start gap-2 p-1 text-base font-medium text-clr-link-light dark:text-clr-link-dark">
           <p
             className="cursor-pointer transition-all hover:underline"
-            onClick={() => navigate(`/player/${email}`)}
+            onClick={() => navigate(`/player/${email.split('@')[0]}`)}
           >
             View Profile
           </p>

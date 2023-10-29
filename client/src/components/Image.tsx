@@ -1,6 +1,6 @@
 import React, { DetailedHTMLProps, ImgHTMLAttributes } from 'react'
 
-import NoImage from '~/assets/images/no-image.png'
+import NoImage from '~/assets/no-image.jpg'
 
 interface PropsType
   extends DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement> {
