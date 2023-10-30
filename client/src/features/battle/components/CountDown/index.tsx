@@ -13,8 +13,7 @@ type PropsType = {
 
 const CountDown = ({ size = 'normal', maxLength = 4, type = 'normal', onFinish }: PropsType) => {
   const [remaining, setRemaining] = useState<RemainingTime | null>(null)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const intervalRef = useRef<any>()
+  const intervalRef = useRef<NodeJS.Timeout>()
 
   const update = () => {
     const now = new Date()

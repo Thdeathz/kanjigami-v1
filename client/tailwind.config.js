@@ -8,7 +8,8 @@ export default {
         ratio: '4 / 3'
       },
       backgroundImage: {
-        'login-bottom': "url('./assets/footer.png')"
+        'login-bottom': "url('./assets/footer.png')",
+        game: "url('./assets/flip-blind-card-background.gif')"
       },
       borderWidth: {
         'app-icon': '1.5px'
@@ -39,11 +40,18 @@ export default {
       gridTemplateColumns: {
         'auto-fill': 'repeat(auto-fill, minmax(14rem, 1fr))'
       },
+      gridTemplateRows: {
+        'auto-fill': 'repeat(auto-fill, minmax(14rem, 1fr))'
+      },
       height: {
-        'main-content': 'calc(100vh - 4rem)'
+        'main-content': 'calc(100vh - 4rem)',
+        'game-content': 'calc(100vh - 4rem - 2.5rem - 6rem)'
       },
       minHeight: {
-        content: 'calc(100vh - 4rem - 2.675rem)'
+        content: 'calc(100vh - 4rem - 2.5rem)'
+      },
+      maxHeight: {
+        content: 'calc(100vh - 4rem - 2.5rem)'
       },
       transformOrigin: {
         normal: '0 1rem 0',
@@ -51,41 +59,21 @@ export default {
       }
     },
     colors: {
-      disable: 'rgba(0, 0, 0, 0.45)',
       primary: {
-        1: '#E6F7FF',
-        2: '#BAE7FF',
-        3: '#91D5FF',
-        4: '#69C0FF',
-        5: '#40A9FF',
-        6: '#1890FF',
-        8: '#0050B3'
+        light: '#0060CA',
+        hover: '#0050b0'
       },
       neutral: {
-        1: '#FFFFFF',
-        2: '#FAFAFA',
-        3: '#F5F5F5',
-        4: '#F0F0F0',
-        5: '#D9D9D9',
         8: '#595959',
         13: '#000000'
       },
-      'dust-red': {
-        1: '#FFF1F0',
-        2: '#FFCCC7',
-        3: '#FFA39E',
-        4: '#FF7875',
-        5: '#FF4D4F'
+      red: {
+        light: '#FF2C2C',
+        dark: '#A3483D'
       },
-      gold: {
-        4: '#FFD666',
-        5: '#FFC53D'
-      },
-      'polar-green': {
-        1: '#F6FFED',
-        2: '#D9F7BE',
-        3: '#B7EB8F',
-        5: '#73D13D'
+      green: {
+        light: '#AFC470',
+        dark: '#4A6302'
       },
       'rgb-gray': {
         0.75: 'rgba(255, 255, 255, 0.75)',
@@ -224,7 +212,8 @@ export default {
       table: {
         'header-light': 'rgba(0, 0, 0, 0.1)',
         'header-dark': 'rgba(0, 0, 0, 0.2)'
-      }
+      },
+      underlay: 'rgba(0, 0, 0, 0.7)'
     }
   },
   plugins: [],

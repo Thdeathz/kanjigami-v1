@@ -18,6 +18,7 @@ import OnlineBattles from './features/battle/OnlineBattles'
 import KanjiStack from './features/kanji/KanjiStack'
 import BattleDetail from './features/battle/BattleDetail'
 import StackDetail from './features/kanji/StackDetail'
+import FlipBlindCard from './features/kanji/FlipBlindCard'
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
           <Route path="/player/:username" element={<Profile />} />
           <Route path="/me" element={<UserStats />} />
           <Route path="/settings" element={<ProfileSetting />} />
+          <Route path="/play/:stackId/blind-card" element={<FlipBlindCard />} />
         </Route>
       </Route>
     </Routes>

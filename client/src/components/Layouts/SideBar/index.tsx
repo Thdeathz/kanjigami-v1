@@ -8,11 +8,20 @@ import SideItem from './SideItem'
 import SideSection from './SideSection'
 import useAuth from '~/hooks/useAuth'
 
-const SideBar = () => {
+type PropsType = {
+  fixedSideBar?: boolean
+  isSideBarOpen?: boolean
+}
+
+const SideBar = ({ fixedSideBar = true, isSideBarOpen = true }: PropsType) => {
   const { email } = useAuth()
 
   return (
-    <div className="sticky top-16 flex h-main-content flex-col items-start justify-start border-r border-clr-border-1-light bg-gradient-to-br from-side-bar-start from-0% to-side-bar-end to-85% dark:border-clr-border-1-dark dark:from-rgb-gray-1 dark:to-rgb-gray-0.7">
+    <div
+      className={`flex h-main-content flex-col items-start justify-start border-r border-clr-border-1-light bg-gradient-to-br from-side-bar-start from-0% to-side-bar-end to-85% backdrop-blur-[5px] dark:border-clr-border-1-dark dark:from-rgb-gray-1 dark:to-rgb-gray-0.7
+      ${fixedSideBar ? 'sticky top-16' : 'absolute z-50 transition-transform duration-300'}
+      ${isSideBarOpen ? 'translate-x-0' : 'translate-x-[-100%]'}`}
+    >
       <div className="w-full pl-6">
         <SideItem className="my-4" icon={<IoHome />} title="Home" href="/" />
       </div>
