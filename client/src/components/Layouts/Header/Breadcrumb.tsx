@@ -23,29 +23,43 @@ const Breadcrumb = ({ items }: PropsType) => {
       initial="hidden"
       animate="enter"
     >
+      <div className="flex-center gap-2" key={`breadcumb-item-${0}`}>
+        <Link
+          className="text-base font-medium text-text-secondary-light dark:text-text-secondary-dark"
+          to={items.at(0)?.to ?? ''}
+        >
+          {items.at(0)?.label}
+        </Link>
+      </div>
+
       <>
-        {items.slice(0, -1).map((item, index) => (
+        {items.slice(1, -1).map((item, index) => (
           <motion.div
             className="flex-center gap-2"
             key={`breadcumb-item-${index}`}
             variants={breadCrumb.item()}
           >
+            <IconWrapper
+              icon={<BiSolidChevronRight />}
+              className="text-2xl text-text-secondary-light opacity-50 dark:text-text-secondary-dark"
+            />
+
             <Link
               className="text-base font-medium text-text-secondary-light dark:text-text-secondary-dark"
               to={item.to}
             >
               {item.label}
             </Link>
-
-            <IconWrapper
-              icon={<BiSolidChevronRight />}
-              className="text-xl text-text-secondary-light dark:text-text-secondary-dark"
-            />
           </motion.div>
         ))}
       </>
 
-      <motion.div variants={breadCrumb.item()}>
+      <motion.div className="flex-center gap-2" variants={breadCrumb.item()}>
+        <IconWrapper
+          icon={<BiSolidChevronRight />}
+          className="text-2xl text-text-secondary-light opacity-50 dark:text-text-secondary-dark"
+        />
+
         <Link
           className="text-base font-medium text-clr-link-light dark:text-clr-link-dark"
           to={items.at(-1)?.to ?? ''}

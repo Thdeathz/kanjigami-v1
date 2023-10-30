@@ -31,8 +31,8 @@ const Input = ({ id, withPrefix, lastIcon, lastIconOnClick, className, ...props 
         id={id}
         className={`grow border bg-input-light px-4 py-3 transition-colors focus:border-input-glory-light  dark:bg-input-dark dark:focus:border-white 
           ${withPrefix ? 'rounded-e-full' : 'rounded-full'}
-          ${status === 'error' ? 'border-dust-red-5 dark:border-dust-red-5  ' : ''}
-          ${status === 'success' ? 'border-polar-green-5 dark:border-polar-green-5' : ''}
+          ${status === 'error' ? 'border-red-light dark:border-red-dark  ' : ''}
+          ${status === 'success' ? 'border-green-light dark:border-green-dark' : ''}
           ${
             status === '' || status === undefined
               ? 'border-input-border-light dark:border-input-border-dark'

@@ -10,7 +10,7 @@ const Tag = ({ type = 'custom', title, className }: PropsType) => {
   if (type === 'ongoing')
     return (
       <div
-        className={`select-none rounded bg-polar-green-3 px-2 py-1 text-sm font-medium shadow-button dark:text-text-light ${
+        className={`select-none rounded bg-green-light px-2 py-[0.2rem] text-sm font-medium shadow-button dark:bg-green-dark dark:text-white ${
           className ?? ''
         }`}
       >
@@ -21,7 +21,7 @@ const Tag = ({ type = 'custom', title, className }: PropsType) => {
   if (type === 'upcoming')
     return (
       <div
-        className={`select-none rounded bg-primary-3 px-2 py-1 text-sm font-medium shadow-button dark:text-text-light ${
+        className={`select-none rounded bg-primary-light px-2 py-[0.2rem] text-sm font-medium text-white  shadow-button ${
           className ?? ''
         }`}
       >
@@ -32,7 +32,7 @@ const Tag = ({ type = 'custom', title, className }: PropsType) => {
   if (type === 'finished')
     return (
       <div
-        className={`select-none rounded bg-dust-red-4 px-2 py-1 text-sm font-medium text-white shadow-button ${
+        className={`select-none rounded bg-red-light px-2 py-[0.2rem] text-sm font-medium text-white shadow-button dark:bg-red-dark ${
           className ?? ''
         }`}
       >
@@ -42,7 +42,7 @@ const Tag = ({ type = 'custom', title, className }: PropsType) => {
 
   return (
     <div
-      className={`select-none rounded bg-clr-border-1-light px-2 py-1 text-sm font-medium shadow-button dark:bg-clr-border-1-dark ${
+      className={`select-none rounded bg-clr-border-1-light px-2 py-[0.2rem] text-sm font-medium shadow-button dark:bg-clr-border-1-dark ${
         className ?? ''
       }`}
     >

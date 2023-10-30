@@ -19,7 +19,7 @@ const Button = ({
 }: PropsType) => {
   return (
     <button
-      className={`h-10 whitespace-nowrap rounded-full px-4 font-bold shadow-button transition-all 
+      className={`h-10 whitespace-nowrap rounded-full px-4 font-bold shadow-button transition-all duration-200 
       ${
         !disabled &&
         type !== 'disabled' &&
@@ -31,7 +31,7 @@ const Button = ({
       }
       ${
         type === 'primary' &&
-        'bg-primary-6 text-white hover:bg-primary-5 dark:bg-primary-6 dark:text-white dark:hover:bg-primary-5'
+        'bg-primary-light text-white hover:bg-primary-hover dark:bg-primary-light dark:text-white dark:hover:bg-primary-hover'
       }
       ${
         type === 'disabled' &&

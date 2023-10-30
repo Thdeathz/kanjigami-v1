@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, useState } from 'react'
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDocumentTitle } from 'usehooks-ts'
 import { LoadingOutlined } from '@ant-design/icons'
@@ -15,44 +15,6 @@ type FormData = {
   email: string
   password: string
 }
-
-type CustomInputPropsType = {
-  value?: string
-  onChange?: ChangeEventHandler<HTMLInputElement>
-  visible?: boolean
-  onVisibleChange?: React.Dispatch<React.SetStateAction<boolean>>
-}
-
-// const InputEmail = ({ value, onChange }: CustomInputPropsType) => {
-//   const { status } = Form.Item.useStatus()
-
-//   return (
-//     <Input
-//       className={status === 'success' ? 'border-polar-green-5' : ''}
-//       prefix={<MailOutlined className={status === 'success' ? 'text-polar-green-5' : ''} />}
-//       placeholder="Email"
-//       value={value}
-//       onChange={onChange}
-//       autoComplete="email"
-//     />
-//   )
-// }
-
-// const InputPassword = ({ value, onChange, visible, onVisibleChange }: CustomInputPropsType) => {
-//   const { status } = Form.Item.useStatus()
-
-//   return (
-//     <Input.Password
-//       className={status === 'success' ? 'border-polar-green-5' : ''}
-//       prefix={<LockOutlined className={status === 'success' ? 'text-polar-green-5' : ''} />}
-//       placeholder="Password"
-//       visibilityToggle={{ visible, onVisibleChange }}
-//       value={value}
-//       onChange={onChange}
-//       autoComplete="current-password"
-//     />
-//   )
-// }
 
 const Signup = () => {
   useDocumentTitle('Register | 漢字ガミ')
@@ -125,7 +87,7 @@ const Signup = () => {
 
         <div className="mb-2 flex w-full items-center justify-end text-text-light dark:text-text-dark">
           <p>
-            <Link to="/forgot-password" className="transition-colors hover:text-primary-5">
+            <Link to="/forgot-password" className="hover:text-primary-5 transition-colors">
               Forgot password ?
             </Link>
           </p>
@@ -139,7 +101,7 @@ const Signup = () => {
           Already has account?{' '}
           <Link
             to="/login"
-            className="cursor-pointer font-medium text-primary-5 transition-all hover:border-b"
+            className="text-primary-5 cursor-pointer font-medium transition-all hover:border-b"
           >
             Login
           </Link>
