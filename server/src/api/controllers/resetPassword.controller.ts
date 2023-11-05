@@ -1,11 +1,8 @@
-import { RequestHandler } from 'express'
-import asyncHandler from 'express-async-handler'
+import { type RequestHandler } from 'express'
 import otpGenerator from 'otp-generator'
 import bcrypt from 'bcrypt'
 
-// import ResetPassword from '~/models/ResetPassword.model'
-// import User from '~/models/User.model'
-import { sendResetPasswordEmail } from '~/utils/mailer'
+import { sendResetPasswordEmail } from '~/api/helpers/mailer'
 import prisma from '~/config/dbConnect'
 
 /**
@@ -13,18 +10,13 @@ import prisma from '~/config/dbConnect'
  * @route POST /reset-password/request
  * @access Public
  */
-export const forgotPassword: RequestHandler = asyncHandler(async (req, res) => {
-  const email = req.body.email as string | undefined
-  if (!email) {
-    res.status(400).json({ message: 'Please provide all required fields' })
-    return
-  }
+export const forgotPassword: RequestHandler = async (req, res) => {
+  const { email } = req.body
 
   const foundUser = await prisma.user.findUnique({ where: { email } })
-  if (!foundUser || !foundUser.active) {
-    res.status(401).json({ message: 'Unauthorized/InvalidEmail' })
-    return
-  }
+  if (!foundUser || !foundUser.active)
+    return res.status(401).json({ message: 'Unauthorized/InvalidEmail' })
+
   await prisma.resetPassword.updateMany({
     where: { email, isActive: true },
     data: { isActive: false }
@@ -44,32 +36,23 @@ export const forgotPassword: RequestHandler = asyncHandler(async (req, res) => {
     }
   })
 
-  try {
-    await sendResetPasswordEmail(foundUser.email, otpToken)
-  } catch (error) {
-    console.error(error)
-    res.status(500).json({ message: 'Something went wrong' })
-  }
+  await sendResetPasswordEmail(foundUser.email, otpToken)
+
   res.json({
     message: 'Reset password email sent',
     data: {
       email: foundUser.email
     }
   })
-})
+}
 
 /**
  * @desc Verify OTP Token
  * @route POST /reset-password/verify
  * @access Public
  */
-export const verifyOTPToken: RequestHandler = asyncHandler(async (req, res) => {
-  const email = req.body.email as string | undefined
-  const otpToken = req.body.otpToken as string | undefined
-  if (!email || !otpToken) {
-    res.status(400).json({ message: 'Please provide all required fields' })
-    return
-  }
+export const verifyOTPToken: RequestHandler = async (req, res) => {
+  const { email, otpToken } = req.body
 
   const foundUser = await prisma.resetPassword.findFirst({
     where: {
@@ -79,16 +62,11 @@ export const verifyOTPToken: RequestHandler = asyncHandler(async (req, res) => {
       expries: { gt: new Date() }
     }
   })
-  if (!foundUser) {
-    res.status(401).json({ message: 'Unauthorized/TokenExpired' })
-    return
-  }
+  if (!foundUser) return res.status(401).json({ message: 'Unauthorized/TokenExpired' })
 
   const isMatch: boolean = await bcrypt.compare(otpToken, foundUser.token)
-  if (!isMatch) {
-    res.status(401).json({ message: 'Unauthorized/InvalidToken' })
-    return
-  }
+  if (!isMatch) return res.status(401).json({ message: 'Unauthorized/InvalidToken' })
+
   foundUser.verified = true
   await prisma.resetPassword.update({
     where: { id: foundUser.id },
@@ -98,20 +76,15 @@ export const verifyOTPToken: RequestHandler = asyncHandler(async (req, res) => {
   res.json({
     message: 'OTP Token verified'
   })
-})
+}
 
 /**
  * @desc Reset Password
  * @route POST /reset-password
  * @access Public
  */
-export const resetPassword: RequestHandler = asyncHandler(async (req, res) => {
-  const email = req.body.email as string | undefined
-  const password = req.body.password as string | undefined
-  if (!email || !password) {
-    res.status(400).json({ message: 'Please provide all required fields' })
-    return
-  }
+export const resetPassword: RequestHandler = async (req, res) => {
+  const { email, password } = req.body
 
   const foundResetPassword = await prisma.resetPassword.findFirst({
     where: {
@@ -120,10 +93,8 @@ export const resetPassword: RequestHandler = asyncHandler(async (req, res) => {
       verified: true
     }
   })
-  if (!foundResetPassword) {
-    res.status(401).json({ message: 'Unauthorized/InvalidToken' })
-    return
-  }
+  if (!foundResetPassword) return res.status(401).json({ message: 'Unauthorized/InvalidToken' })
+
   const hashedPassword = await bcrypt.hash(password, 10)
   // reset password for user
   await prisma.user.update({
@@ -140,4 +111,4 @@ export const resetPassword: RequestHandler = asyncHandler(async (req, res) => {
   res.json({
     message: 'Password reset successfully'
   })
-})
+}

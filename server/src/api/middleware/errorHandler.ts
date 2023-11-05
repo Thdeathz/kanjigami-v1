@@ -1,12 +1,9 @@
 import { ErrorRequestHandler } from 'express'
 
 const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
-  console.log(err.stack)
-  const status: number = res.statusCode ?? 500
+  const status: number = err.statusCode || res.statusCode || 500
 
-  res.status(status)
-
-  res.json({
+  res.status(status).json({
     message: err.message,
     isError: true
   })

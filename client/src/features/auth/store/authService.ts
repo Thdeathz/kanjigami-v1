@@ -3,17 +3,29 @@ import { logout, resetEmailSuccess, setCredentitals, setResetEmail, setVerified 
 
 export const authApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
-    login: builder.mutation({
-      query: (
-        credentials:
-          | UserCredentials
-          | {
-              googleIdToken: string
-            }
-      ) => ({
+    loginByEmail: builder.mutation({
+      query: (credentials: UserCredentials) => ({
         url: '/auth',
         method: 'POST',
         body: { ...credentials }
+      }),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled
+          const { accessToken } = data as { accessToken: string }
+
+          dispatch(setCredentitals({ accessToken }))
+        } catch (error) {
+          console.error(error)
+        }
+      }
+    }),
+
+    loginByGoogle: builder.mutation({
+      query: (googleIdToken: string) => ({
+        url: '/auth/google',
+        method: 'POST',
+        body: { googleIdToken }
       }),
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
@@ -136,7 +148,8 @@ export const authApiSlice = apiSlice.injectEndpoints({
 })
 
 export const {
-  useLoginMutation,
+  useLoginByEmailMutation,
+  useLoginByGoogleMutation,
   useSendLogoutMutation,
   useSignupMutation,
   useRefreshMutation,
