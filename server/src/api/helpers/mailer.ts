@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 import { transporter } from '~/config/mailTransporter'
 
-dotenv.config
+dotenv.config()
 
 export const sendResetPasswordEmail = async (email: string, token: string) => {
   const mailOptions = {

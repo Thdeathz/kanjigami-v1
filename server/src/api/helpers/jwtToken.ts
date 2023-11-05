@@ -2,6 +2,8 @@ import { User } from '@prisma/client'
 import { Response } from 'express'
 import jwt from 'jsonwebtoken'
 import prisma from '~/config/dbConnect'
+import authService from '../services/auth.service'
+import userService from '../services/user.service'
 
 /**
  * @desc Sign new refresh token
@@ -43,26 +45,18 @@ export const signNewAccessToken = (userData: User): string => {
 export const sendResWithTokens = async (userData: User, cookies: any, res: Response) => {
   // gen new token
   const accessToken: string = signNewAccessToken(userData)
-
   const refreshToken: string = signNewRefreshToken(userData)
 
   // remove unuse refresh token
   if (cookies?.jwt) {
     const oldRefreshToken = cookies.jwt
-    // const user = await User.findOne({ refreshToken: oldRefreshToken }).exec()
-    const user = await prisma.user.findFirst({
-      where: {
-        refreshToken: oldRefreshToken
-      }
-    })
-
-    if (user) await prisma.user.update({ where: { id: user.id }, data: { refreshToken: '' } })
+    await authService.clearUserRefreshToken(oldRefreshToken)
 
     res.clearCookie('jwt', { httpOnly: true, secure: true, sameSite: 'none' })
   }
 
   // saving refresh token with current user
-  await prisma.user.update({ where: { id: userData.id }, data: { refreshToken } })
+  await userService.updateUserRefreshToken(userData.email, refreshToken)
 
   res.cookie('jwt', refreshToken, {
     httpOnly: true,

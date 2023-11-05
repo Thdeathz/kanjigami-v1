@@ -5,13 +5,13 @@ import { LoadingOutlined } from '@ant-design/icons'
 import { useDocumentTitle } from 'usehooks-ts'
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 
-import { useLoginMutation } from './store/authService'
 import usePersist from '~/hooks/usePersist'
 import { EMAIL_REGEX } from '~/config/regex'
 import GoogleLogin from './components/GoogleLogin'
 import Button from '~/components/Button'
 import AuthLayout from './components/AuthLayout'
 import Input from '~/components/Input'
+import { useLoginByEmailMutation } from './store/authService'
 
 const Login = () => {
   useDocumentTitle('Login | 漢字ガミ')
@@ -19,7 +19,7 @@ const Login = () => {
   const navigate = useNavigate()
 
   const [form] = Form.useForm<UserCredentials>()
-  const [login, { isLoading }] = useLoginMutation()
+  const [loginByEmail, { isLoading }] = useLoginByEmailMutation()
   const { persist, setPersist } = usePersist()
 
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false)
@@ -27,7 +27,7 @@ const Login = () => {
   const onFinish = async (data: UserCredentials) => {
     try {
       const { email, password } = data
-      await login({ email, password }).unwrap()
+      await loginByEmail({ email, password }).unwrap()
       form.resetFields()
       message.success('Login successfully!')
       navigate('/')
@@ -109,7 +109,7 @@ const Login = () => {
           </Checkbox>
 
           <p>
-            <Link to="/forgot-password" className="transition-colors hover:text-primary-5">
+            <Link to="/forgot-password" className="hover:text-primary-5 transition-colors">
               Forgot password ?
             </Link>
           </p>
@@ -129,7 +129,7 @@ const Login = () => {
           Haven't account yet?{' '}
           <Link
             to="/signup"
-            className="cursor-pointer font-medium text-primary-5 transition-all hover:border-b"
+            className="text-primary-5 cursor-pointer font-medium transition-all hover:border-b"
           >
             Register
           </Link>
