@@ -8,7 +8,7 @@ const corsOptions: CorsOptions = {
     if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
       callback(null, true)
     } else {
-      callback(new HttpError('Not allowed by CORS', 403))
+      callback(new HttpError(403, 'Not allowed by CORS'))
     }
   },
   credentials: true,

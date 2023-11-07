@@ -16,3 +16,12 @@ export declare interface AccessTokenPayload {
     roles: Role[]
   }
 }
+
+export declare interface CurrentUserData {
+  refreshToken: string
+  userData: {
+    id: string
+    email: string
+    roles: Role[]
+  }
+}

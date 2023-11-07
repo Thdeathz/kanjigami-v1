@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt'
 
-import prisma from '~/config/dbConnect'
+import prisma from '~/config/init.prisma'
 import { RegisterRequest } from '../@types/user'
 
 const getAllUsers = async () => {

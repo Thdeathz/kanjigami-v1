@@ -1,17 +1,18 @@
 import bcrypt from 'bcrypt'
 import { getAuth } from 'firebase-admin/auth'
-import jwt from 'jsonwebtoken'
 
+import { CurrentUserData, RefreshTokenPayload } from '../@types/auth'
+import redisClient from '~/config/init.redis'
 import HttpError from '../helpers/httpError'
 import userService from './user.service'
-import { RefreshTokenPayload } from '../@types/auth'
+import jwtService from './jwt.service'
 
 const authenticateUser = async (email: string, password: string) => {
   const foundUser = await userService.getUserByEmail(email)
-  if (!foundUser || !foundUser.active) throw new HttpError('Unauthorized/InvalidEmail', 401)
+  if (!foundUser || !foundUser.active) throw new HttpError(401, 'Unauthorized/InvalidEmail')
 
   const match: boolean = await bcrypt.compare(password, foundUser.password)
-  if (!match) throw new HttpError('Unauthorized/InvalidPassword', 401)
+  if (!match) throw new HttpError(401, 'Unauthorized/InvalidPassword')
 
   return foundUser
 }
@@ -19,7 +20,7 @@ const authenticateUser = async (email: string, password: string) => {
 const validateGoogleIdToken = async (googleIdToken: string) => {
   const decodedToken = await getAuth().verifyIdToken(googleIdToken)
   if (!decodedToken || !decodedToken.uid || !decodedToken.email) {
-    throw new HttpError('Unauthorized/InvalidGoogleToken', 401)
+    throw new HttpError(401, 'Unauthorized/InvalidGoogleToken')
   }
 
   return { uid: decodedToken.uid, email: decodedToken.email }
@@ -33,28 +34,38 @@ const findOrCreateUser = async (uid: string, email: string) => {
   return foundUser
 }
 
-const verifyRefreshToken = async (refreshToken: string): Promise<RefreshTokenPayload> => {
-  return new Promise((resolve, reject) => {
-    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET as string, (err, decoded) => {
-      if (err) return reject(err)
+const verifyRefreshToken = (refreshToken: string): Promise<CurrentUserData> => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const userData = await jwtService.decodeRefreshToken(refreshToken)
+      if (!userData || !userData.id)
+        return reject(new HttpError(401, 'Unauthorized/InvalidRefreshToken'))
 
-      const userData = decoded as RefreshTokenPayload | undefined
-      if (!userData) return reject(new HttpError('Unauthorized/InvalidRefreshToken', 403))
+      // check if refresh token is still valid
+      const foundUser = await redisClient.get(`rft_${userData.id}`)
+      if (!foundUser) return reject(new HttpError(401, 'Unauthorized/InvalidRefreshToken'))
 
-      resolve(userData)
-    })
+      const currentUserData = JSON.parse(foundUser) as CurrentUserData
+
+      // clear hacked user's refresh token
+      if (
+        currentUserData.refreshToken !== refreshToken ||
+        currentUserData.userData.id !== userData.id
+      ) {
+        await jwtService.clearRefreshToken(currentUserData.refreshToken)
+        return reject(new HttpError(401, 'Unauthorized/InvalidRefreshToken'))
+      }
+
+      resolve(currentUserData)
+    } catch (error) {
+      reject(new HttpError(500, 'Internal Server Error'))
+    }
   })
-}
-
-const clearUserRefreshToken = async (refreshToken: string) => {
-  const user = await userService.getUserByRefreshToken(refreshToken)
-  if (user) await userService.updateUserRefreshToken(user.email, '')
 }
 
 export default {
   authenticateUser,
   validateGoogleIdToken,
   findOrCreateUser,
-  clearUserRefreshToken,
   verifyRefreshToken
 }
