@@ -2,7 +2,7 @@ import { type RequestHandler } from 'express'
 
 import { RegisterRequest } from '~/api/@types/user'
 import userService from '~/api/services/user.service'
-import { sendResWithTokens } from '~/api/helpers/jwtToken'
+import jwtService from '~/api/services/jwt.service'
 
 /**
  * @desc Get all users
@@ -36,6 +36,16 @@ export const createNewUser: RequestHandler = async (req, res) => {
     roles
   })
   if (user) {
-    await sendResWithTokens(user, req.cookies, res)
+    await jwtService.sendResWithTokens(
+      {
+        UserInfo: {
+          id: user.id,
+          email: user.email,
+          roles: user.roles
+        }
+      },
+      req.cookies,
+      res
+    )
   } else res.status(400).json({ message: 'Invaild user data received' })
 }

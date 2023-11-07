@@ -1,7 +1,7 @@
-import { RequestHandler } from 'express'
-import jwt, { JwtPayload } from 'jsonwebtoken'
+import { type RequestHandler } from 'express'
+import jwtService from '../services/jwt.service'
 
-const verifyJWT: RequestHandler = (req, res, next) => {
+const verifyJWT: RequestHandler = async (req, res, next) => {
   const authHeader = (req.headers.authorization || req.headers.Authorization) as string | undefined
 
   if (!authHeader?.startsWith('Bearer ')) {
@@ -11,19 +11,11 @@ const verifyJWT: RequestHandler = (req, res, next) => {
 
   const token: string = authHeader.split(' ')[1]
 
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET as string, (err, decoded) => {
-    const userData = decoded as JwtPayload | undefined
+  const userData = await jwtService.decodeAccessToken(token)
 
-    if (err || !userData || !userData.UserInfo) {
-      res.status(403).json({ message: 'Forbidden' })
-      return
-    }
+  ;(req as any).currentUser = userData.UserInfo
 
-    ;(req as any).user = userData.UserInfo.email
-    ;(req as any).roles = userData.UserInfo.roles
-
-    next()
-  })
+  next()
 }
 
 export default verifyJWT

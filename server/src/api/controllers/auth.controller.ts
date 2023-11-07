@@ -1,9 +1,8 @@
 import { type RequestHandler } from 'express'
 
-import { LoginRequest } from '../@types/auth'
-import { sendResWithTokens } from '~/api/helpers/jwtToken'
+import { AccessTokenPayload, LoginRequest } from '../@types/auth'
 import authService from '../services/auth.service'
-import userService from '../services/user.service'
+import jwtService from '../services/jwt.service'
 
 /**
  * @desc Login
@@ -15,7 +14,17 @@ export const login: RequestHandler = async (req, res) => {
   const { email, password } = <LoginRequest>req.body
 
   const user = await authService.authenticateUser(email, password)
-  await sendResWithTokens(user, cookies, res)
+  return await jwtService.sendResWithTokens(
+    {
+      UserInfo: {
+        id: user.id,
+        email: user.email,
+        roles: user.roles
+      }
+    },
+    cookies,
+    res
+  )
 }
 
 /**
@@ -30,7 +39,17 @@ export const loginWithGoogle: RequestHandler = async (req, res) => {
   const { uid, email } = await authService.validateGoogleIdToken(googleIdToken)
 
   const user = await authService.findOrCreateUser(uid, email)
-  await sendResWithTokens(user, cookies, res)
+  return await jwtService.sendResWithTokens(
+    {
+      UserInfo: {
+        id: user.id,
+        email: user.email,
+        roles: user.roles
+      }
+    },
+    cookies,
+    res
+  )
 }
 
 /**
@@ -50,27 +69,17 @@ export const refresh: RequestHandler = async (req, res) => {
     secure: true
   })
 
-  const decodedToken = await authService.verifyRefreshToken(refreshToken)
-  const user = await userService.getUserByRefreshToken(refreshToken)
+  const currentUser = await authService.verifyRefreshToken(refreshToken)
 
-  // detected refresh token reuse
-  if (!user || !user.active) {
-    // clear hacked user's refresh token
-    const hackedUser = await userService.getUserById(decodedToken.id)
-    if (hackedUser) {
-      await userService.updateUserRefreshToken(hackedUser.email, '')
-    }
-
-    return res.status(401).json({ message: 'Unauthorized' })
-  }
-
-  // gen new access and refresh token for this user
-  if (user.id !== decodedToken.id) {
-    await userService.updateUserRefreshToken(user.email, '')
-    return res.status(403).json({ message: 'Forbidden' })
-  }
-
-  await sendResWithTokens(user, cookie, res)
+  return await jwtService.sendResWithTokens(
+    {
+      UserInfo: {
+        ...currentUser.userData
+      }
+    },
+    cookie,
+    res
+  )
 }
 
 /**
@@ -86,7 +95,7 @@ export const logout: RequestHandler = async (req, res) => {
   res.clearCookie('jwt', { httpOnly: true, secure: true, sameSite: 'none' })
 
   // clear refresh token in database
-  await authService.clearUserRefreshToken(cookie.jwt)
+  await jwtService.clearRefreshToken(cookie.jwt)
 
   res.json({ message: 'Logged out. Cookie cleared ><!' })
 }

@@ -3,7 +3,7 @@ import otpGenerator from 'otp-generator'
 import bcrypt from 'bcrypt'
 
 import { sendResetPasswordEmail } from '~/api/helpers/mailer'
-import prisma from '~/config/dbConnect'
+import prisma from '~/config/init.prisma'
 
 /**
  * @desc Forgot Password
