@@ -1,15 +1,16 @@
 import bcrypt from 'bcrypt'
 import { getAuth } from 'firebase-admin/auth'
 
-import { CurrentUserData, RefreshTokenPayload } from '../@types/auth'
-import redisClient from '~/config/init.redis'
+import { AccessTokenPayload, CurrentUserData } from '../@types/auth'
+import redisClient from '../databases/init.redis'
 import HttpError from '../helpers/httpError'
 import userService from './user.service'
+import { RegisterByGoogle } from '../@types/user'
 import jwtService from './jwt.service'
 
 const authenticateUser = async (email: string, password: string) => {
   const foundUser = await userService.getUserByEmail(email)
-  if (!foundUser || !foundUser.active) throw new HttpError(401, 'Unauthorized/InvalidEmail')
+  if (!foundUser || !foundUser.isActive) throw new HttpError(401, 'Unauthorized/InvalidEmail')
 
   const match: boolean = await bcrypt.compare(password, foundUser.password)
   if (!match) throw new HttpError(401, 'Unauthorized/InvalidPassword')
@@ -23,15 +24,50 @@ const validateGoogleIdToken = async (googleIdToken: string) => {
     throw new HttpError(401, 'Unauthorized/InvalidGoogleToken')
   }
 
-  return { uid: decodedToken.uid, email: decodedToken.email }
+  return {
+    uid: decodedToken.uid,
+    username: decodedToken.name,
+    avatarUrl: decodedToken.picture,
+    email: decodedToken.email
+  }
 }
 
-const findOrCreateUser = async (uid: string, email: string) => {
-  let foundUser = await userService.getUserByEmail(email)
-  // if not existed create new user
-  if (!foundUser) foundUser = await userService.createUserWithGoogle(uid, email)
+const findOrCreateAccount = async (userData: RegisterByGoogle) => {
+  const { id, username, avatarUrl, email } = userData
 
-  return foundUser
+  let jwtPayload: AccessTokenPayload
+  const foundUser = await userService.getUserByEmail(email)
+
+  if (foundUser) {
+    jwtPayload = {
+      UserInfo: {
+        id: foundUser.userId,
+        username: foundUser.user.username,
+        avatarUrl: foundUser.user.avatarUrl ?? undefined,
+        email: foundUser.email,
+        roles: foundUser.user.roles
+      }
+    }
+  } else {
+    // if not existed create new user
+    const account = await userService.createAccountWithGoogle({
+      id,
+      username,
+      avatarUrl,
+      email
+    })
+    jwtPayload = {
+      UserInfo: {
+        id: account.userId,
+        username: account.user.username,
+        avatarUrl: account.user.avatarUrl ?? undefined,
+        email: account.email,
+        roles: account.user.roles
+      }
+    }
+  }
+
+  return jwtPayload
 }
 
 const verifyRefreshToken = (refreshToken: string): Promise<CurrentUserData> => {
@@ -66,6 +102,6 @@ const verifyRefreshToken = (refreshToken: string): Promise<CurrentUserData> => {
 export default {
   authenticateUser,
   validateGoogleIdToken,
-  findOrCreateUser,
+  findOrCreateAccount,
   verifyRefreshToken
 }

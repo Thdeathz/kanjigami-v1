@@ -7,20 +7,20 @@ import {
   resetPasswordSchema,
   verifyOTPSchema
 } from '../validations/resetPassword.validation'
-import {
-  forgotPassword,
-  resetPassword,
-  verifyOTPToken
-} from '~/api/controllers/resetPassword.controller'
+// import {
+//   forgotPassword,
+//   resetPassword,
+//   verifyOTPToken
+// } from '~/api/controllers/resetPassword.controller'
 
 const router = express.Router()
 
-router.route('/').post(limitRequest(5), validateRequest(resetPasswordSchema), resetPassword)
+// router.route('/').post(limitRequest(5), validateRequest(resetPasswordSchema), resetPassword)
 
-router
-  .route('/request')
-  .post(limitRequest(5), validateRequest(forgotPasswordSchema), forgotPassword)
+// router
+//   .route('/request')
+//   .post(limitRequest(5), validateRequest(forgotPasswordSchema), forgotPassword)
 
-router.route('/verify').post(limitRequest(5), validateRequest(verifyOTPSchema), verifyOTPToken)
+// router.route('/verify').post(limitRequest(5), validateRequest(verifyOTPSchema), verifyOTPToken)
 
 export default router

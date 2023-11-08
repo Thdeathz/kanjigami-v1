@@ -3,6 +3,8 @@ import { type RequestHandler } from 'express'
 import { AccessTokenPayload, LoginRequest } from '../@types/auth'
 import authService from '../services/auth.service'
 import jwtService from '../services/jwt.service'
+import userService from '../services/user.service'
+// import jwtService from '../services/jwt.service'
 
 /**
  * @desc Login
@@ -13,13 +15,15 @@ export const login: RequestHandler = async (req, res) => {
   const cookies = req.cookies
   const { email, password } = <LoginRequest>req.body
 
-  const user = await authService.authenticateUser(email, password)
+  const account = await authService.authenticateUser(email, password)
   return await jwtService.sendResWithTokens(
     {
       UserInfo: {
-        id: user.id,
-        email: user.email,
-        roles: user.roles
+        id: account.userId,
+        email: account.email,
+        username: account.user.username,
+        avatarUrl: account.user.avatarUrl ?? undefined,
+        roles: account.user.roles
       }
     },
     cookies,
@@ -33,23 +37,13 @@ export const login: RequestHandler = async (req, res) => {
  * @access Public
  */
 export const loginWithGoogle: RequestHandler = async (req, res) => {
-  const cookies = req.cookies
   const googleIdToken = req.body.googleIdToken
 
-  const { uid, email } = await authService.validateGoogleIdToken(googleIdToken)
+  const { uid, username, avatarUrl, email } = await authService.validateGoogleIdToken(googleIdToken)
 
-  const user = await authService.findOrCreateUser(uid, email)
-  return await jwtService.sendResWithTokens(
-    {
-      UserInfo: {
-        id: user.id,
-        email: user.email,
-        roles: user.roles
-      }
-    },
-    cookies,
-    res
-  )
+  const jwtPayload = await authService.findOrCreateAccount({ id: uid, username, avatarUrl, email })
+
+  return await jwtService.sendResWithTokens({ ...jwtPayload }, req.cookies, res)
 }
 
 /**
