@@ -1,61 +1,169 @@
 import bcrypt from 'bcrypt'
 
-import prisma from '~/config/init.prisma'
-import { RegisterRequest } from '../@types/user'
+import prisma from '../databases/init.prisma'
+import { RegisterByGoogle, RegisterRequest } from '../@types/user'
+import HttpError from '../helpers/httpError'
 
 const getAllUsers = async () => {
   return await prisma.user.findMany({
     select: {
       id: true,
-      email: true,
-      roles: true
+      username: true,
+      roles: true,
+      avatarUrl: true,
+      account: {
+        select: {
+          email: true,
+          isActive: true
+        }
+      }
     }
   })
 }
 
 const getUserById = async (id: string) => {
-  return await prisma.user.findUnique({ where: { id } })
-}
-
-const getUserByEmail = async (email: string) => {
-  return await prisma.user.findUnique({ where: { email } })
-}
-
-const getUserByRefreshToken = async (refreshToken: string) => {
-  return await prisma.user.findFirst({ where: { refreshToken } })
-}
-
-const createUser = async ({ email, password, roles }: RegisterRequest) => {
-  // Hash password
-  const hashedPassword: string = await bcrypt.hash(<string>password, 10)
-  const userObject: RegisterRequest =
-    !Array.isArray(roles) || !roles.length
-      ? { email, password: hashedPassword }
-      : { email, password: hashedPassword, roles }
-
-  return await prisma.user.create({ data: userObject })
-}
-
-const createUserWithGoogle = async (id: string, email: string) => {
-  return await prisma.user.create({
-    data: {
-      id,
-      email,
-      password: 'login with google'
+  return await prisma.user.findUnique({
+    where: { id },
+    select: {
+      id: true,
+      username: true,
+      roles: true,
+      avatarUrl: true,
+      account: {
+        select: {
+          email: true,
+          isActive: true
+        }
+      }
     }
   })
 }
 
-const updateUserRefreshToken = async (email: string, refreshToken: string) => {
-  return await prisma.user.update({ where: { email }, data: { refreshToken } })
+const getUserByEmail = async (email: string) => {
+  return await prisma.account.findUnique({
+    where: { email },
+    select: {
+      userId: true,
+      email: true,
+      isActive: true,
+      password: true,
+      user: {
+        select: {
+          id: true,
+          username: true,
+          roles: true,
+          avatarUrl: true
+        }
+      }
+    }
+  })
+}
+
+const checkUserExisted = async (email: string, username: string) => {
+  try {
+    const user = await prisma.user.findFirst({
+      where: {
+        OR: [{ account: { email } }, { username }]
+      },
+      include: {
+        account: {
+          select: {
+            email: true,
+            isActive: true
+          }
+        }
+      }
+    })
+
+    if (user) {
+      if (user.account && user.account.email === email)
+        throw new HttpError(409, 'Email already registered')
+      if (user.username === username) throw new HttpError(409, 'Username already used')
+    }
+
+    return true
+  } catch (error) {
+    if (error instanceof HttpError) throw error
+
+    throw new HttpError(500, 'Internal server error')
+  }
+}
+
+const createUser = async ({
+  email,
+  username,
+  password,
+  roles,
+  avatarUrl
+}: RegisterRequest & { avatarUrl?: string }) => {
+  try {
+    // Hash password
+    const hashedPassword: string = await bcrypt.hash(<string>password, 10)
+
+    return await prisma.account.create({
+      data: {
+        email,
+        password: hashedPassword,
+        user: {
+          create: {
+            username,
+            avatarUrl,
+            roles
+          }
+        }
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            username: true,
+            roles: true,
+            avatarUrl: true
+          }
+        }
+      }
+    })
+  } catch (error) {
+    throw new HttpError(500, 'Internal server error')
+  }
+}
+
+const createAccountWithGoogle = async (userData: RegisterByGoogle) => {
+  try {
+    const { id, username, avatarUrl, email } = userData
+    return await prisma.account.create({
+      data: {
+        email,
+        password: 'login with google',
+        user: {
+          create: {
+            id,
+            username,
+            avatarUrl
+          }
+        }
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            username: true,
+            roles: true,
+            avatarUrl: true
+          }
+        }
+      }
+    })
+  } catch (error) {
+    throw new HttpError(500, 'Internal server error')
+  }
 }
 
 export default {
   getAllUsers,
   getUserById,
   getUserByEmail,
-  getUserByRefreshToken,
+  checkUserExisted,
   createUser,
-  createUserWithGoogle,
-  updateUserRefreshToken
+  createAccountWithGoogle
 }

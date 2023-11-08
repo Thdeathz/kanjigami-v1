@@ -23,29 +23,30 @@ export const getAllUsers: RequestHandler = async (req, res) => {
  * @access Public
  */
 export const createNewUser: RequestHandler = async (req, res) => {
-  const { email, password, roles } = <RegisterRequest>req.body
+  const { email, password, username, roles } = <RegisterRequest>req.body
 
   // Check if user already existed
-  const userExisted = await userService.getUserByEmail(email)
-  if (userExisted) return res.status(409).json({ message: 'User already existed' })
+  await userService.checkUserExisted(email, username)
 
   // Create new user
-  const user = await userService.createUser({
+  const account = await userService.createUser({
     email,
+    username,
     password,
     roles
   })
-  if (user) {
-    await jwtService.sendResWithTokens(
-      {
-        UserInfo: {
-          id: user.id,
-          email: user.email,
-          roles: user.roles
-        }
-      },
-      req.cookies,
-      res
-    )
-  } else res.status(400).json({ message: 'Invaild user data received' })
+  if (!account) return res.status(400).json({ message: 'Invaild user data received' })
+
+  return await jwtService.sendResWithTokens(
+    {
+      UserInfo: {
+        id: account.userId,
+        username: account.user.username,
+        email: account.email,
+        roles: account.user.roles
+      }
+    },
+    req.cookies,
+    res
+  )
 }

@@ -18,8 +18,7 @@ model User {
   username       String          @unique
   rankingScore   Int             @default(0)
   roles          Role[]          @default([USER])
-  account        Account         @relation(fields: [accountId], references: [id])
-  accountId      String          @unique // relation to Account
+  account        Account?        // relation to Account
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
   resetPasswords ResetPassword[] // relation to ResetPassword
@@ -34,7 +33,7 @@ model ResetPassword {
   verified  Boolean  @default(false)
   isActive  Boolean  @default(true)
   user      User     @relation(fields: [userId], references: [id])
-  userId    String   @id  // relation to User
+  userId    String   @id  // relation scalar feild
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -43,8 +42,8 @@ model Account {
   id           String   @id @default(uuid())
   email        String   @unique
   password     String
-  user         User?    // relation to User
-  userId       String   // relation to User
+  user         User     @relation(fields: [userId], references: [id])
+  userId       String   @unique // relation scalar feild
   isActive     Boolean  @default(true)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
@@ -55,7 +54,7 @@ model Stack {
   name        String
   description String
   topic       Topic       @relation(fields: [topicId], references: [id])
-  topicId     String      // relation to Topic
+  topicId     String      // relation scalar feild
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
   kanjis      Kanji[]     // relation to Kanji
@@ -91,7 +90,7 @@ model Image {
   id        String   @id @default(uuid())
   url       String
   kanji     Kanji    @relation(fields: [kanjiId], references: [id])
-  kanjiId   String   // relation to Kanji
+  kanjiId   String   // relation scalar feild
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -111,7 +110,7 @@ model Example {
   example   String
   meaning   String
   vocab     Vocabulary @relation(fields: [vocabId], references: [id])
-  vocabId   String     // relation to Vocabulary
+  vocabId   String     // relation scalar feild
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 }
@@ -119,9 +118,9 @@ model Example {
 model GameLog {
   archievedPoints Int
   gameStack       GameStack @relation(fields: [gameStackId], references: [id])
-  gameStackId     String    // relation to GameStack
+  gameStackId     String    // relation scalar feild
   user            User      @relation(fields: [userId], references: [id])
-  userId          String    // relation to User
+  userId          String    // relation scalar feild
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
   @@id([gameStackId, userId])
@@ -130,9 +129,9 @@ model GameLog {
 model GameStack {
   id        String    @id @default(uuid())
   game      Game      @relation(fields: [gameId], references: [id])
-  gameId    String    // relation to Game
+  gameId    String    // relation scalar feild
   stack     Stack     @relation(fields: [stackId], references: [id])
-  stackId   String    // relation to Stack
+  stackId   String    // relation scalar feild
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   gameLogs  GameLog[] // relation to GameLog
@@ -163,11 +162,11 @@ model Event {
 model Round {
   id            String          @id @default(uuid())
   event         Event           @relation(fields: [eventId], references: [id])
-  eventId       String          // relation to Event
+  eventId       String          // relation scalar feild
   game          Game            @relation(fields: [gameId], references: [id])
-  gameId        String          // relation to Game
+  gameId        String          // relation scalar feild
   stack         Stack           @relation(fields: [stackId], references: [id])
-  stackId       String          // relation to Stack
+  stackId       String          // relation scalar feild
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
   onlineHistory OnlineHistory[] // relation to OnlineHistory
@@ -175,9 +174,9 @@ model Round {
 
 model OnlineHistory {
   user            User     @relation(fields: [userId], references: [id])
-  userId          String   // relation to User
+  userId          String   // relation scalar feild
   round           Round    @relation(fields: [roundId], references: [id])
-  roundId         String   // relation to Round
+  roundId         String   // relation scalar feild
   archievedPoints Int
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt

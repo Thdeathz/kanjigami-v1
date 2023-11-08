@@ -5,6 +5,7 @@ import helmet from 'helmet'
 import morgan from 'morgan'
 import cors from 'cors'
 import path from 'path'
+import multer from 'multer'
 import cookieParser from 'cookie-parser'
 import admin from 'firebase-admin'
 
@@ -41,7 +42,7 @@ admin.initializeApp({
 // public routes
 app.use('/api', rootRoute)
 app.use('/api/auth', authRoutes)
-app.use('/api/reset-password', resetPasswordRoutes)
+// app.use('/api/reset-password', resetPasswordRoutes)
 
 // private routes
 app.use('/api/users', userRoutes)
