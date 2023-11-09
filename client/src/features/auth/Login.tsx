@@ -79,6 +79,7 @@ const Login = () => {
             { required: true, message: 'Email is required.' },
             { pattern: EMAIL_REGEX, message: 'Email is not valid.' }
           ]}
+          initialValue=""
         >
           <Input
             id="email"
@@ -88,7 +89,11 @@ const Login = () => {
           />
         </Form.Item>
 
-        <Form.Item name="password" rules={[{ required: true, message: 'Password is required.' }]}>
+        <Form.Item
+          name="password"
+          rules={[{ required: true, message: 'Password is required.' }]}
+          initialValue=""
+        >
           <Input
             id="password"
             withPrefix={<p className="w-[4rem]">Password</p>}
@@ -116,7 +121,7 @@ const Login = () => {
         </div>
 
         <Button className="w-full text-lg" type="primary" htmlType="submit" disabled={isLoading}>
-          {isLoading ? <LoadingOutlined className="flex-center" /> : 'Login'}
+          {isLoading ? <LoadingOutlined className="flex-center" /> : 'Sign in'}
         </Button>
 
         <Divider plain className="uppercase text-text-light dark:text-text-dark">
@@ -131,7 +136,7 @@ const Login = () => {
             to="/signup"
             className="text-primary-5 cursor-pointer font-medium transition-all hover:border-b"
           >
-            Register
+            Sign up
           </Link>
         </div>
       </Form>

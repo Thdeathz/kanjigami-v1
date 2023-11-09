@@ -36,9 +36,7 @@ const ResetPassword = () => {
 
     try {
       await resetPassword({
-        email: resetEmail,
-        password: values.password,
-        confirmPassword: values.confirmPassword
+        password: values.password
       }).unwrap()
 
       form.resetFields()
@@ -61,6 +59,7 @@ const ResetPassword = () => {
                 { required: true, message: 'Password is required.' },
                 { pattern: PWD_REGEX, message: 'Password must be between 4-12 characters.' }
               ]}
+              initialValue=""
             >
               <Input
                 id="new-password"
@@ -75,6 +74,7 @@ const ResetPassword = () => {
             <Form.Item
               name="confirmPassword"
               rules={[{ required: true, message: 'Confirm password is required.' }]}
+              initialValue=""
             >
               <Input
                 id="confirm-password"

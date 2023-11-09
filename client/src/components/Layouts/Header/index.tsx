@@ -43,8 +43,6 @@ const Header = ({
           </Button>
         )}
 
-        <>{console.log('==> open side bar', isSideBarOpen)}</>
-
         <div className="app-icon flex-start group cursor-pointer gap-1.5 rounded border-app-icon border-neutral-13 bg-white px-1.5 py-1 text-neutral-13 shadow-light-app-icon transition-all hover:border-white hover:bg-neutral-13 hover:text-white hover:shadow-light-app-icon-hover active:scale-90 dark:invert">
           <Image
             src={AppIcon}

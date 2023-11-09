@@ -11,7 +11,7 @@ const signNewRefreshToken = async (payload: AccessTokenPayload): Promise<string>
       { id: payload.UserInfo.id },
       process.env.REFRESH_TOKEN_SECRET as string,
       {
-        expiresIn: '1m'
+        expiresIn: '7d'
       },
       async (err, token) => {
         if (err || !token) return reject(new HttpError(500, 'Internal Server Error'))
@@ -24,7 +24,7 @@ const signNewRefreshToken = async (payload: AccessTokenPayload): Promise<string>
             userData: payload.UserInfo
           }),
           'EX',
-          60 // 7 days
+          60 * 60 * 24 * 7 // 7 days
         )
         if (result !== 'OK') throw new HttpError(500, 'Internal Server Error')
 
@@ -43,7 +43,7 @@ const signNewAccessToken = (payload: AccessTokenPayload): Promise<string> => {
         }
       },
       process.env.ACCESS_TOKEN_SECRET as string,
-      { expiresIn: '30s' },
+      { expiresIn: '5m' },
       (err, token) => {
         if (err || !token) return reject(new HttpError(500, 'Internal Server Error'))
 
