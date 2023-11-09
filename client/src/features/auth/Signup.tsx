@@ -59,6 +59,7 @@ const Signup = () => {
             { required: true, message: 'Email is required.' },
             { pattern: EMAIL_REGEX, message: 'Email is not valid.' }
           ]}
+          initialValue=""
         >
           <Input
             id="email"
@@ -74,6 +75,7 @@ const Signup = () => {
             { required: true, message: 'Password is required.' },
             { pattern: PWD_REGEX, message: 'Password must be between 4-12 characters.' }
           ]}
+          initialValue=""
         >
           <Input
             id="password"
@@ -103,7 +105,7 @@ const Signup = () => {
             to="/login"
             className="text-primary-5 cursor-pointer font-medium transition-all hover:border-b"
           >
-            Login
+            Sign up
           </Link>
         </div>
       </Form>

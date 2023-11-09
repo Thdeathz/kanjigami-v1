@@ -5,7 +5,6 @@ import helmet from 'helmet'
 import morgan from 'morgan'
 import cors from 'cors'
 import path from 'path'
-import multer from 'multer'
 import cookieParser from 'cookie-parser'
 import admin from 'firebase-admin'
 
@@ -17,7 +16,7 @@ import rootRoute from '~/api/routes/root.route'
 import notFoundRoute from '~/api/routes/404.route'
 import userRoutes from '~/api/routes/user.route'
 import authRoutes from '~/api/routes/auth.route'
-import resetPasswordRoutes from '~/api/routes/resetPassword.route'
+import passwordRoutes from '~/api/routes/password.route'
 
 dotenv.config()
 const app = express()
@@ -42,7 +41,7 @@ admin.initializeApp({
 // public routes
 app.use('/api', rootRoute)
 app.use('/api/auth', authRoutes)
-// app.use('/api/reset-password', resetPasswordRoutes)
+app.use('/api/password', passwordRoutes)
 
 // private routes
 app.use('/api/users', userRoutes)

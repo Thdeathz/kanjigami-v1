@@ -5,11 +5,9 @@ export const forgotPasswordSchema = Joi.object({
 })
 
 export const resetPasswordSchema = Joi.object({
-  password: Joi.string().min(4).max(12).required(),
-  confirmPassword: Joi.string().min(4).max(12).required()
+  password: Joi.string().min(4).max(12).required()
 })
 
 export const verifyOTPSchema = Joi.object({
-  email: Joi.string().email().required(),
   otpToken: Joi.string().min(4).max(4).required()
 })

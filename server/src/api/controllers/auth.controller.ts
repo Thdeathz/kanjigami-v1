@@ -1,10 +1,8 @@
 import { type RequestHandler } from 'express'
 
-import { AccessTokenPayload, LoginRequest } from '../@types/auth'
+import { LoginRequest } from '../@types/auth'
 import authService from '../services/auth.service'
 import jwtService from '../services/jwt.service'
-import userService from '../services/user.service'
-// import jwtService from '../services/jwt.service'
 
 /**
  * @desc Login
@@ -12,23 +10,32 @@ import userService from '../services/user.service'
  * @access Public
  */
 export const login: RequestHandler = async (req, res) => {
-  const cookies = req.cookies
   const { email, password } = <LoginRequest>req.body
 
   const account = await authService.authenticateUser(email, password)
-  return await jwtService.sendResWithTokens(
-    {
-      UserInfo: {
-        id: account.userId,
-        email: account.email,
-        username: account.user.username,
-        avatarUrl: account.user.avatarUrl ?? undefined,
-        roles: account.user.roles
-      }
-    },
-    cookies,
-    res
-  )
+
+  const userData = {
+    UserInfo: {
+      id: account.userId,
+      email: account.email,
+      username: account.user.username,
+      avatarUrl: account.user.avatarUrl ?? undefined,
+      roles: account.user.roles
+    }
+  }
+
+  // gen new token
+  const accessToken: string = await jwtService.signNewAccessToken(userData)
+  const refreshToken: string = await jwtService.signNewRefreshToken(userData)
+
+  res.cookie('jwt', refreshToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none',
+    maxAge: 1000 * 60 * 60 * 24 * 7 // match to refresh token expiration
+  })
+
+  res.json({ accessToken })
 }
 
 /**

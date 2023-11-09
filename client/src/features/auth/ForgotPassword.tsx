@@ -27,7 +27,7 @@ const ForgotPassword = () => {
       const response = await forgotPassword(values.email).unwrap()
       if (!response) return
 
-      message.success('Forgot password link has been sent to your email.')
+      message.success('OTP has been sent to your email.')
       navigate('/verify-email')
     } catch (error) {
       const apiError = error as ApiError
@@ -36,6 +36,13 @@ const ForgotPassword = () => {
           {
             name: 'email',
             errors: ['Email is not registered.']
+          }
+        ])
+      } else if (apiError.status === 400) {
+        form.setFields([
+          {
+            name: 'email',
+            errors: [`${apiError.data.data}`]
           }
         ])
       } else {
@@ -53,6 +60,7 @@ const ForgotPassword = () => {
             { required: true, message: 'Email is required.' },
             { pattern: EMAIL_REGEX, message: 'Email is not valid.' }
           ]}
+          initialValue=""
         >
           <Input id="forgot-email" placeholder="example@gmail.com" disabled={isSuccess} />
         </Form.Item>

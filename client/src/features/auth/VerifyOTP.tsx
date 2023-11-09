@@ -16,7 +16,7 @@ type OTPInputProps = {
 
 const OTPInput = ({ name }: OTPInputProps) => {
   return (
-    <Form.Item name={name}>
+    <Form.Item name={name} initialValue="">
       <Input
         className="h-16 w-16 text-center text-2xl text-text-light dark:text-text-dark"
         maxLength={1}
@@ -38,7 +38,7 @@ const VerifyOTP = () => {
     const otpToken = `${first}${second}${third}${fourth}`
 
     try {
-      await verifyOTP({ otpToken, email: resetEmail }).unwrap()
+      await verifyOTP({ otpToken }).unwrap()
       form.resetFields()
       message.success('Verify OTP successfully.')
       navigate('/reset-password')

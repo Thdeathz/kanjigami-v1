@@ -43,6 +43,7 @@ const getUserByEmail = async (email: string) => {
   return await prisma.account.findUnique({
     where: { email },
     select: {
+      id: true,
       userId: true,
       email: true,
       isActive: true,
@@ -159,11 +160,26 @@ const createAccountWithGoogle = async (userData: RegisterByGoogle) => {
   }
 }
 
+const resetPassword = async (accountId: string, password: string) => {
+  try {
+    return await prisma.account.update({
+      where: { id: accountId },
+      data: {
+        password: await bcrypt.hash(password, 10)
+      }
+    })
+  } catch (error) {
+    console.log(error)
+    throw new HttpError(500, 'Internal server error')
+  }
+}
+
 export default {
   getAllUsers,
   getUserById,
   getUserByEmail,
   checkUserExisted,
   createUser,
-  createAccountWithGoogle
+  createAccountWithGoogle,
+  resetPassword
 }
