@@ -2,13 +2,13 @@ import React from 'react'
 import { signInWithPopup } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 import { FormInstance, message } from 'antd'
-import { LoadingOutlined } from '@ant-design/icons'
 
 import { useLoginByGoogleMutation } from '../store/authService'
 import GoogleLogo from '~/assets/google_logo.svg'
 import { auth, googleProvider } from '~/config/firebase'
 import Image from '~/components/Image'
 import Button from '~/components/Button'
+import Loading from '~/components/Loading'
 
 type PropsType = {
   form: FormInstance<UserCredentials>
@@ -40,7 +40,7 @@ const GoogleLogin = ({ form }: PropsType) => {
     <Button htmlType="button" className="flex-center group w-full" onClick={handleGoogleLogin}>
       <Image src={GoogleLogo} className="w-[2rem]" />
       {isLoading ? (
-        <LoadingOutlined className="flex-center" />
+        <Loading className="flex-center" />
       ) : (
         <span className="text-base font-semibold">Sign in with Google</span>
       )}

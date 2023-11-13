@@ -1,10 +1,10 @@
 import React from 'react'
 import { message } from 'antd'
 import { useNavigate } from 'react-router-dom'
-import { LoadingOutlined } from '@ant-design/icons'
 import { useCountdown, useEffectOnce } from 'usehooks-ts'
 
 import { useForgotPasswordMutation } from '../store/authService'
+import Loading from '~/components/Loading'
 
 type PropsType = {
   resetEmail: string
@@ -56,7 +56,7 @@ const CountDownTimer = ({ resetEmail }: PropsType) => {
         {count > 0 ? (
           `Resend in ${count}s`
         ) : isLoading ? (
-          <LoadingOutlined className="ml-4" />
+          <Loading className="ml-4" />
         ) : (
           'Resend OTP'
         )}

@@ -3,13 +3,6 @@ import jwtDecode from 'jwt-decode'
 import { useAppSelector } from './useRedux'
 import { selectCurrentToken } from '~/features/auth/store/authSlice'
 
-type JwtPayload = {
-  UserInfo: {
-    email: string
-    roles: ROLE[]
-  }
-}
-
 const useAuth = () => {
   const token = useAppSelector(selectCurrentToken)
   let isUser = false
@@ -17,15 +10,15 @@ const useAuth = () => {
 
   if (token) {
     const decoded = jwtDecode(token) as JwtPayload
-    const { email, roles } = decoded.UserInfo
+    const { id, email, roles, username, avatarUrl } = decoded.UserInfo
 
     isUser = roles?.includes('USER')
     isAdmin = roles?.includes('ADMIN')
 
-    return { email, roles, isUser, isAdmin }
+    return { userId: id, email, roles, isUser, isAdmin, username, avatarUrl }
   }
 
-  return { email: '', roles: [], isUser, isAdmin }
+  return { userId: '', email: '', roles: [], isUser, isAdmin, username: '', avatarUrl: '' }
 }
 
 export default useAuth

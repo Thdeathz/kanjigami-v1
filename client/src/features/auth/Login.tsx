@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Checkbox, Divider, Form, message } from 'antd'
-import { LoadingOutlined } from '@ant-design/icons'
 import { useDocumentTitle } from 'usehooks-ts'
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 
@@ -11,7 +10,9 @@ import GoogleLogin from './components/GoogleLogin'
 import Button from '~/components/Button'
 import AuthLayout from './components/AuthLayout'
 import Input from '~/components/Input'
+import Loading from '~/components/Loading'
 import { useLoginByEmailMutation } from './store/authService'
+import { signInErrorMessages } from './utils/errorMessages'
 
 const Login = () => {
   useDocumentTitle('Login | 漢字ガミ')
@@ -32,38 +33,9 @@ const Login = () => {
       message.success('Login successfully!')
       navigate('/')
     } catch (error) {
-      const apiError = error as ApiError
-      if (apiError.status === 401) {
-        switch (apiError.data.message) {
-          case 'Unauthorized/InvalidEmail':
-            form.setFields([
-              {
-                name: 'email',
-                errors: ['Invalid email.']
-              }
-            ])
-            break
-          case 'Unauthorized/InvalidPassword':
-            form.setFields([
-              {
-                name: 'password',
-                errors: ['Invalid password.']
-              }
-            ])
-            break
-          default:
-            form.setFields([
-              {
-                name: 'email',
-                errors: [' ']
-              },
-              {
-                name: 'password',
-                errors: [' ']
-              }
-            ])
-            break
-        }
+      const errorMessage = signInErrorMessages[(error as ApiError).data.message]
+      if (errorMessage) {
+        form.setFields([errorMessage])
       } else {
         message.error('No server response. Please try again later ><!')
       }
@@ -121,7 +93,7 @@ const Login = () => {
         </div>
 
         <Button className="w-full text-lg" type="primary" htmlType="submit" disabled={isLoading}>
-          {isLoading ? <LoadingOutlined className="flex-center" /> : 'Sign in'}
+          {isLoading ? <Loading /> : 'Sign in'}
         </Button>
 
         <Divider plain className="uppercase text-text-light dark:text-text-dark">

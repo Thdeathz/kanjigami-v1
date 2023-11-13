@@ -1,11 +1,12 @@
 import React, { ReactElement } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useDocumentTitle } from 'usehooks-ts'
 import { type IconType } from 'react-icons'
 import { RiSwordFill } from 'react-icons/ri'
 import { GiJewelCrown, GiLaurelCrown } from 'react-icons/gi'
 import { motion } from 'framer-motion'
 
+import useAuth from '~/hooks/useAuth'
 import Button from '~/components/Button'
 import DefaultLayout from '~/components/Layouts/DefaultLayout'
 import Avatar from '~/components/Avatar'
@@ -64,7 +65,8 @@ const Profile = () => {
   useDocumentTitle('Me | 漢字ガミ')
 
   const navigate = useNavigate()
-  const { username } = useParams()
+  // const { username } = useParams()
+  const { email, username, avatarUrl } = useAuth()
 
   return (
     <DefaultLayout className="flex-center flex-col gap-6">
@@ -79,13 +81,13 @@ const Profile = () => {
 
           <div className="flex-center mt-[-6rem] w-max flex-col gap-4">
             <div className="flex-center aspect-square h-[8rem] rounded-full border-2 border-profile-avatar-outline-light dark:border-profile-avatar-outline-dark">
-              <Avatar height="h-[7rem]" />
+              <Avatar src={avatarUrl} username={username} height="h-[7rem]" />
             </div>
 
             <p className="whitespace-nowrap text-center text-2xl font-semibold text-clr-link-light dark:text-clr-link-dark">
-              {username}{' '}
+              {email.split('@')[0]}{' '}
               <span className="rounded-xl border-2 border-profile-border-light px-2 py-1 text-base font-medium text-text-secondary-light dark:border-profile-border-dark dark:text-text-secondary-dark">
-                @kantanKanji
+                @{username}
               </span>
             </p>
           </div>

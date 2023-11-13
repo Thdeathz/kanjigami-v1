@@ -3,6 +3,7 @@ import { RiSettings3Fill } from 'react-icons/ri'
 import { useDocumentTitle } from 'usehooks-ts'
 import { motion } from 'framer-motion'
 
+import useAuth from '~/hooks/useAuth'
 import DefaultLayout from '~/components/Layouts/DefaultLayout'
 import PageHeader from '~/components/PageHeader'
 import Panel from '~/components/Panel'
@@ -14,19 +15,19 @@ import { panelVariants } from '~/config/variants'
 const ProfileSetting = () => {
   useDocumentTitle('Settings | 漢字ガミ')
 
+  const { userId, username, avatarUrl } = useAuth()
+
   return (
     <DefaultLayout>
       <PageHeader icon={<RiSettings3Fill />} title="Settings" className="mb-12" />
 
       <motion.div variants={panelVariants} initial="hidden" animate="enter">
         <Panel className="mx-auto max-w-[60rem]">
-          <form>
-            <EditUsername />
+          <EditUsername currentUsername={username} />
 
-            <CustomDivider />
+          <CustomDivider />
 
-            <EditAvatar />
-          </form>
+          <EditAvatar userId={userId} username={username} currentAvatar={avatarUrl} />
 
           <p className="mt-4 text-base font-medium">
             Note: All information entered here is public.

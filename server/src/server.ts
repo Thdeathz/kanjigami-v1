@@ -34,7 +34,8 @@ app.use(cookieParser())
 /* CONFIG */
 app.use('/api', express.static(path.join(__dirname, '../public')))
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
+  credential: admin.credential.cert(serviceAccount),
+  storageBucket: `${process.env.FIREBASE_PROJECT_ID}.appspot.com`
 })
 
 /* ROUTES */
@@ -44,7 +45,7 @@ app.use('/api/auth', authRoutes)
 app.use('/api/password', passwordRoutes)
 
 // private routes
-app.use('/api/users', userRoutes)
+app.use('/api/user', userRoutes)
 app.use('*', notFoundRoute)
 
 app.use(errorHandler)

@@ -26,3 +26,7 @@ declare interface RemainingTime {
   minutes: number
   seconds: number
 }
+
+declare interface ErrorMessages {
+  [key: string]: { name: string; errors: string[] }
+}

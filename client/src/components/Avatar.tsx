@@ -9,9 +9,10 @@ type PropsType = {
   className?: string
   size?: 'small' | 'base' | 'large'
   height?: string
+  username?: string
 }
 
-const Avatar = ({ src, className, height, size = 'base' }: PropsType) => {
+const Avatar = ({ src, className, height, username, size = 'base' }: PropsType) => {
   const avatarHeight = height
     ? height
     : size === 'small'
@@ -21,7 +22,12 @@ const Avatar = ({ src, className, height, size = 'base' }: PropsType) => {
     : 'h-[2.75rem]'
 
   return (
-    <Tooltip placement="top" title="@Kantan kanji" mouseEnterDelay={0} mouseLeaveDelay={0}>
+    <Tooltip
+      placement="top"
+      title={username ? `@${username}` : '@Kantan kanji'}
+      mouseEnterDelay={0}
+      mouseLeaveDelay={0}
+    >
       <button className={`${className ?? ''} rounded-full`}>
         <Image
           src={src ?? DefaultAvatar}
