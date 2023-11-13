@@ -1,7 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Form, message } from 'antd'
-import { LoadingOutlined } from '@ant-design/icons'
 import { useDocumentTitle } from 'usehooks-ts'
 
 import { EMAIL_REGEX } from '~/config/regex'
@@ -9,6 +8,7 @@ import { useForgotPasswordMutation } from './store/authService'
 import AuthLayout from './components/AuthLayout'
 import Button from '~/components/Button'
 import Input from '~/components/Input'
+import Loading from '~/components/Loading'
 
 type ForgotPasswordForm = {
   email: string
@@ -71,7 +71,7 @@ const ForgotPassword = () => {
           disabled={isLoading || isSuccess}
           className="mt-2 w-full text-lg"
         >
-          {isLoading ? <LoadingOutlined /> : 'Send OTP'}
+          {isLoading ? <Loading /> : 'Send OTP'}
         </Button>
       </Form>
     </AuthLayout>

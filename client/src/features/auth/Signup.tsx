@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDocumentTitle } from 'usehooks-ts'
-import { LoadingOutlined } from '@ant-design/icons'
 import { Form, message } from 'antd'
 
 import { useSignupMutation } from './store/authService'
@@ -10,11 +9,8 @@ import AuthLayout from './components/AuthLayout'
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 import Button from '~/components/Button'
 import Input from '~/components/Input'
-
-type FormData = {
-  email: string
-  password: string
-}
+import { signUpErrorMessages } from './utils/errorMessages'
+import Loading from '~/components/Loading'
 
 const Signup = () => {
   useDocumentTitle('Register | 漢字ガミ')
@@ -26,17 +22,16 @@ const Signup = () => {
 
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false)
 
-  const onFinish = async (data: FormData) => {
+  const onFinish = async (data: RegisterRequest) => {
     try {
-      const { email, password } = data
-      await signup({ email, password }).unwrap()
+      await signup({ ...data }).unwrap()
       form.resetFields()
       message.success('Create accout successfully!')
       navigate('/')
     } catch (error) {
-      const apiError = error as ApiError
-      if (apiError.status === 409) {
-        form.setFields([{ name: 'email', errors: ['User already exists'] }])
+      const errorMessage = signUpErrorMessages[(error as ApiError).data.message]
+      if (errorMessage) {
+        form.setFields([errorMessage])
       } else {
         message.error('No server response. Please try again later ><!')
       }
@@ -53,6 +48,20 @@ const Signup = () => {
         onFinish={onFinish}
         className="min-w-[24rem]"
       >
+        <Form.Item
+          name="username"
+          rules={[{ required: true, message: 'Username is required.' }]}
+          initialValue=""
+        >
+          <Input
+            id="username"
+            withPrefix={<p className="w-[4rem]">Username</p>}
+            maxLength={20}
+            placeholder="username"
+            autoComplete="username"
+          />
+        </Form.Item>
+
         <Form.Item
           name="email"
           rules={[
@@ -96,7 +105,7 @@ const Signup = () => {
         </div>
 
         <Button className="w-full text-lg" type="primary" htmlType="submit">
-          {isLoading ? <LoadingOutlined /> : 'Create account'}
+          {isLoading ? <Loading /> : 'Create account'}
         </Button>
 
         <div className="mt-2 text-base text-text-light dark:text-text-dark">

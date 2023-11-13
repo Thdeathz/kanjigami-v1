@@ -2,6 +2,7 @@ import { createEntityAdapter, createSelector } from '@reduxjs/toolkit'
 
 import apiSlice from '~/app/api/apiSlice'
 import { RootState } from '~/app/store'
+import { setCredentitals } from '~/features/auth/store/authSlice'
 
 const usersAdapter = createEntityAdapter<User>({})
 
@@ -11,7 +12,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
     getUsers: builder.query({
       query: () => ({
-        url: '/users',
+        url: '/user',
         validateStatus: (response: Response, result: ApiResult) =>
           response.status === 200 && !result.isError
       }),
@@ -24,11 +25,29 @@ export const usersApiSlice = apiSlice.injectEndpoints({
           ]
         } else return [{ type: 'User', id: 'LIST' }]
       }
+    }),
+
+    updateAvatar: builder.mutation({
+      query: ({ userId, avatar }) => ({
+        url: `/user/${userId}/avatar`,
+        method: 'POST',
+        body: avatar
+      }),
+      async onQueryStarted({ dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled
+          const { accessToken } = data as { accessToken: string }
+
+          dispatch(setCredentitals({ accessToken }))
+        } catch (error) {
+          console.log(error)
+        }
+      }
     })
   })
 })
 
-export const { useGetUsersQuery } = usersApiSlice
+export const { useGetUsersQuery, useUpdateAvatarMutation } = usersApiSlice
 
 export const selectUsersResult = usersApiSlice.endpoints.getUsers.select(undefined)
 

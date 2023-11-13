@@ -1,7 +1,6 @@
 import React from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { Form, Input, message } from 'antd'
-import { LoadingOutlined } from '@ant-design/icons'
 
 import { useAppSelector } from '~/hooks/useRedux'
 import { selectResetEmail } from './store/authSlice'
@@ -9,6 +8,7 @@ import CountDownTimer from './components/CountDownTimer'
 import { useVerifyOTPTokenMutation } from './store/authService'
 import AuthLayout from './components/AuthLayout'
 import Button from '~/components/Button'
+import Loading from '~/components/Loading'
 
 type OTPInputProps = {
   name: string
@@ -101,7 +101,7 @@ const VerifyOTP = () => {
               type="primary"
               htmlType="submit"
             >
-              {isLoading ? <LoadingOutlined className="flex-center" /> : 'Verify Account'}
+              {isLoading ? <Loading className="flex-center" /> : 'Verify Account'}
             </Button>
 
             <CountDownTimer resetEmail={resetEmail} />

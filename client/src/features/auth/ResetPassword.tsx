@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
-import { LoadingOutlined } from '@ant-design/icons'
 
 import { useAppSelector } from '~/hooks/useRedux'
 import { selectResetEmail, selectVerified } from './store/authSlice'
@@ -11,6 +10,7 @@ import Input from '~/components/Input'
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 import Button from '~/components/Button'
 import { PWD_REGEX } from '~/config/regex'
+import Loading from '~/components/Loading'
 
 const ResetPassword = () => {
   const navigate = useNavigate()
@@ -43,7 +43,6 @@ const ResetPassword = () => {
       message.success('Reset password successfully!')
       navigate('/login')
     } catch (error) {
-      console.error(error)
       message.error('Something went wrong. Please try again later ><!')
     }
   }
@@ -90,7 +89,7 @@ const ResetPassword = () => {
               htmlType="submit"
               disabled={isLoading}
             >
-              {isLoading ? <LoadingOutlined className="flex-center" /> : 'Reset password'}
+              {isLoading ? <Loading /> : 'Reset password'}
             </Button>
           </Form>
         </AuthLayout>

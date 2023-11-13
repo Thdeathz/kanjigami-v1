@@ -78,8 +78,8 @@ const checkUserExisted = async (email: string, username: string) => {
 
     if (user) {
       if (user.account && user.account.email === email)
-        throw new HttpError(409, 'Email already registered')
-      if (user.username === username) throw new HttpError(409, 'Username already used')
+        throw new HttpError(409, 'Conflict/EmailExisted')
+      if (user.username === username) throw new HttpError(409, 'Conflict/UsernameExisted')
     }
 
     return true
@@ -130,48 +130,56 @@ const createUser = async ({
 }
 
 const createAccountWithGoogle = async (userData: RegisterByGoogle) => {
-  try {
-    const { id, username, avatarUrl, email } = userData
-    return await prisma.account.create({
-      data: {
-        email,
-        password: 'login with google',
-        user: {
-          create: {
-            id,
-            username,
-            avatarUrl
-          }
-        }
-      },
-      include: {
-        user: {
-          select: {
-            id: true,
-            username: true,
-            roles: true,
-            avatarUrl: true
-          }
+  const { id, username, avatarUrl, email } = userData
+  return await prisma.account.create({
+    data: {
+      email,
+      password: 'login with google',
+      user: {
+        create: {
+          id,
+          username,
+          avatarUrl
         }
       }
-    })
-  } catch (error) {
-    throw new HttpError(500, 'Internal server error')
-  }
+    },
+    include: {
+      user: {
+        select: {
+          id: true,
+          username: true,
+          roles: true,
+          avatarUrl: true
+        }
+      }
+    }
+  })
 }
 
 const resetPassword = async (accountId: string, password: string) => {
-  try {
-    return await prisma.account.update({
-      where: { id: accountId },
-      data: {
-        password: await bcrypt.hash(password, 10)
+  return await prisma.account.update({
+    where: { id: accountId },
+    data: {
+      password: await bcrypt.hash(password, 10)
+    }
+  })
+}
+
+const updateAvatar = async (userId: string, avatarUrl: string) => {
+  return await prisma.user.update({
+    where: { id: userId },
+    data: {
+      avatarUrl
+    },
+    include: {
+      account: {
+        select: {
+          email: true,
+          isActive: true
+        }
       }
-    })
-  } catch (error) {
-    console.log(error)
-    throw new HttpError(500, 'Internal server error')
-  }
+    }
+  })
 }
 
 export default {
@@ -181,5 +189,6 @@ export default {
   checkUserExisted,
   createUser,
   createAccountWithGoogle,
-  resetPassword
+  resetPassword,
+  updateAvatar
 }

@@ -12,7 +12,7 @@ import Image from '~/components/Image'
 
 const UserButton = () => {
   const navigate = useNavigate()
-  const { email } = useAuth()
+  const { email, username, avatarUrl } = useAuth()
 
   const [sendLogout] = useSendLogoutMutation()
 
@@ -56,11 +56,11 @@ const UserButton = () => {
       <div>
         <Button className="flex-center gap-1.5">
           <Image
-            src={DefaultAvatar}
+            src={avatarUrl ?? DefaultAvatar}
             alt="default-avatar"
-            className="aspect-square h-7 rounded-full object-contain"
+            className="aspect-square h-7 rounded-full object-cover"
           />
-          <p>Kantan kanji</p>
+          <p>{username}</p>
           <IconWrapper icon={<IoMdArrowDropdown />} />
         </Button>
       </div>
