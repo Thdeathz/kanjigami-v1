@@ -1,0 +1,101 @@
+parser: '@typescript-eslint/parser'
+parserOptions:
+  ecmaVersion: latest
+  sourceType: module
+
+env:
+  browser: true
+  es2020: true
+
+settings:
+  react:
+    version: detect
+  import/resolver:
+    alias:
+      map:
+        - ['~', './src']
+      extensions:
+        - .js
+        - .jsx
+        - .ts
+        - .tsx
+
+plugins:
+  - react-refresh
+  - '@typescript-eslint'
+  - prettier
+  - import
+  - unused-imports
+extends:
+  - eslint:recommended
+  - plugin:@typescript-eslint/recommended
+  - plugin:react-hooks/recommended
+  - airbnb
+  - plugin:prettier/recommended
+  - plugin:import/typescript
+  - plugin:import/errors
+  - plugin:import/warnings
+
+rules:
+  no-unused-vars: off
+  no-undef: off
+  '@typescript-eslint/no-unused-vars':
+    - warn
+    - argsIgnorePattern: ^_
+  react-refresh/only-export-components: warn
+  react/react-in-jsx-scope: off
+  react-function-component-definition: off
+  react/require-default-props: off
+  react/jsx-filename-extension:
+    - 1
+    - extensions:
+        - .ts
+        - .tsx
+        - .js
+        - .jsx
+  import/extensions:
+    - error
+    - ignorePackages
+    - js: never
+      jsx: never
+      ts: never
+      tsx: never
+
+  import/prefer-default-export: off
+  import/no-extraneous-dependencies: off
+  react/jsx-props-no-spreading: off
+  react/jsx-curly-brace-presence: off
+  no-nested-ternary: off
+  no-console: off
+
+  prettier/prettier:
+    - error
+    - printWidth: 120
+  max-len:
+    - error
+    - code: 120
+      tabWidth: 2
+      ignoreComments: true
+      ignoreTrailingComments: true
+      ignoreUrls: true
+      ignoreStrings: true
+
+  no-use-before-define: 0
+  import/order:
+    - error
+    - groups:
+        - builtin
+        - external
+        - internal
+        - parent
+        - sibling
+      newlines-between: always
+      alphabetize:
+        order: asc
+        caseInsensitive: true
+  import/no-unresolved:
+    - error
+    - ignore:
+        - '@reduxjs/toolkit/dist/query/baseQueryTypes'
+        - '@types/app'
+  unused-imports/no-unused-imports-ts: error

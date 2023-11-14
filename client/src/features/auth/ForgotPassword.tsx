@@ -1,20 +1,21 @@
+import { Form, message } from 'antd'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Form, message } from 'antd'
 import { useDocumentTitle } from 'usehooks-ts'
 
-import { EMAIL_REGEX } from '~/config/regex'
-import { useForgotPasswordMutation } from './store/authService'
-import AuthLayout from './components/AuthLayout'
 import Button from '~/components/Button'
 import Input from '~/components/Input'
 import Loading from '~/components/Loading'
+import { EMAIL_REGEX } from '~/config/regex'
+
+import AuthLayout from './components/AuthLayout'
+import { useForgotPasswordMutation } from './store/authService'
 
 type ForgotPasswordForm = {
   email: string
 }
 
-const ForgotPassword = () => {
+function ForgotPassword() {
   useDocumentTitle('Reset password | 漢字ガミ')
 
   const navigate = useNavigate()
@@ -65,12 +66,7 @@ const ForgotPassword = () => {
           <Input id="forgot-email" placeholder="example@gmail.com" disabled={isSuccess} />
         </Form.Item>
 
-        <Button
-          type="primary"
-          htmlType="submit"
-          disabled={isLoading || isSuccess}
-          className="mt-2 w-full text-lg"
-        >
+        <Button type="primary" htmlType="submit" disabled={isLoading || isSuccess} className="mt-2 w-full text-lg">
           {isLoading ? <Loading /> : 'Send OTP'}
         </Button>
       </Form>

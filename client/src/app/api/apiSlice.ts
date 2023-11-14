@@ -1,14 +1,15 @@
-import { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
+import type { BaseQueryFn } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-import { RootState } from '../store'
 import { setCredentitals } from '~/features/auth/store/authSlice'
+
+import type { RootState } from '~/@types/app'
 
 const baseQuery = fetchBaseQuery({
   baseUrl: import.meta.env.VITE_API_URL,
   credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
-    const token = (getState() as RootState).auth.token
+    const { token } = (getState() as RootState).auth
 
     if (token) {
       headers.set('authorization', `Bearer ${token}`)

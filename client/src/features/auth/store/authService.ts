@@ -1,4 +1,5 @@
 import apiSlice from '~/app/api/apiSlice'
+
 import { logout, resetEmailSuccess, setCredentitals, setResetEmail, setVerified } from './authSlice'
 
 export const authApiSlice = apiSlice.injectEndpoints({

@@ -1,12 +1,13 @@
-import React from 'react'
 import { motion } from 'framer-motion'
-
-import RankItem from './RankItem'
-import Button from '~/components/Button'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
+
+import Button from '~/components/Button'
 import { gridList } from '~/config/variants'
 
-const EventLeaderboards = () => {
+import RankItem from './RankItem'
+
+function EventLeaderboards() {
   const navigate = useNavigate()
 
   return (
@@ -17,17 +18,8 @@ const EventLeaderboards = () => {
       animate="enter"
     >
       <>
-        {Array.from(Array(11).keys()).map(index => {
-          if (index != 0)
-            return (
-              <RankItem
-                key={index}
-                rank={index}
-                username="Kantan kanji"
-                points={154532}
-                battles={233}
-              />
-            )
+        {Array.from(Array(11).keys()).map(each => {
+          return <RankItem key={each} rank={each + 1} username="Kantan kanji" points={154532} battles={233} />
         })}
       </>
 

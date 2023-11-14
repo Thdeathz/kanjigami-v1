@@ -1,8 +1,8 @@
+/* eslint-disable */
 /// <reference types="vite/client" />
 /// <reference types="vite-plugin-pwa/react" />
 
 declare module 'virtual:pwa-register/react' {
-  // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
   // @ts-expect-error ignore when react is not installed
   import type { Dispatch, SetStateAction } from 'react'
   import type { RegisterSWOptions } from 'vite-plugin-pwa/types'

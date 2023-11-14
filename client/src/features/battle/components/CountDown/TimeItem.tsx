@@ -1,4 +1,5 @@
 import React from 'react'
+
 import AnimateCountDown from './AnimateCountDown'
 
 type PropsType = {
@@ -9,13 +10,7 @@ type PropsType = {
   isHiddenSeparator?: boolean
 }
 
-const TimeItem = ({
-  value,
-  label,
-  size = 'normal',
-  type,
-  isHiddenSeparator = false
-}: PropsType) => {
+function TimeItem({ value, label, size = 'normal', type, isHiddenSeparator = false }: PropsType) {
   if (type === 'animate')
     return (
       <div className="flex items-start justify-center gap-1">

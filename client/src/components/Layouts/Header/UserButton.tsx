@@ -1,16 +1,16 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
 import { Popover, message } from 'antd'
+import React from 'react'
 import { IoMdArrowDropdown } from 'react-icons/io'
+import { useNavigate } from 'react-router-dom'
 
-import Button from '~/components/Button'
 import DefaultAvatar from '~/assets/default-avatar.jpg'
+import Button from '~/components/Button'
 import IconWrapper from '~/components/IconWrapper'
-import useAuth from '~/hooks/useAuth'
-import { useSendLogoutMutation } from '~/features/auth/store/authService'
 import Image from '~/components/Image'
+import { useSendLogoutMutation } from '~/features/auth/store/authService'
+import useAuth from '~/hooks/useAuth'
 
-const UserButton = () => {
+function UserButton() {
   const navigate = useNavigate()
   const { email, username, avatarUrl } = useAuth()
 
@@ -35,21 +35,23 @@ const UserButton = () => {
       arrow={false}
       content={
         <div className="flex min-w-[10vw] flex-col items-start justify-start gap-2 p-1 text-base font-medium text-clr-link-light dark:text-clr-link-dark">
-          <p
+          <button
+            type="button"
             className="cursor-pointer transition-all hover:underline"
             onClick={() => navigate(`/player/${email.split('@')[0]}`)}
           >
             View Profile
-          </p>
-          <p
+          </button>
+          <button
+            type="button"
             className="cursor-pointer transition-all hover:underline"
             onClick={() => navigate('/me')}
           >
             My Analytics
-          </p>
-          <p className="cursor-pointer transition-all hover:underline" onClick={onLogout}>
+          </button>
+          <button type="button" className="cursor-pointer transition-all hover:underline" onClick={onLogout}>
             Logout
-          </p>
+          </button>
         </div>
       }
     >

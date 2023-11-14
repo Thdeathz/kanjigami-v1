@@ -1,8 +1,8 @@
+import { motion } from 'framer-motion'
 import React from 'react'
 import { FaChartArea } from 'react-icons/fa'
 import { IoMdArrowDropdown } from 'react-icons/io'
 import { useDocumentTitle } from 'usehooks-ts'
-import { motion } from 'framer-motion'
 
 import FilterBox from '~/components/Filter/FilterBox'
 import FilterItem from '~/components/Filter/FilterItem'
@@ -12,7 +12,7 @@ import PageHeader from '~/components/PageHeader'
 import Panel from '~/components/Panel'
 import { panelVariants } from '~/config/variants'
 
-const UserStats = () => {
+function UserStats() {
   useDocumentTitle('My Analytics | 漢字ガミ')
 
   return (
@@ -39,11 +39,11 @@ const UserStats = () => {
             </thead>
 
             <tbody className="table-row-group align-middle">
-              {Array.from(Array(10).keys()).map((each, index) => (
+              {Array.from(Array(10).keys()).map(each => (
                 <tr
-                  key={`status-row-${index}`}
+                  key={`status-row-${each}`}
                   className={`font-medium text-text-secondary-light dark:text-text-secondary-dark ${
-                    index % 2 !== 0 && 'bg-table-header-light dark:bg-table-header-dark'
+                    each % 2 !== 0 && 'bg-table-header-light dark:bg-table-header-dark'
                   }`}
                 >
                   <td className="px-2.5">

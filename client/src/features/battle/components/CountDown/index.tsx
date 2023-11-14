@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react'
 import { useEffectOnce } from 'usehooks-ts'
 
 import { getDateDifference } from '~/utils/countDown'
+
 import TimeItem from './TimeItem'
 
 type PropsType = {
@@ -11,7 +12,7 @@ type PropsType = {
   onFinish?: () => void
 }
 
-const CountDown = ({ size = 'normal', maxLength = 4, type = 'normal', onFinish }: PropsType) => {
+function CountDown({ size = 'normal', maxLength = 4, type = 'normal', onFinish }: PropsType) {
   const [remaining, setRemaining] = useState<RemainingTime | null>(null)
   const intervalRef = useRef<NodeJS.Timeout>()
 
@@ -46,7 +47,8 @@ const CountDown = ({ size = 'normal', maxLength = 4, type = 'normal', onFinish }
   useEffectOnce(() => {
     update()
 
-    const interval = (intervalRef.current = setInterval(update, 1000))
+    intervalRef.current = setInterval(update, 1000)
+    const interval = intervalRef.current
 
     return () => {
       clearInterval(interval)
@@ -60,12 +62,7 @@ const CountDown = ({ size = 'normal', maxLength = 4, type = 'normal', onFinish }
   return (
     <div className="flex-center gap-1">
       {remaining?.days && (
-        <TimeItem
-          value={remaining.days}
-          size={size}
-          label={type === 'animate' ? 'days' : 'd'}
-          type={type}
-        />
+        <TimeItem value={remaining.days} size={size} label={type === 'animate' ? 'days' : 'd'} type={type} />
       )}
 
       {isShowHours && (

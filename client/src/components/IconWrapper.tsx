@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useMemo } from 'react'
 import { IconBaseProps, IconContext, IconType } from 'react-icons'
 
 interface PropsType extends IconBaseProps {
@@ -6,9 +6,11 @@ interface PropsType extends IconBaseProps {
   className?: string
 }
 
-const IconWrapper = ({ icon, className }: PropsType) => {
+function IconWrapper({ icon, className }: PropsType) {
+  const value = useMemo(() => ({ className }), [className])
+
   return (
-    <IconContext.Provider value={{ className }}>
+    <IconContext.Provider value={value}>
       <div>{icon}</div>
     </IconContext.Provider>
   )

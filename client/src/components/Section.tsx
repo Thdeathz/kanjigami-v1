@@ -1,5 +1,6 @@
 import React, { ReactElement, ReactNode } from 'react'
 import { IconType } from 'react-icons'
+
 import IconWrapper from './IconWrapper'
 
 type PropsType = {
@@ -11,7 +12,7 @@ type PropsType = {
   children: ReactNode
 }
 
-const Section = ({ title, description, icon, viewButton, className, children }: PropsType) => {
+function Section({ title, description, icon, viewButton, className, children }: PropsType) {
   return (
     <div className={`min-w-full max-w-full ${className ?? ''}`}>
       <div className="mb-4 flex items-center justify-between">

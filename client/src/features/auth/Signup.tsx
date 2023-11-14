@@ -1,18 +1,19 @@
+import { Form, message } from 'antd'
 import React, { useState } from 'react'
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDocumentTitle } from 'usehooks-ts'
-import { Form, message } from 'antd'
 
-import { useSignupMutation } from './store/authService'
-import { EMAIL_REGEX, PWD_REGEX } from '~/config/regex'
-import AuthLayout from './components/AuthLayout'
-import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 import Button from '~/components/Button'
 import Input from '~/components/Input'
-import { signUpErrorMessages } from './utils/errorMessages'
 import Loading from '~/components/Loading'
+import { EMAIL_REGEX, PWD_REGEX } from '~/config/regex'
 
-const Signup = () => {
+import AuthLayout from './components/AuthLayout'
+import { useSignupMutation } from './store/authService'
+import { signUpErrorMessages } from './utils/errorMessages'
+
+function Signup() {
   useDocumentTitle('Register | 漢字ガミ')
 
   const navigate = useNavigate()
@@ -40,19 +41,8 @@ const Signup = () => {
 
   return (
     <AuthLayout title="Sign up">
-      <Form
-        form={form}
-        name="register"
-        size="large"
-        autoComplete="off"
-        onFinish={onFinish}
-        className="min-w-[24rem]"
-      >
-        <Form.Item
-          name="username"
-          rules={[{ required: true, message: 'Username is required.' }]}
-          initialValue=""
-        >
+      <Form form={form} name="register" size="large" autoComplete="off" onFinish={onFinish} className="min-w-[24rem]">
+        <Form.Item name="username" rules={[{ required: true, message: 'Username is required.' }]} initialValue="">
           <Input
             id="username"
             withPrefix={<p className="w-[4rem]">Username</p>}
@@ -108,13 +98,10 @@ const Signup = () => {
           {isLoading ? <Loading /> : 'Create account'}
         </Button>
 
-        <div className="mt-2 text-base text-text-light dark:text-text-dark">
+        <div className="mt-4 text-base text-text-light dark:text-text-dark">
           Already has account?{' '}
-          <Link
-            to="/login"
-            className="text-primary-5 cursor-pointer font-medium transition-all hover:border-b"
-          >
-            Sign up
+          <Link to="/login" className="text-primary-5 cursor-pointer font-medium transition-all hover:border-b">
+            Sign in
           </Link>
         </div>
       </Form>

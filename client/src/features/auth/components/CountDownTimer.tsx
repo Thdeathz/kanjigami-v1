@@ -1,16 +1,17 @@
-import React from 'react'
 import { message } from 'antd'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useCountdown, useEffectOnce } from 'usehooks-ts'
 
-import { useForgotPasswordMutation } from '../store/authService'
 import Loading from '~/components/Loading'
+
+import { useForgotPasswordMutation } from '../store/authService'
 
 type PropsType = {
   resetEmail: string
 }
 
-const CountDownTimer = ({ resetEmail }: PropsType) => {
+function CountDownTimer({ resetEmail }: PropsType) {
   const navigate = useNavigate()
   const [forgotPassword, { isLoading }] = useForgotPasswordMutation()
 
@@ -39,27 +40,21 @@ const CountDownTimer = ({ resetEmail }: PropsType) => {
 
   return (
     <div className="mt-2 text-base font-medium text-text-light dark:text-text-dark">
-      Didn't recieve code?{' '}
+      Didn&apos;t recieve code?
       <button
         type="button"
         onClick={onReSendOTP}
         disabled={count > 0 || isLoading}
         className={`
-        h-5 cursor-pointer font-medium transition-all
-        ${
-          count > 0 || isLoading
-            ? 'text-text-secondary-light dark:text-text-secondary-dark'
-            : ' text-primary-5 hover:border-b'
-        }
-      `}
+          ml-2 h-5 cursor-pointer font-medium transition-all
+          ${
+            count > 0 || isLoading
+              ? 'text-text-secondary-light dark:text-text-secondary-dark'
+              : ' text-primary-5 hover:border-b'
+          }
+        `}
       >
-        {count > 0 ? (
-          `Resend in ${count}s`
-        ) : isLoading ? (
-          <Loading className="ml-4" />
-        ) : (
-          'Resend OTP'
-        )}
+        {count > 0 ? `Resend in ${count}s` : isLoading ? <Loading className="ml-4" /> : 'Resend OTP'}
       </button>
     </div>
   )

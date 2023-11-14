@@ -1,20 +1,21 @@
-import React from 'react'
-import { signInWithPopup } from 'firebase/auth'
-import { useNavigate } from 'react-router-dom'
 import { FormInstance, message } from 'antd'
+import { signInWithPopup } from 'firebase/auth'
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
+
+import GoogleLogo from '~/assets/google_logo.svg'
+import Button from '~/components/Button'
+import Image from '~/components/Image'
+import Loading from '~/components/Loading'
+import { auth, googleProvider } from '~/config/firebase'
 
 import { useLoginByGoogleMutation } from '../store/authService'
-import GoogleLogo from '~/assets/google_logo.svg'
-import { auth, googleProvider } from '~/config/firebase'
-import Image from '~/components/Image'
-import Button from '~/components/Button'
-import Loading from '~/components/Loading'
 
 type PropsType = {
   form: FormInstance<UserCredentials>
 }
 
-const GoogleLogin = ({ form }: PropsType) => {
+function GoogleLogin({ form }: PropsType) {
   const navigate = useNavigate()
   const [loginByGoogle, { isLoading }] = useLoginByGoogleMutation()
 

@@ -1,8 +1,9 @@
 import { createEntityAdapter, createSelector } from '@reduxjs/toolkit'
 
 import apiSlice from '~/app/api/apiSlice'
-import { RootState } from '~/app/store'
 import { setCredentitals } from '~/features/auth/store/authSlice'
+
+import type { RootState } from '~/@types/app'
 
 const usersAdapter = createEntityAdapter<User>({})
 
@@ -13,17 +14,14 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     getUsers: builder.query({
       query: () => ({
         url: '/user',
-        validateStatus: (response: Response, result: ApiResult) =>
-          response.status === 200 && !result.isError
+        validateStatus: (response: Response, result: ApiResult) => response.status === 200 && !result.isError
       }),
       transformResponse: (response: User[]) => usersAdapter.setAll(initialState, response),
       providesTags: result => {
         if (result?.ids) {
-          return [
-            { type: 'User', id: 'LIST' },
-            ...result.ids.map(id => ({ type: 'User' as const, id }))
-          ]
-        } else return [{ type: 'User', id: 'LIST' }]
+          return [{ type: 'User', id: 'LIST' }, ...result.ids.map(id => ({ type: 'User' as const, id }))]
+        }
+        return [{ type: 'User', id: 'LIST' }]
       }
     }),
 

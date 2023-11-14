@@ -1,5 +1,5 @@
-import React, { MouseEvent, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
+import React, { MouseEvent, useEffect, useState } from 'react'
 
 import CardBackground from '~/assets/card-background.gif'
 import Image from '~/components/Image'
@@ -36,13 +36,13 @@ const cardList = {
   }
 }
 
-const BlindCardGame = () => {
+function BlindCardGame() {
   const [activedCard, setActivedCard] = useState<ActivedCard[]>([])
 
   const handleCardClick = (e: MouseEvent<HTMLDivElement>, index: number) => {
     if (activedCard.length === 2) return
 
-    const currentTarget = e.currentTarget
+    const { currentTarget } = e
     currentTarget.classList.add('flip')
 
     setActivedCard([
@@ -62,20 +62,15 @@ const BlindCardGame = () => {
         setTimeout(() => {
           firstCard.card.classList.add('invisible')
           secondCard.card.classList.add('invisible')
-          setActivedCard(prev =>
-            prev.filter(each => each.id !== firstCard.id && each.id !== secondCard.id)
-          )
+          setActivedCard(prev => prev.filter(each => each.id !== firstCard.id && each.id !== secondCard.id))
         }, 100)
       }
 
       setTimeout(() => {
         firstCard.card.classList.remove('flip')
         secondCard.card.classList.remove('flip')
-        setActivedCard(prev =>
-          prev.filter(each => each.id !== firstCard.id && each.id !== secondCard.id)
-        )
+        setActivedCard(prev => prev.filter(each => each.id !== firstCard.id && each.id !== secondCard.id))
       }, 650)
-      return
     }
   }, [activedCard])
 
@@ -86,11 +81,11 @@ const BlindCardGame = () => {
       initial="hidden"
       animate="enter"
     >
-      {Array.from(Array(24).keys()).map((_, index) => (
+      {Array.from(Array(24).keys()).map(each => (
         <motion.div
-          key={`flip-blind-card-${index}`}
+          key={`flip-blind-card-${each}`}
           className="card relative cursor-pointer active:scale-95"
-          onClick={e => handleCardClick(e, index)}
+          onClick={e => handleCardClick(e, each)}
           variants={cardList.item}
         >
           <div className="card-front absolute aspect-ratio h-full w-full rounded-lg bg-white">
@@ -101,10 +96,7 @@ const BlindCardGame = () => {
           </div>
 
           <div className="card-back absolute aspect-ratio h-full w-full">
-            <Image
-              src={CardBackground}
-              className="h-full w-full rounded-lg object-cover object-top"
-            />
+            <Image src={CardBackground} className="h-full w-full rounded-lg object-cover object-top" />
           </div>
         </motion.div>
       ))}

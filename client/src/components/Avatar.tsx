@@ -2,6 +2,7 @@ import { Tooltip } from 'antd'
 import React from 'react'
 
 import DefaultAvatar from '~/assets/default-avatar.jpg'
+
 import Image from './Image'
 
 type PropsType = {
@@ -12,14 +13,8 @@ type PropsType = {
   username?: string
 }
 
-const Avatar = ({ src, className, height, username, size = 'base' }: PropsType) => {
-  const avatarHeight = height
-    ? height
-    : size === 'small'
-    ? 'h-[1.75rem]'
-    : size === 'base'
-    ? 'h-[2.25rem]'
-    : 'h-[2.75rem]'
+function Avatar({ src, className, height, username, size = 'base' }: PropsType) {
+  const avatarHeight = height || (size === 'small' ? 'h-[1.75rem]' : size === 'base' ? 'h-[2.25rem]' : 'h-[2.75rem]')
 
   return (
     <Tooltip
@@ -28,7 +23,7 @@ const Avatar = ({ src, className, height, username, size = 'base' }: PropsType) 
       mouseEnterDelay={0}
       mouseLeaveDelay={0}
     >
-      <button className={`${className ?? ''} rounded-full`}>
+      <button type="button" className={`${className ?? ''} rounded-full`}>
         <Image
           src={src ?? DefaultAvatar}
           alt="avatar"

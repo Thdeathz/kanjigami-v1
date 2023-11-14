@@ -1,20 +1,22 @@
 import React from 'react'
-import { useDocumentTitle } from 'usehooks-ts'
 import { BsStack } from 'react-icons/bs'
 import { RiSwordFill } from 'react-icons/ri'
 import { useNavigate } from 'react-router-dom'
+import { useDocumentTitle } from 'usehooks-ts'
 
-import DefaultLayout from '~/components/Layouts/DefaultLayout'
-import useAuth from '~/hooks/useAuth'
 import Button from '~/components/Button'
+import DefaultLayout from '~/components/Layouts/DefaultLayout'
 import OnlineRound from '~/components/OnlineRound'
-import Section from '~/components/Section'
-import StacksList from './components/StacksList'
-import HomeThumbnail from './components/HomeThumbnail'
 import RootNotification from '~/components/RootNotification'
+import Section from '~/components/Section'
+import useAuth from '~/hooks/useAuth'
+
 import BattleInfo from '../battle/components/BattleInfo'
 
-const Home = () => {
+import HomeThumbnail from './components/HomeThumbnail'
+import StacksList from './components/StacksList'
+
+function Home() {
   useDocumentTitle('漢字ガミ')
 
   const navigate = useNavigate()

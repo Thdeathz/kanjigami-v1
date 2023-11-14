@@ -1,3 +1,5 @@
+/* eslint-disable react/no-array-index-key */
+import classNames from 'classnames'
 import React, { useEffect, useRef, useState } from 'react'
 
 type PropsType = {
@@ -11,7 +13,7 @@ type NumberPropsType = {
   size: 'large' | 'normal'
 }
 
-const Number = ({ value, nextValue, size }: NumberPropsType) => {
+function Number({ value, nextValue, size }: NumberPropsType) {
   const el = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -29,13 +31,16 @@ const Number = ({ value, nextValue, size }: NumberPropsType) => {
     }, 950)
   }, [nextValue, value])
 
+  const numberClassName = classNames(
+    'count relative w-7 rounded-lg text-center text-text-secondary-light dark:text-text-secondary-dark dark:shadow-timer',
+    {
+      'h-10': size === 'large',
+      'h-9': size === 'normal'
+    }
+  )
+
   return (
-    <div
-      ref={el}
-      className={`count relative w-7 rounded-lg text-center text-text-secondary-light dark:text-text-secondary-dark dark:shadow-timer ${
-        size === 'normal' ? 'h-9' : 'h-10'
-      }`}
-    >
+    <div ref={el} className={numberClassName}>
       <span className="current-top absolute left-0 top-0 z-[4] h-[50%] w-full overflow-hidden rounded-t-lg bg-gradient-to-tl from-count-down-start to-count-down-end py-1 shadow-timer-item before:bottom-0 after:rounded-t-lg dark:from-count-down-dark dark:to-count-down-dark">
         {value}
       </span>
@@ -55,11 +60,9 @@ const Number = ({ value, nextValue, size }: NumberPropsType) => {
   )
 }
 
-const AnimateCountDown = ({ number, size = 'normal' }: PropsType) => {
+function AnimateCountDown({ number, size = 'normal' }: PropsType) {
   const [numbers, setNumbers] = useState<string[]>(number.toString().padStart(2, '0').split(''))
-  const [lastNumbers, setLastNumbers] = useState<string[]>(
-    number.toString().padStart(2, '0').split('')
-  )
+  const [lastNumbers, setLastNumbers] = useState<string[]>(number.toString().padStart(2, '0').split(''))
 
   useEffect(() => {
     const arr = number.toString().padStart(2, '0').split('')
@@ -70,16 +73,9 @@ const AnimateCountDown = ({ number, size = 'normal' }: PropsType) => {
   }, [number])
 
   return (
-    <div
-      className={`flex-center gap-1.5 font-medium ${size === 'normal' ? 'text-lg' : 'text-2xl'}`}
-    >
+    <div className={`flex-center gap-1.5 font-medium ${size === 'normal' ? 'text-lg' : 'text-2xl'}`}>
       {numbers.map((n, index) => (
-        <Number
-          key={`animate-count-down${index}`}
-          value={lastNumbers[index]}
-          nextValue={n}
-          size={size}
-        />
+        <Number key={`animate-count-down${index}`} value={lastNumbers[index]} nextValue={n} size={size} />
       ))}
     </div>
   )

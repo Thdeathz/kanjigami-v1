@@ -1,15 +1,16 @@
-import React, { useState } from 'react'
 import { Form } from 'antd'
+import React, { useState } from 'react'
 
 import Button from '~/components/Button'
-import InputWrapper from './InputWrapper'
 import Input from '~/components/Input'
+
+import InputWrapper from './InputWrapper'
 
 type PropsType = {
   currentUsername: string
 }
 
-const EditUsername = ({ currentUsername }: PropsType) => {
+function EditUsername({ currentUsername }: PropsType) {
   const [form] = Form.useForm<{ username: string }>()
 
   const [username, setUsername] = useState<string>(currentUsername)
@@ -23,9 +24,7 @@ const EditUsername = ({ currentUsername }: PropsType) => {
           helper="Minimum 3 and maximum 20 characters long. Alphabets, numbers and underscore(_) allowed. Case-insensitive."
           saveButton={
             <Button
-              className={`${
-                (username.trim().length < 3 || username.trim() === currentUsername) && 'opacity-50'
-              }`}
+              className={`${(username.trim().length < 3 || username.trim() === currentUsername) && 'opacity-50'}`}
               type="primary"
               disabled={username.trim().length < 3 || username === currentUsername}
             >

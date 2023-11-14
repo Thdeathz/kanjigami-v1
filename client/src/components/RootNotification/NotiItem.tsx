@@ -6,7 +6,7 @@ type PropsType = {
   id: string
 }
 
-const NotiItem = ({ id }: PropsType) => {
+function NotiItem({ id }: PropsType) {
   return (
     <div className="flex items-center justify-start gap-2 rounded-2xl border-2 border-clr-border-1-light px-3 py-1 text-sm dark:border-clr-border-1-dark">
       <Avatar size="small" />
