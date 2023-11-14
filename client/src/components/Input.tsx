@@ -1,6 +1,7 @@
+import { Form } from 'antd'
+import classNames from 'classnames'
 import React, { InputHTMLAttributes, MouseEventHandler, ReactElement, ReactNode } from 'react'
 import { IconType } from 'react-icons'
-import { Form } from 'antd'
 
 import IconWrapper from './IconWrapper'
 
@@ -12,8 +13,23 @@ interface PropsType extends InputHTMLAttributes<HTMLInputElement> {
   className?: string
 }
 
-const Input = ({ id, withPrefix, lastIcon, lastIconOnClick, className, ...props }: PropsType) => {
+function getInputClassName(withPrefix: boolean, status: string, className?: string) {
+  return classNames(
+    'grow border bg-input-light px-4 py-3 transition-colors focus:border-input-glory-light  dark:bg-input-dark dark:focus:border-white',
+    {
+      'rounded-e-full': withPrefix,
+      'rounded-full': !withPrefix,
+      'border-red-light dark:border-red-dark': status === 'error',
+      'border-green-light dark:border-green-dark': status === 'success',
+      'border-input-border-light dark:border-input-border-dark': status === '' || status === undefined
+    },
+    className
+  )
+}
+
+function Input({ id, withPrefix, lastIcon, lastIconOnClick, className, ...props }: PropsType) {
   const { status } = Form.Item.useStatus()
+  const inputClassName = getInputClassName(!!withPrefix, status as string, className)
 
   return (
     <div className="flex-center relative w-full gap-[1px] text-base font-medium text-text-light dark:text-text-dark">
@@ -26,27 +42,16 @@ const Input = ({ id, withPrefix, lastIcon, lastIconOnClick, className, ...props 
         </label>
       )}
 
-      <input
-        {...props}
-        id={id}
-        className={`grow border bg-input-light px-4 py-3 transition-colors focus:border-input-glory-light  dark:bg-input-dark dark:focus:border-white 
-          ${withPrefix ? 'rounded-e-full' : 'rounded-full'}
-          ${status === 'error' ? 'border-red-light dark:border-red-dark  ' : ''}
-          ${status === 'success' ? 'border-green-light dark:border-green-dark' : ''}
-          ${
-            status === '' || status === undefined
-              ? 'border-input-border-light dark:border-input-border-dark'
-              : ''
-          }
-          ${className}`}
-      />
+      <input {...props} id={id} className={inputClassName} />
 
       {lastIcon && lastIconOnClick && (
-        <button type="button" className="absolute right-4 cursor-pointer" onClick={lastIconOnClick}>
-          <IconWrapper
-            icon={lastIcon}
-            className="text-2xl text-text-secondary-light dark:text-text-secondary-dark"
-          />
+        <button
+          type="button"
+          aria-label="input-toggle"
+          className="absolute right-4 cursor-pointer"
+          onClick={lastIconOnClick}
+        >
+          <IconWrapper icon={lastIcon} className="text-2xl text-text-secondary-light dark:text-text-secondary-dark" />
         </button>
       )}
     </div>

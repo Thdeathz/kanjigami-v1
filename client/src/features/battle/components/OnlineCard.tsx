@@ -1,11 +1,13 @@
+import classNames from 'classnames'
 import React from 'react'
 import { FaCrown } from 'react-icons/fa'
 
 import LockedIcon from '~/assets/lock-icon.svg'
 import Avatar from '~/components/Avatar'
 import IconWrapper from '~/components/IconWrapper'
-import CountDown from './CountDown'
 import Image from '~/components/Image'
+
+import CountDown from './CountDown'
 
 type PropsType = {
   imageSrc?: string
@@ -15,18 +17,25 @@ type PropsType = {
   className?: string
 }
 
-const OnlineCard = ({ imageSrc, topUsername, topScore, stack, className }: PropsType) => {
+function getOnlineCardClassName(stack: boolean, className?: string) {
+  return classNames(
+    'card-item flex-center z-10 h-full cursor-pointer flex-col rounded-2xl bg-gradient-to-tl from-card-light-start from-0% to-card-light-end to-100% p-2.5 shadow-card hover:translate-y-[-10px] hover:scale-105 hover:opacity-100 dark:from-card-dark-start dark:to-card-dark-end dark:shadow-dark-panel',
+    {
+      'pointer-events-auto': stack,
+      'pointer-events-none': !stack
+    },
+    className
+  )
+}
+
+function OnlineCard({ imageSrc, topUsername, topScore, stack, className }: PropsType) {
+  const onlineCardClassName = getOnlineCardClassName(!!stack, className)
+
   return (
-    <div
-      className={`card-item flex-center z-10 h-full cursor-pointer flex-col rounded-2xl bg-gradient-to-tl from-card-light-start from-0% to-card-light-end to-100% p-2.5 shadow-card hover:translate-y-[-10px] hover:scale-105 hover:opacity-100 dark:from-card-dark-start dark:to-card-dark-end dark:shadow-dark-panel
-      ${stack ? 'pointer-events-auto' : 'pointer-events-none'}
-      ${className ?? ''}`}
-    >
+    <div className={onlineCardClassName}>
       <div className="w-full rounded-lg border-[3px] border-white dark:border-[#111217]">
         <div
-          className={`relative aspect-ratio rounded-lg transition-transform ${
-            !stack && 'flex-center bg-game-locked'
-          }`}
+          className={`relative aspect-ratio rounded-lg transition-transform ${!stack && 'flex-center bg-game-locked'}`}
         >
           {stack ? (
             <>

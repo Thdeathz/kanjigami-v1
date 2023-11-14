@@ -1,14 +1,15 @@
 import React from 'react'
-import { useParams, useSearchParams } from 'react-router-dom'
 import { BsStack } from 'react-icons/bs'
+import { GiCardExchange } from 'react-icons/gi'
+import { useParams, useSearchParams } from 'react-router-dom'
 
 import GameLayout from '~/components/Layouts/GameLayout'
-import GameLobby from './components/GameLobby'
-import { GiCardExchange } from 'react-icons/gi'
-import GameStatus from './components/GameStatus'
-import BlindCardGame from './components/BlindCardGame'
 
-const FlipBlindCard = () => {
+import BlindCardGame from './components/BlindCardGame'
+import GameLobby from './components/GameLobby'
+import GameStatus from './components/GameStatus'
+
+function FlipBlindCard() {
   const { stackId } = useParams()
   const [searchParams] = useSearchParams()
   const gameId = searchParams.get('gameId')
@@ -36,23 +37,15 @@ const FlipBlindCard = () => {
       ]}
       className={gameId ? '' : 'flex-center'}
     >
-      <>
-        {gameId ? (
-          <>
-            <GameStatus />
+      {gameId ? (
+        <>
+          <GameStatus />
 
-            <BlindCardGame />
-          </>
-        ) : (
-          <GameLobby
-            icon={<GiCardExchange />}
-            title="Flip blind card"
-            stackName="👪 家族"
-            life={5}
-            time="01:30"
-          />
-        )}
-      </>
+          <BlindCardGame />
+        </>
+      ) : (
+        <GameLobby icon={<GiCardExchange />} title="Flip blind card" stackName="👪 家族" life={5} time="01:30" />
+      )}
     </GameLayout>
   )
 }

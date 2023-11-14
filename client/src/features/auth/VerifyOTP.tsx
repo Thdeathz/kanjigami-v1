@@ -1,20 +1,21 @@
+import { Form, Input, message } from 'antd'
 import React from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
-import { Form, Input, message } from 'antd'
 
-import { useAppSelector } from '~/hooks/useRedux'
-import { selectResetEmail } from './store/authSlice'
-import CountDownTimer from './components/CountDownTimer'
-import { useVerifyOTPTokenMutation } from './store/authService'
-import AuthLayout from './components/AuthLayout'
 import Button from '~/components/Button'
 import Loading from '~/components/Loading'
+import { useAppSelector } from '~/hooks/useRedux'
+
+import AuthLayout from './components/AuthLayout'
+import CountDownTimer from './components/CountDownTimer'
+import { useVerifyOTPTokenMutation } from './store/authService'
+import { selectResetEmail } from './store/authSlice'
 
 type OTPInputProps = {
   name: string
 }
 
-const OTPInput = ({ name }: OTPInputProps) => {
+function OTPInput({ name }: OTPInputProps) {
   return (
     <Form.Item name={name} initialValue="">
       <Input
@@ -26,7 +27,7 @@ const OTPInput = ({ name }: OTPInputProps) => {
   )
 }
 
-const VerifyOTP = () => {
+function VerifyOTP() {
   const navigate = useNavigate()
   const resetEmail = useAppSelector(selectResetEmail)
   const [form] = Form.useForm<OTP>()
@@ -80,37 +81,28 @@ const VerifyOTP = () => {
     }
   }
 
+  if (!resetEmail) return <Navigate to="/forgot-password" />
+
   return (
-    <>
-      {resetEmail ? (
-        <AuthLayout title="Email verification">
-          <Form size="large" form={form} onFinish={onFinish}>
-            <div className="flex-center w-full flex-row gap-4">
-              <OTPInput name="first" />
+    <AuthLayout title="Email verification">
+      <Form size="large" form={form} onFinish={onFinish}>
+        <div className="flex-center w-full flex-row gap-4">
+          <OTPInput name="first" />
 
-              <OTPInput name="second" />
+          <OTPInput name="second" />
 
-              <OTPInput name="third" />
+          <OTPInput name="third" />
 
-              <OTPInput name="fourth" />
-            </div>
+          <OTPInput name="fourth" />
+        </div>
 
-            <Button
-              disabled={isLoading}
-              className="mb-2 w-full text-lg"
-              type="primary"
-              htmlType="submit"
-            >
-              {isLoading ? <Loading className="flex-center" /> : 'Verify Account'}
-            </Button>
+        <Button disabled={isLoading} className="mb-2 w-full text-lg" type="primary" htmlType="submit">
+          {isLoading ? <Loading className="flex-center" /> : 'Verify Account'}
+        </Button>
 
-            <CountDownTimer resetEmail={resetEmail} />
-          </Form>
-        </AuthLayout>
-      ) : (
-        <Navigate to="/forgot-password" />
-      )}
-    </>
+        <CountDownTimer resetEmail={resetEmail} />
+      </Form>
+    </AuthLayout>
   )
 }
 

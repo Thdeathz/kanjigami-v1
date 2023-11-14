@@ -1,18 +1,19 @@
+import { motion } from 'framer-motion'
 import React, { ReactElement } from 'react'
+import { type IconType } from 'react-icons'
+import { BsStack } from 'react-icons/bs'
+import { GiJewelCrown, GiLaurelCrown } from 'react-icons/gi'
+import { RiSwordFill } from 'react-icons/ri'
 import { useNavigate } from 'react-router-dom'
 import { useDocumentTitle } from 'usehooks-ts'
-import { type IconType } from 'react-icons'
-import { RiSwordFill } from 'react-icons/ri'
-import { GiJewelCrown, GiLaurelCrown } from 'react-icons/gi'
-import { motion } from 'framer-motion'
 
-import useAuth from '~/hooks/useAuth'
-import Button from '~/components/Button'
-import DefaultLayout from '~/components/Layouts/DefaultLayout'
 import Avatar from '~/components/Avatar'
-import { BsStack } from 'react-icons/bs'
-import UserStatsItem from './components/UserStatsItem'
+import Button from '~/components/Button'
 import IconWrapper from '~/components/IconWrapper'
+import DefaultLayout from '~/components/Layouts/DefaultLayout'
+import useAuth from '~/hooks/useAuth'
+
+import UserStatsItem from './components/UserStatsItem'
 
 type RankInfoPropsType = {
   icon: ReactElement<IconType>
@@ -40,7 +41,7 @@ const animationVariants = {
   }
 }
 
-const RankInfo = ({ icon, label, value }: RankInfoPropsType) => {
+function RankInfo({ icon, label, value }: RankInfoPropsType) {
   return (
     <motion.div
       className="rank-info relative basis-1/2 p-4 text-center before:absolute before:rounded-2xl before:border-2 before:border-clr-border-1-light  before:dark:border-clr-border-1-dark"
@@ -54,14 +55,12 @@ const RankInfo = ({ icon, label, value }: RankInfoPropsType) => {
       </div>
 
       <p className="text-xl font-bold text-clr-link-light dark:text-clr-link-dark">{value}</p>
-      <p className="text-base font-medium text-text-secondary-light dark:text-text-secondary-dark">
-        {label}
-      </p>
+      <p className="text-base font-medium text-text-secondary-light dark:text-text-secondary-dark">{label}</p>
     </motion.div>
   )
 }
 
-const Profile = () => {
+function Profile() {
   useDocumentTitle('Me | 漢字ガミ')
 
   const navigate = useNavigate()
@@ -77,7 +76,7 @@ const Profile = () => {
         animate="enter"
       >
         <div className="mb-12 flex items-start justify-between">
-          <div className="w-full"></div>
+          <div className="w-full" />
 
           <div className="flex-center mt-[-6rem] w-max flex-col gap-4">
             <div className="flex-center aspect-square h-[8rem] rounded-full border-2 border-profile-avatar-outline-light dark:border-profile-avatar-outline-dark">

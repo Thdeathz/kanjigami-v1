@@ -1,20 +1,21 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
 import { Checkbox, Divider, Form, message } from 'antd'
-import { useDocumentTitle } from 'usehooks-ts'
+import React, { useState } from 'react'
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDocumentTitle } from 'usehooks-ts'
 
-import usePersist from '~/hooks/usePersist'
-import { EMAIL_REGEX } from '~/config/regex'
-import GoogleLogin from './components/GoogleLogin'
 import Button from '~/components/Button'
-import AuthLayout from './components/AuthLayout'
 import Input from '~/components/Input'
 import Loading from '~/components/Loading'
+import { EMAIL_REGEX } from '~/config/regex'
+import usePersist from '~/hooks/usePersist'
+
+import AuthLayout from './components/AuthLayout'
+import GoogleLogin from './components/GoogleLogin'
 import { useLoginByEmailMutation } from './store/authService'
 import { signInErrorMessages } from './utils/errorMessages'
 
-const Login = () => {
+function Login() {
   useDocumentTitle('Login | 漢字ガミ')
 
   const navigate = useNavigate()
@@ -61,11 +62,7 @@ const Login = () => {
           />
         </Form.Item>
 
-        <Form.Item
-          name="password"
-          rules={[{ required: true, message: 'Password is required.' }]}
-          initialValue=""
-        >
+        <Form.Item name="password" rules={[{ required: true, message: 'Password is required.' }]} initialValue="">
           <Input
             id="password"
             withPrefix={<p className="w-[4rem]">Password</p>}
@@ -103,11 +100,8 @@ const Login = () => {
         <GoogleLogin form={form} />
 
         <div className="mt-4 text-base text-text-light dark:text-text-dark">
-          Haven't account yet?{' '}
-          <Link
-            to="/signup"
-            className="text-primary-5 cursor-pointer font-medium transition-all hover:border-b"
-          >
+          Haven&apos;t account yet?
+          <Link to="/signup" className="text-primary-5 ml-2 cursor-pointer font-medium transition-all hover:border-b">
             Sign up
           </Link>
         </div>

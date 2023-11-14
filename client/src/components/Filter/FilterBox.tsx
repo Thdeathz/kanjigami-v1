@@ -4,7 +4,7 @@ type PropsType = {
   children: React.ReactNode
 }
 
-const FilterBox = ({ children }: PropsType) => {
+function FilterBox({ children }: PropsType) {
   return (
     <div className="rounded-lg bg-gradient-to-tr from-card-light-start to-card-light-end p-2 shadow-hard-shadow dark:from-card-dark-start dark:to-card-dark-end">
       {children}

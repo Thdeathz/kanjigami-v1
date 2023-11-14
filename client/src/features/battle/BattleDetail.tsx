@@ -3,18 +3,19 @@ import { RiSwordFill } from 'react-icons/ri'
 import { useParams } from 'react-router-dom'
 import { useDocumentTitle } from 'usehooks-ts'
 
-import DefaultLayout from '~/components/Layouts/DefaultLayout'
-import CustomDivider from '~/components/CustomDivider'
-import PageHeader from '~/components/PageHeader'
-import Tag from '~/components/Tag'
-import CountDown from './components/CountDown'
-import RootNotification from '~/components/RootNotification'
-import EventLeaderboards from './components/LeaderList/EventLeaderboards'
-import Panel from '~/components/Panel'
 import Button from '~/components/Button'
+import CustomDivider from '~/components/CustomDivider'
+import DefaultLayout from '~/components/Layouts/DefaultLayout'
+import PageHeader from '~/components/PageHeader'
+import Panel from '~/components/Panel'
+import RootNotification from '~/components/RootNotification'
+import Tag from '~/components/Tag'
+
+import CountDown from './components/CountDown'
+import EventLeaderboards from './components/LeaderList/EventLeaderboards'
 import OnlineCard from './components/OnlineCard'
 
-const BattleDetail = () => {
+function BattleDetail() {
   useDocumentTitle('Mid-Autumn Festival | 漢字ガミ')
   const { id: battleId } = useParams()
 
@@ -63,15 +64,15 @@ const BattleDetail = () => {
         <div className="w-full grow">
           <Panel>
             <div className="grid grid-cols-8 gap-3">
-              {Array.from(Array(12).keys()).map((_, index) => (
-                <Button key={`kanji-item-${index}`}>家族</Button>
+              {Array.from(Array(12).keys()).map(each => (
+                <Button key={`kanji-item-${each}`}>家族</Button>
               ))}
             </div>
           </Panel>
 
           <div className="card-list group pointer-events-none mt-6 grid w-full auto-rows-fr grid-cols-auto-fill gap-6">
             <OnlineCard
-              key={`round-card-64`}
+              key="round-card-64"
               imageSrc="https://firebasestorage.googleapis.com/v0/b/kanjigami-61289.appspot.com/o/234.png?alt=media&token=4df8d4e0-c249-466c-9be9-b4db8be3806c"
               topUsername="Kanji kantan"
               topScore={253}
@@ -79,7 +80,7 @@ const BattleDetail = () => {
             />
 
             <OnlineCard
-              key={`round-card-3457`}
+              key="round-card-3457"
               imageSrc="https://firebasestorage.googleapis.com/v0/b/kanjigami-61289.appspot.com/o/234.png?alt=media&token=4df8d4e0-c249-466c-9be9-b4db8be3806c"
               topUsername="Kanji kantan"
               topScore={253}
@@ -87,15 +88,15 @@ const BattleDetail = () => {
             />
 
             <OnlineCard
-              key={`round-card-347}`}
+              key="round-card-347}"
               imageSrc="https://firebasestorage.googleapis.com/v0/b/kanjigami-61289.appspot.com/o/234.png?alt=media&token=4df8d4e0-c249-466c-9be9-b4db8be3806c"
               topUsername="Kanji kantan"
               topScore={253}
               stack="家族"
             />
 
-            {Array.from(Array(5).keys()).map((_, index) => (
-              <OnlineCard key={`round-card-${index}`} />
+            {Array.from(Array(5).keys()).map(each => (
+              <OnlineCard key={`round-card-${each}`} />
             ))}
           </div>
         </div>

@@ -1,13 +1,15 @@
+import { message } from 'antd'
 import React, { ChangeEvent, useState } from 'react'
 import { BsFileEarmarkImageFill } from 'react-icons/bs'
 
-import InputWrapper from './InputWrapper'
 import Avatar from '~/components/Avatar'
-import IconWrapper from '~/components/IconWrapper'
 import Button from '~/components/Button'
-import { useUpdateAvatarMutation } from '../store/userService'
-import { message } from 'antd'
+import IconWrapper from '~/components/IconWrapper'
 import Loading from '~/components/Loading'
+
+import { useUpdateAvatarMutation } from '../store/userService'
+
+import InputWrapper from './InputWrapper'
 
 type PropsType = {
   userId: string
@@ -15,7 +17,7 @@ type PropsType = {
   currentAvatar?: string
 }
 
-const EditAvatar = ({ userId, username, currentAvatar }: PropsType) => {
+function EditAvatar({ userId, username, currentAvatar }: PropsType) {
   const [uploadAvatar, { isLoading }] = useUpdateAvatarMutation()
 
   const [avatar, setAvatar] = useState<FilePreview | null>(null)

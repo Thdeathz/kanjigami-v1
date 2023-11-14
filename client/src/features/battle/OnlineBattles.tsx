@@ -1,19 +1,20 @@
+import { motion } from 'framer-motion'
 import React from 'react'
 import { RiSwordFill } from 'react-icons/ri'
 import { useDocumentTitle } from 'usehooks-ts'
-import { motion } from 'framer-motion'
 
-import DefaultLayout from '~/components/Layouts/DefaultLayout'
 import Button from '~/components/Button'
+import DefaultLayout from '~/components/Layouts/DefaultLayout'
 import OnlineRound from '~/components/OnlineRound'
 import PageHeader from '~/components/PageHeader'
 import RootNotification from '~/components/RootNotification'
 import Section from '~/components/Section'
-import EventLeaderboards from './components/LeaderList/EventLeaderboards'
-import BattleInfo from './components/BattleInfo'
 import { gridList } from '~/config/variants'
 
-const OnlineBattles = () => {
+import BattleInfo from './components/BattleInfo'
+import EventLeaderboards from './components/LeaderList/EventLeaderboards'
+
+function OnlineBattles() {
   useDocumentTitle('Battles | 漢字ガミ')
 
   return (

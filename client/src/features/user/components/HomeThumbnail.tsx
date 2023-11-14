@@ -1,15 +1,12 @@
-import React from 'react'
 import { Carousel } from 'antd'
+import React from 'react'
 
-import Section from '~/components/Section'
 import Image from '~/components/Image'
+import Section from '~/components/Section'
 
-const HomeThumbnail = () => {
+function HomeThumbnail() {
   return (
-    <Section
-      title="Welcome to ⚔️ 漢字ガミ"
-      description="Let's explore this website and learn a lot of kanji"
-    >
+    <Section title="Welcome to ⚔️ 漢字ガミ" description="Let's explore this website and learn a lot of kanji">
       <div className="h-[32rem] rounded-xl border-2 border-clr-border-1-light p-4 dark:border-clr-border-1-dark">
         <Carousel className="w-carousel" effect="fade" autoplay>
           <Image

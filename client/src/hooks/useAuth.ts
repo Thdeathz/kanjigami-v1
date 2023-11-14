@@ -1,7 +1,8 @@
 import jwtDecode from 'jwt-decode'
 
-import { useAppSelector } from './useRedux'
 import { selectCurrentToken } from '~/features/auth/store/authSlice'
+
+import { useAppSelector } from './useRedux'
 
 const useAuth = () => {
   const token = useAppSelector(selectCurrentToken)

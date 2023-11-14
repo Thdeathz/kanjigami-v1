@@ -3,11 +3,13 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom'
 
 import useAuth from '~/hooks/useAuth'
 
-const LoggedIn = () => {
+function LoggedIn() {
   const location = useLocation()
   const { email } = useAuth()
 
-  return <>{email ? <Navigate to="/" state={{ from: location }} replace /> : <Outlet />}</>
+  if (email) return <Navigate to="/" state={{ from: location }} replace />
+
+  return <Outlet />
 }
 
 export default LoggedIn

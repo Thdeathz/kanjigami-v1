@@ -2,16 +2,18 @@ import React from 'react'
 import { BsStack } from 'react-icons/bs'
 import { useParams } from 'react-router-dom'
 
+import Button from '~/components/Button'
 import DefaultLayout from '~/components/Layouts/DefaultLayout'
 import PageHeader from '~/components/PageHeader'
 import Panel from '~/components/Panel'
 import RootNotification from '~/components/RootNotification'
-import SearchKanji from './components/SearchKanji'
-import EventLeaderboards from '../battle/components/LeaderList/EventLeaderboards'
-import Button from '~/components/Button'
-import GamesList from './components/GamesList'
 
-const StackDetail = () => {
+import EventLeaderboards from '../battle/components/LeaderList/EventLeaderboards'
+
+import GamesList from './components/GamesList'
+import SearchKanji from './components/SearchKanji'
+
+function StackDetail() {
   const { id: stackId } = useParams()
 
   return (
@@ -44,17 +46,15 @@ const StackDetail = () => {
       <div className="mt-12 flex w-full items-start justify-start gap-12">
         <div className="w-full grow">
           <div className="flex items-center justify-between">
-            <p className="text-lg font-semibold text-clr-link-light dark:text-clr-link-dark">
-              Kanji stack
-            </p>
+            <p className="text-lg font-semibold text-clr-link-light dark:text-clr-link-dark">Kanji stack</p>
 
             <SearchKanji />
           </div>
 
           <Panel className="mt-6">
             <div className="grid grid-cols-8 gap-4">
-              {Array.from(Array(120).keys()).map((_, index) => (
-                <Button key={`kanji-item-${index}`}>家族</Button>
+              {Array.from(Array(120).keys()).map(each => (
+                <Button key={`kanji-item-${each}`}>家族</Button>
               ))}
             </div>
           </Panel>

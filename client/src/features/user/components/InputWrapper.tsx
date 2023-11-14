@@ -8,7 +8,7 @@ type PropsType = {
   saveButton?: ReactNode
 }
 
-const InputWrapper = ({ id, label, saveButton, helper, children }: PropsType) => {
+function InputWrapper({ id, label, saveButton, helper, children }: PropsType) {
   return (
     <div className="flex flex-col items-start justify-start gap-2">
       <label htmlFor={id} className="font-semibold text-clr-link-light dark:text-clr-link-dark">

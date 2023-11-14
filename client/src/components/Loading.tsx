@@ -7,7 +7,7 @@ type PropsType = {
   className?: string
 }
 
-const Loading = ({ className }: PropsType) => {
+function Loading({ className }: PropsType) {
   return (
     <div className="flex-center">
       <IconWrapper icon={<AiOutlineLoading />} className={`animate-spin font-bold ${className}`} />

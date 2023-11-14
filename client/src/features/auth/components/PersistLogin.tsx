@@ -1,13 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Outlet } from 'react-router-dom'
 
+import DefaultLayout from '~/components/Layouts/DefaultLayout'
 import usePersist from '~/hooks/usePersist'
 import { useAppSelector } from '~/hooks/useRedux'
-import DefaultLayout from '~/components/Layouts/DefaultLayout'
-import { selectCurrentToken } from '../store/authSlice'
-import { useRefreshMutation } from '../store/authService'
 
-const PersistLogin = () => {
+import { useRefreshMutation } from '../store/authService'
+import { selectCurrentToken } from '../store/authSlice'
+
+function PersistLogin() {
   const { persist } = usePersist()
   const token = useAppSelector(selectCurrentToken)
   const effectRan = useRef(false)
@@ -16,35 +17,30 @@ const PersistLogin = () => {
 
   const [refresh, { isUninitialized, isLoading, isSuccess }] = useRefreshMutation()
 
-  useEffect(() => {
-    if (effectRan.current === true || import.meta.env.VITE_NODE_ENV !== 'development') {
-      const verifyRefreshToken = async () => {
-        try {
-          await refresh(undefined)
-          setTrueSuccess(true)
-        } catch (error) {
-          console.error(error)
-        }
-      }
+  const verifyRefreshToken = useCallback(async () => {
+    try {
+      await refresh(undefined)
+      setTrueSuccess(true)
+    } catch (error) {
+      console.error(error)
+    }
+  }, [refresh])
 
-      if (!token && persist) verifyRefreshToken()
+  useEffect(() => {
+    if ((effectRan.current === true || import.meta.env.VITE_NODE_ENV !== 'development') && !token && persist) {
+      verifyRefreshToken()
     }
 
     return () => {
       effectRan.current = true
     }
-  }, [persist, refresh, token])
-  return (
-    <>
-      {!persist || (isSuccess && trueSuccess) || (token && isUninitialized) ? (
-        <Outlet />
-      ) : isLoading ? (
-        <DefaultLayout>Loading...</DefaultLayout>
-      ) : (
-        trueSuccess && <Outlet />
-      )}
-    </>
-  )
+  }, [persist, verifyRefreshToken, token])
+
+  const shouldRenderOutlet = !persist || (isSuccess && trueSuccess) || (token && isUninitialized) || trueSuccess
+
+  if (!shouldRenderOutlet || isLoading) return <DefaultLayout>Loading...</DefaultLayout>
+
+  return <Outlet />
 }
 
 export default PersistLogin

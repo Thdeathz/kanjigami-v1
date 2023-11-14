@@ -1,28 +1,25 @@
+import { motion } from 'framer-motion'
 import React from 'react'
 import { BsStack } from 'react-icons/bs'
 import { useDocumentTitle } from 'usehooks-ts'
-import { motion } from 'framer-motion'
 
 import DefaultLayout from '~/components/Layouts/DefaultLayout'
 import PageHeader from '~/components/PageHeader'
 import RootNotification from '~/components/RootNotification'
 import StackItem from '~/components/StackItem'
-import FilterBox from '../../components/Filter/FilterBox'
-import FilterItem from '../../components/Filter/FilterItem'
-import SearchKanji from './components/SearchKanji'
 import { gridList } from '~/config/variants'
 
-const KanjiStack = () => {
+import FilterBox from '../../components/Filter/FilterBox'
+import FilterItem from '../../components/Filter/FilterItem'
+
+import SearchKanji from './components/SearchKanji'
+
+function KanjiStack() {
   useDocumentTitle('Kanji Stack | 漢字ガミ')
 
   return (
     <DefaultLayout>
-      <PageHeader
-        icon={<BsStack />}
-        title="Kanji stack"
-        subtitle="Play game and learn more kanji"
-        className="mb-12"
-      />
+      <PageHeader icon={<BsStack />} title="Kanji stack" subtitle="Play game and learn more kanji" className="mb-12" />
 
       <RootNotification />
 

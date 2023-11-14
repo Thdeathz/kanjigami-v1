@@ -1,11 +1,12 @@
-import React, { ReactNode } from 'react'
 import { Avatar } from 'antd'
+import React, { ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import Tag from '~/components/Tag'
 import Button from '~/components/Button'
 import CustomDivider from '~/components/CustomDivider'
 import Panel from '~/components/Panel'
+import Tag from '~/components/Tag'
+
 import CountDown from './CountDown'
 
 type PropsType = {
@@ -18,24 +19,12 @@ type PropsType = {
   children: ReactNode
 }
 
-const BattleInfo = ({
-  status,
-  tagName,
-  title,
-  desciption,
-  endTime,
-  className,
-  children
-}: PropsType) => {
+function BattleInfo({ status, tagName, title, desciption, endTime, className, children }: PropsType) {
   const navigate = useNavigate()
 
   return (
     <Panel className="group flex items-start justify-start gap-8">
-      <div
-        className={`flex h-full w-full basis-2/5 flex-col items-start justify-start gap-2 ${
-          className ?? ''
-        }`}
-      >
+      <div className={`flex h-full w-full basis-2/5 flex-col items-start justify-start gap-2 ${className ?? ''}`}>
         <div className="flex items-center justify-start gap-2">
           <Tag type={status} />
 
@@ -53,8 +42,7 @@ const BattleInfo = ({
         <CustomDivider className="my-2" />
 
         <div className="my-2 flex items-end justify-start gap-2 font-medium opacity-70">
-          <span className="text-text-secondary-light dark:text-text-secondary-dark">Ends in</span>{' '}
-          <CountDown />
+          <span className="text-text-secondary-light dark:text-text-secondary-dark">Ends in</span> <CountDown />
         </div>
 
         <div className="flex items-center justify-start gap-2">

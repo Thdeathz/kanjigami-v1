@@ -1,10 +1,10 @@
-import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import React from 'react'
 
-import Header from './Header'
-import SideBar from './SideBar'
 import Footer from './Footer'
+import Header from './Header'
 import { BreadcrumbItem } from './Header/Breadcrumb'
+import SideBar from './SideBar'
 
 type PropsType = {
   breadcrumbs?: BreadcrumbItem[]
@@ -21,10 +21,10 @@ const variants = {
   exit: { opacity: 0 }
 }
 
-const DefaultLayout = ({ breadcrumbs, className, children }: PropsType) => {
+function DefaultLayout({ breadcrumbs, className, children }: PropsType) {
   return (
     <AnimatePresence
-      initial={true}
+      initial
       onExitComplete={() => {
         if (typeof window !== 'undefined') {
           window.scrollTo({ top: 0 })

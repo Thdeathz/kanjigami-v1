@@ -11,21 +11,15 @@ type PropsType = {
   children?: ReactNode
 }
 
-const PageHeader = ({ icon, title, subtitle, className, children }: PropsType) => {
+function PageHeader({ icon, title, subtitle, className, children }: PropsType) {
   return (
-    <div
-      className={`flex-center mx-auto max-w-[25rem] flex-col gap-4 text-center ${className ?? ''}`}
-    >
+    <div className={`flex-center mx-auto max-w-[25rem] flex-col gap-4 text-center ${className ?? ''}`}>
       {icon && <IconWrapper icon={icon} className="text-4xl" />}
 
-      <p className="text-3xl font-semibold text-text-heading-light dark:text-text-heading-dark">
-        {title}
-      </p>
+      <p className="text-3xl font-semibold text-text-heading-light dark:text-text-heading-dark">{title}</p>
 
       {subtitle && (
-        <p className="text-base font-medium text-text-secondary-light dark:text-text-secondary-dark">
-          {subtitle}
-        </p>
+        <p className="text-base font-medium text-text-secondary-light dark:text-text-secondary-dark">{subtitle}</p>
       )}
 
       {children}

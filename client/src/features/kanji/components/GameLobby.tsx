@@ -1,8 +1,8 @@
-import React, { ReactElement, ReactNode } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { GiDiceFire, GiHearts } from 'react-icons/gi'
-import { type IconType } from 'react-icons'
 import { motion } from 'framer-motion'
+import React, { ReactElement, ReactNode } from 'react'
+import { type IconType } from 'react-icons'
+import { GiDiceFire, GiHearts } from 'react-icons/gi'
+import { useNavigate } from 'react-router-dom'
 
 import Button from '~/components/Button'
 import IconWrapper from '~/components/IconWrapper'
@@ -14,7 +14,7 @@ type LobbyInfoItemPropsType = {
   children: ReactNode
 }
 
-const LobbyInfoItem = ({ label, children }: LobbyInfoItemPropsType) => {
+function LobbyInfoItem({ label, children }: LobbyInfoItemPropsType) {
   return (
     <div className="grid grid-cols-2 items-end gap-2 text-xl font-medium">
       <p className="text rounded bg-table-header-light px-2 py-1 text-text-secondary-light dark:bg-table-header-dark dark:text-text-secondary-dark">
@@ -33,7 +33,7 @@ type PropsType = {
   time: string
 }
 
-const GameLobby = ({ icon, title, stackName, life, time }: PropsType) => {
+function GameLobby({ icon, title, stackName, life, time }: PropsType) {
   const navigate = useNavigate()
 
   return (
@@ -54,12 +54,8 @@ const GameLobby = ({ icon, title, stackName, life, time }: PropsType) => {
 
           <LobbyInfoItem label="Life">
             <div className="flex-center gap-1">
-              {Array.from(Array(life).keys()).map((_, index) => (
-                <IconWrapper
-                  key={`left-live-${index}`}
-                  icon={<GiHearts />}
-                  className="text-3xl text-red-light"
-                />
+              {Array.from(Array(life).keys()).map(each => (
+                <IconWrapper key={`left-live-${each}`} icon={<GiHearts />} className="text-3xl text-red-light" />
               ))}
             </div>
           </LobbyInfoItem>

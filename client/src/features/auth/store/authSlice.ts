@@ -1,6 +1,7 @@
+/* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit'
 
-import { RootState } from '~/app/store'
+import type { RootState } from '~/@types/app'
 
 type StateType = {
   token: string | null
@@ -36,8 +37,7 @@ const authSlice = createSlice({
   }
 })
 
-export const { setCredentitals, logout, setResetEmail, setVerified, resetEmailSuccess } =
-  authSlice.actions
+export const { setCredentitals, logout, setResetEmail, setVerified, resetEmailSuccess } = authSlice.actions
 
 export default authSlice.reducer
 

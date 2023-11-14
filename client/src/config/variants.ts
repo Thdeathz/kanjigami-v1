@@ -71,7 +71,7 @@ export const topLeader: TopLeaderVariants = {
     hidden: { opacity: 0, height: 0 },
     enter: {
       opacity: 1,
-      height: height,
+      height,
       transition: {
         duration: 0.35,
         ease: 'easeOut'
