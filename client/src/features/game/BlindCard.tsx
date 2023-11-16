@@ -76,7 +76,7 @@ function BlindCardGame() {
 
   return (
     <motion.div
-      className="grid h-game-content select-none grid-cols-6 grid-rows-4 gap-3"
+      className="grid h-game-content w-full select-none grid-cols-6 grid-rows-4 gap-3"
       variants={cardList.container}
       initial="hidden"
       animate="enter"

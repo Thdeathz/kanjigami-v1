@@ -12,6 +12,7 @@ import VerifyOTP from './features/auth/VerifyOTP'
 import BattleDetail from './features/battle/BattleDetail'
 import OnlineBattles from './features/battle/OnlineBattles'
 import FlipBlindCard from './features/kanji/FlipBlindCard'
+import KanjiShooter from './features/kanji/KanjiShooter'
 import KanjiStack from './features/kanji/KanjiStack'
 import StackDetail from './features/kanji/StackDetail'
 import Home from './features/user/Home'
@@ -47,6 +48,7 @@ function App() {
           <Route path="/me" element={<UserStats />} />
           <Route path="/settings" element={<ProfileSetting />} />
           <Route path="/play/:stackId/blind-card" element={<FlipBlindCard />} />
+          <Route path="/play/:stackId/kanji-shooter" element={<KanjiShooter />} />
         </Route>
       </Route>
     </Routes>

@@ -37,3 +37,5 @@ function Button({ className, onClick, htmlType, type = 'default', disabled = fal
 }
 
 export default Button
+
+export type { PropsType as ButtonPropsType }

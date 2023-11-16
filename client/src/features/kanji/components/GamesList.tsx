@@ -2,10 +2,10 @@ import React, { MouseEventHandler } from 'react'
 import { BsFillPlayFill } from 'react-icons/bs'
 import { useNavigate } from 'react-router-dom'
 
-import FlipBlindCardThumbnail from '~/assets/flip-blind-card-thumbnail.png'
-import FlipCardThumbnail from '~/assets/flip-card-thumbnail.png'
-import MultipleChoiceThumbnail from '~/assets/multiple-choice-thumbnail.png'
-import PunchAHoleThumbnail from '~/assets/punch-a-hole-thumbnail.png'
+import FlipBlindCardThumbnail from '~/assets/thumbnails/flip-blind-card-thumbnail.png'
+import FlipCardThumbnail from '~/assets/thumbnails/flip-card-thumbnail.png'
+import KanjiShooterThumbnail from '~/assets/thumbnails/kanji-shooter-thumbnail.png'
+import MultipleChoiceThumbnail from '~/assets/thumbnails/multiple-choice-thumbnail.png'
 import Button from '~/components/Button'
 import IconWrapper from '~/components/IconWrapper'
 import Image from '~/components/Image'
@@ -13,7 +13,7 @@ import Panel from '~/components/Panel'
 
 type GameItemPropsType = {
   name: string
-  onClick?: MouseEventHandler<HTMLButtonElement>
+  onClick?: MouseEventHandler<HTMLDivElement>
   thumbnail: string
 }
 
@@ -24,8 +24,7 @@ function GameItem({ name, onClick, thumbnail }: GameItemPropsType) {
         {name}
       </p>
 
-      <button
-        type="button"
+      <div
         className="card-item pointer-events-auto cursor-pointer flex-col rounded-2xl bg-gradient-to-tl from-card-light-start from-0% to-card-light-end to-100% p-2.5 shadow-glory-light hover:scale-105 hover:opacity-100 hover:shadow-glory-hover dark:from-card-dark-start dark:to-card-dark-end dark:shadow-glory-dark"
         onClick={onClick}
       >
@@ -43,7 +42,7 @@ function GameItem({ name, onClick, thumbnail }: GameItemPropsType) {
             <IconWrapper icon={<BsFillPlayFill />} className="text-2xl text-white" />
           </Button>
         </div>
-      </button>
+      </div>
     </div>
   )
 }
@@ -56,7 +55,11 @@ function GamesList() {
       <div className="card-list pointer-events-none grid w-full grid-cols-4 gap-12 transition-opacity">
         <GameItem name="MULTIPLE CHOOSE" thumbnail={MultipleChoiceThumbnail} />
 
-        <GameItem name="PUNCH A HOLE" thumbnail={PunchAHoleThumbnail} />
+        <GameItem
+          name="KANJI SHOOTER"
+          thumbnail={KanjiShooterThumbnail}
+          onClick={() => navigate('/play/1/kanji-shooter')}
+        />
 
         <GameItem name="FLIP CARD" thumbnail={FlipCardThumbnail} />
 

@@ -1,10 +1,10 @@
 import { motion } from 'framer-motion'
 import React, { ReactElement, ReactNode } from 'react'
 import { type IconType } from 'react-icons'
-import { GiDiceFire, GiHearts } from 'react-icons/gi'
+import { GiHearts } from 'react-icons/gi'
 import { useNavigate } from 'react-router-dom'
 
-import Button from '~/components/Button'
+import AnimateButton from '~/components/AnimateButton'
 import IconWrapper from '~/components/IconWrapper'
 import Panel from '~/components/Panel'
 import { panelVariants } from '~/config/variants'
@@ -65,7 +65,7 @@ function GameLobby({ icon, title, stackName, life, time }: PropsType) {
           </LobbyInfoItem>
         </div>
 
-        <Button
+        <AnimateButton
           className="w-full"
           type="primary"
           onClick={() =>
@@ -76,11 +76,8 @@ function GameLobby({ icon, title, stackName, life, time }: PropsType) {
             )
           }
         >
-          <div className="flex-center gap-2 text-lg">
-            <GiDiceFire />
-            Link start
-          </div>
-        </Button>
+          Get started
+        </AnimateButton>
       </Panel>
     </motion.div>
   )

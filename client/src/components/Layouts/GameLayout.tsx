@@ -51,7 +51,7 @@ function GameLayout({ breadcrumbs, className, game, children }: PropsType) {
 
           <div className="w-0 shrink grow">
             <motion.div
-              className={`mx-auto min-h-content max-w-[1600px] overflow-hidden p-12 ${className}`}
+              className={`flex-center mx-auto min-h-content max-w-[1600px] overflow-hidden ${className}`}
               variants={variants}
               initial="hidden"
               animate="enter"

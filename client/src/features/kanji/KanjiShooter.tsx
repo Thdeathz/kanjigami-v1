@@ -1,15 +1,14 @@
 import React from 'react'
 import { BsStack } from 'react-icons/bs'
-import { GiCardExchange } from 'react-icons/gi'
+import { GiBulletBill } from 'react-icons/gi'
 import { useParams, useSearchParams } from 'react-router-dom'
 
 import GameLayout from '~/components/Layouts/GameLayout'
 
-import BlindCardGame from '../game/BlindCard'
 import GameLobby from '../game/components/GameLobby'
-import GameStatus from '../game/components/GameStatus'
+import KanjiShooterGame from '../game/KanjiShooter'
 
-function FlipBlindCard() {
+function KanjiShooter() {
   const { stackId } = useParams()
   const [searchParams] = useSearchParams()
   const gameId = searchParams.get('gameId')
@@ -31,22 +30,20 @@ function FlipBlindCard() {
           to: `/kanji/${stackId}`
         },
         {
-          label: <p>Flip Blind Card</p>,
-          to: `/play/${stackId}/blind-card`
+          label: <p>Kanji shooter</p>,
+          to: `/play/${stackId}/kanji-shooter`
         }
       ]}
     >
-      {gameId ? (
-        <>
-          <GameStatus />
-
-          <BlindCardGame />
-        </>
-      ) : (
-        <GameLobby icon={<GiCardExchange />} title="Flip blind card" stackName="👪 家族" life={5} time="01:30" />
-      )}
+      <>
+        {gameId ? (
+          <KanjiShooterGame />
+        ) : (
+          <GameLobby icon={<GiBulletBill />} title="Kanji shooter" stackName="👪 家族" life={5} time="&infin;" />
+        )}
+      </>
     </GameLayout>
   )
 }
 
-export default FlipBlindCard
+export default KanjiShooter
