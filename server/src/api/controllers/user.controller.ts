@@ -85,3 +85,21 @@ export const updateAvatar: RequestHandler = async (req, res) => {
     res
   )
 }
+
+/**
+ * @desc Upload image to firebase storage
+ * @route POST /user/upload
+ * @access Private
+ */
+export const uploadFile: RequestHandler = async (req, res) => {
+  const { locate } = req.body
+  const file = req.file?.buffer
+  const extention = req.file?.originalname.split('.')[1]
+
+  if (!file || !extention || !locate)
+    return res.status(400).json({ message: 'Invalid file data received' })
+
+  const fileUrl = await firebaseService.storeFile(file, locate, extention)
+
+  return res.json({ message: 'Upload file successfully', data: fileUrl })
+}
