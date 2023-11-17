@@ -24,7 +24,8 @@ model User {
   resetPasswords ResetPassword[] // relation to ResetPassword
   gameLogs       GameLog[]       // relation to GameLog
   likedStacks    Stack[]         // relation to Stack
-  OnlineHistory  OnlineHistory[] // relation to OnlineHistory
+  onlineHistory  OnlineHistory[] // relation to OnlineHistory
+  joinedEvents   Event[]         // relation to Event
 }
 
 model ResetPassword {
@@ -65,7 +66,7 @@ model Stack {
 
 model Topic {
   id          String   @id @default(uuid())
-  name        String
+  name        String   @unique
   description String
   imageUrl    String?
   createdAt   DateTime @default(now())
@@ -157,11 +158,12 @@ model Event {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   rounds      Round[]  // relation to Round
+  joinedUsers User[]   // relation to User
 }
 
 model Round {
   id            String          @id @default(uuid())
-  event         Event           @relation(fields: [eventId], references: [id])
+  event         Event           @relation(fields: [eventId], references: [id], onDelete: Cascade)
   eventId       String          // relation scalar feild
   game          Game            @relation(fields: [gameId], references: [id])
   gameId        String          // relation scalar feild
@@ -175,7 +177,7 @@ model Round {
 model OnlineHistory {
   user            User     @relation(fields: [userId], references: [id])
   userId          String   // relation scalar feild
-  round           Round    @relation(fields: [roundId], references: [id])
+  round           Round    @relation(fields: [roundId], references: [id], onDelete: Cascade)
   roundId         String   // relation scalar feild
   archievedPoints Int
   createdAt       DateTime @default(now())

@@ -35,10 +35,12 @@ prisma-deploy:
 prisma-reset:
 	docker exec -it $(COMPOSE_PROJECT_NAME)-server-1 yarn prisma migrate reset --force
 
+prisma-seed:
+	docker exec -it $(COMPOSE_PROJECT_NAME)-server-1 yarn seed
+
 logserver:
 	docker logs -f $(COMPOSE_PROJECT_NAME)-server-1
 
 devclean: devdown
 	@docker rmi $$(docker images -a -q)
 	@docker volume rm $$(docker volume ls -q)
-	

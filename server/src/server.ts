@@ -16,6 +16,8 @@ import rootRoute from '~/api/routes/root.route'
 import notFoundRoute from '~/api/routes/404.route'
 import userRoutes from '~/api/routes/user.route'
 import authRoutes from '~/api/routes/auth.route'
+import eventRoutes from '~/api/routes/event.route'
+import stackRoutes from '~/api/routes/stack.route'
 import passwordRoutes from '~/api/routes/password.route'
 
 dotenv.config()
@@ -43,6 +45,8 @@ admin.initializeApp({
 app.use('/api', rootRoute)
 app.use('/api/auth', authRoutes)
 app.use('/api/password', passwordRoutes)
+app.use('/api/events', eventRoutes)
+app.use('/api/stacks', stackRoutes)
 
 // private routes
 app.use('/api/user', userRoutes)
