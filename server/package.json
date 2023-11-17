@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon",
     "prod": "node -r ts-node/register/transpile-only -r tsconfig-paths/register ./dist/src/server.js",
-    "build": "tsc"
+    "build": "tsc",
+    "seed": "ts-node ./prisma/seed.ts"
   },
   "keywords": [],
   "author": "",
