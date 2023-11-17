@@ -9,3 +9,13 @@ export declare interface CreateStackReq {
     gameId: string
   }[]
 }
+
+export declare interface FullCreateStackReq extends CreateStackReq {
+  kanjis: {
+    kanji: string
+    kunyomi: string
+    onyomi: string
+    meaning: string
+    imageUrl: string[] | null
+  }[]
+}

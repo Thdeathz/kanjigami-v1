@@ -1,8 +1,8 @@
-import { CreateStackReq } from '../@types/stack'
+import { CreateStackReq, FullCreateStackReq } from '../@types/stack'
 import prisma from '../databases/init.prisma'
 import HttpError from '../helpers/httpError'
 
-const createStack = async (stack: CreateStackReq) => {
+const createStack = async (stack: FullCreateStackReq) => {
   try {
     return await prisma.stack.create({
       data: {
@@ -23,6 +23,14 @@ const createStack = async (stack: CreateStackReq) => {
               description: stack.topic.description || 'Default description'
             }
           }
+        },
+        kanjis: {
+          create: stack.kanjis.map(item => ({
+            kanji: item.kanji,
+            kunyomi: item.kunyomi,
+            onyomi: item.onyomi,
+            meaning: item.meaning,
+          }))
         }
       }
     })
@@ -31,6 +39,60 @@ const createStack = async (stack: CreateStackReq) => {
   }
 }
 
+const getAllStacks = async () => {
+  const stacks = await prisma.stack.findMany({
+    select: {
+      id: true,
+      name: true,
+      description: true
+    }
+  })
+  return stacks
+}
+
+const getFollowedStacks = async (userId: string) => {
+  const followedStacks = await prisma.stack.findMany({
+    where: {
+      likedBy: {
+        some: {
+          id: userId
+        }
+      }
+    },
+    select: {
+      id: true,
+      name: true,
+      description: true
+    }
+  })
+  return followedStacks
+}
+
+const setFollowStack = async (userId: string, stackId: string) => {
+  try {
+    const followedStacks = getFollowedStacks(userId)
+    if (!(await followedStacks).find(stack => stack.id === stackId)) {
+      return await prisma.stack.update({
+        where: {
+          id: stackId
+        },
+        data: {
+          likedBy: {
+            connect: {
+              id: userId
+            }
+          }
+        }
+      })
+    }
+  } catch (error) {
+    throw new HttpError(500, 'Internal server error')
+  }
+}
+
 export default {
-  createStack
+  createStack,
+  getAllStacks,
+  getFollowedStacks,
+  setFollowStack
 }
