@@ -15,6 +15,10 @@
   box-sizing: border-box;
 }
 
+html {
+  font-size: 16px;
+}
+
 body {
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
@@ -67,15 +71,96 @@ input {
   font-family: 'Saira Stencil One';
 }
 
+/* ANIMATE BUTTON */
+.animate-button {
+  --y: 4px;
+  --move: -4px;
+  --shadow-active: 0 3px 1px rgba(0, 0, 0, 0.2);
+}
+
+.animate-button > span {
+  backface-visibility: hidden;
+}
+
+.button__jumping:hover > span {
+  animation: jumping 450ms linear var(--d);
+}
+
+.button__smoke {
+  --move: 12px;
+  --move-y: -8px;
+  --blur: 4px;
+}
+
+.button__smoke:hover > span {
+  animation: smoke 1s linear var(--d);
+}
+
+.button__drive {
+  --move: 16px;
+  --skew: 25deg;
+  --skew-fast: 40deg;
+  --skew-bounce: -12px;
+}
+
+.button__drive:hover > span {
+  transform-origin: 50% 100%;
+  animation: drive 1s linear var(--d);
+}
+
+@keyframes jumping {
+  40% {
+    transform: translateY(var(--move));
+    text-shadow: var(--shadow-active);
+  }
+}
+
+@keyframes smoke {
+  45%,
+  55% {
+    filter: blur(var(--blur));
+  }
+  50%,
+  50.1% {
+    opacity: 0;
+  }
+  25%,
+  75% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(var(--move)) translateY(var(--move-y));
+  }
+  50.1% {
+    transform: translateX(calc(var(--move) * -1));
+  }
+}
+
+@keyframes drive {
+  40% {
+    opacity: 1;
+  }
+  55% {
+    transform: skewX(var(--skew)) translateX(var(--move));
+  }
+  56% {
+    transform: skewX(var(--skew-fast)) translateX(calc(var(--move) * -1));
+  }
+  55%,
+  56% {
+    opacity: 0;
+  }
+  75% {
+    transform: skewX(var(--skew));
+  }
+  85% {
+    transform: skewX(var(--skew-bounce));
+  }
+}
+
 /* ROOT NOTIFICATION ANIMATE */
 .root-noti {
-  -webkit-mask-image: linear-gradient(
-    90deg,
-    transparent,
-    #fff 25px,
-    #fff calc(100% - 25px),
-    transparent
-  );
+  -webkit-mask-image: linear-gradient(90deg, transparent, #fff 25px, #fff calc(100% - 25px), transparent);
 
   mask-image: linear-gradient(90deg, transparent, #fff 25px, #fff calc(100% - 25px), transparent);
 }
@@ -95,7 +180,10 @@ input {
 
 /* CARDS LIST HOVER ANIMATE */
 .card-item {
-  transition: opacity 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease,
+  transition:
+    opacity 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease,
     z-index 0.25s ease 0.25s !important;
 }
 
@@ -135,13 +223,16 @@ input {
 
 .changing .current-top {
   transform: rotate3d(1, 0, 0, -90deg);
-  transition: transform 0.2625s ease-in, box-shadow 0.2625s ease-in;
+  transition:
+    transform 0.2625s ease-in,
+    box-shadow 0.2625s ease-in;
 }
 
 .changing .next-bottom,
 .changed .next-bottom {
   box-shadow: 0 0 0 0 transparent;
-  transition: box-shadow 0.175s cubic-bezier(0.375, 1.495, 0.61, 0.78) 0.35s,
+  transition:
+    box-shadow 0.175s cubic-bezier(0.375, 1.495, 0.61, 0.78) 0.35s,
     transform 0.35s cubic-bezier(0.375, 1.495, 0.61, 0.78) 0.35s;
 
   transform: rotate3d(1, 0, 0, 0);
@@ -167,48 +258,35 @@ input {
 
 :is(.dark .dark\:profile-dark) {
   background-image: linear-gradient(45deg, rgba(45, 55, 64, 0.45), rgba(39, 45, 52, 0.45)),
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 1)),
-    url(./assets/profile-background.jpg);
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 1)), url(./assets/profile-background.jpg);
 }
 
 /* PROFILE RANK INFOMATION */
 .rank-info::before {
   inset: 0;
-  -wbekit-mask-image: radial-gradient(
-    circle at center -1rem,
-    transparent 0,
-    transparent 1.75rem,
-    #fff 0,
-    #fff 100%
-  );
+  -wbekit-mask-image: radial-gradient(circle at center -1rem, transparent 0, transparent 1.75rem, #fff 0, #fff 100%);
 
-  mask-image: radial-gradient(
-    circle at center -1rem,
-    transparent 0,
-    transparent 1.75rem,
-    #fff 0,
-    #fff 100%
-  );
+  mask-image: radial-gradient(circle at center -1rem, transparent 0, transparent 1.75rem, #fff 0, #fff 100%);
 }
 
 /* GAME BACKGROUND */
 .blind-card {
   background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(245, 245, 245, 0.1)),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.25)),
-    url(./assets/game-background.gif);
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.25)), url(./assets/game-background.gif);
 }
 
 :is(.dark .dark\:blind-card-dark) {
   background-image: linear-gradient(45deg, rgba(45, 55, 64, 0.15), rgba(39, 45, 52, 0.15)),
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 1)),
-    url(./assets/game-background.gif);
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 1)), url(./assets/game-background.gif);
 }
 
 /* CARD GAME ANIMATION */
 .card {
   perspective: 500px;
   transform-style: preserve-3d !important;
-  transition: transform 0.35s, visibility 0.3s ease-out;
+  transition:
+    transform 0.35s,
+    visibility 0.3s ease-out;
 }
 
 .card.flip {

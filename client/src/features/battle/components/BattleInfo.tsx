@@ -8,6 +8,7 @@ import Panel from '~/components/Panel'
 import Tag from '~/components/Tag'
 
 import CountDown from './CountDown'
+import AnimateButton from '~/components/AnimateButton'
 
 type PropsType = {
   status: 'ongoing' | 'upcoming' | 'finished'
@@ -66,13 +67,14 @@ function BattleInfo({ status, tagName, title, desciption, endTime, className, ch
             </Button>
           )}
 
-          <Button
+          <AnimateButton
             className="px-8"
+            animate="smoke"
             type={status === 'finished' ? 'disabled' : 'primary'}
             onClick={() => navigate('/battle/1')}
           >
             Play
-          </Button>
+          </AnimateButton>
         </div>
       </div>
 

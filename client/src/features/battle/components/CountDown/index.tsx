@@ -14,7 +14,7 @@ type PropsType = {
 
 function CountDown({ size = 'normal', maxLength = 4, type = 'normal', onFinish }: PropsType) {
   const [remaining, setRemaining] = useState<RemainingTime | null>(null)
-  const intervalRef = useRef<NodeJS.Timeout>()
+  const intervalRef = useRef<number>()
 
   const update = () => {
     const now = new Date()

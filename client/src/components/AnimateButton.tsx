@@ -1,20 +1,45 @@
-import React from 'react'
+import React, { CSSProperties, ReactNode } from 'react'
 
 import Button, { ButtonPropsType } from './Button'
+import classNames from 'classnames'
 
 interface PropsType extends ButtonPropsType {
-  children: string
+  children: string | ReactNode
+  className?: string
+  animate?: 'jumping' | 'smoke' | 'drive'
 }
 
-function AnimateButton({ children, ...props }: PropsType) {
+function getAnimateButtonClassNames(animate: string, className?: string) {
+  return classNames(
+    'flex-center animate-button',
+    {
+      button__jumping: animate === 'jumping',
+      button__smoke: animate === 'smoke',
+      button__drive: animate === 'drive'
+    },
+    className
+  )
+}
+
+function AnimateButton({ className, animate = 'jumping', children, ...props }: PropsType) {
+  const animateButtonClassName = getAnimateButtonClassNames(animate, className)
+
   return (
-    <Button {...props}>
-      {children
-        .trim()
-        .split(' ')
-        .map(each => (
-          <span key={`animate-btn-${each}`}>{each}</span>
-        ))}
+    <Button className={animateButtonClassName} {...props}>
+      {typeof children === 'string'
+        ? children
+            .trim()
+            .split('')
+            .map((each, index) => (
+              <span
+                key={`animate-btn-${index}`}
+                className="block"
+                style={{ '--d': `${(index + 1) / 20}s` } as CSSProperties}
+              >
+                {each}
+              </span>
+            ))
+        : children}
     </Button>
   )
 }

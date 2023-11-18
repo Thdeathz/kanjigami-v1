@@ -67,6 +67,7 @@ function GameLobby({ icon, title, stackName, life, time }: PropsType) {
 
         <AnimateButton
           className="w-full"
+          animate="drive"
           type="primary"
           onClick={() =>
             navigate(
@@ -76,7 +77,7 @@ function GameLobby({ icon, title, stackName, life, time }: PropsType) {
             )
           }
         >
-          Get started
+          Get Started
         </AnimateButton>
       </Panel>
     </motion.div>
