@@ -8,21 +8,15 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      registerType: 'autoUpdate',
-      injectRegister: 'auto',
-      devOptions: {
-        enabled: true,
-        type: 'module'
-      },
+      mode: process.env.VITE_NODE_ENV === 'production' ? 'production' : 'development',
       workbox: {
-        globPatterns: ['**/*.{ts,tsx,js,jsx,css,scss,html,ico,png,svg}']
+        globPatterns: ['**/*.{ts,tsx,js,jsx,css,scss,html,ico,png,svg,gift}']
       },
       includeAssets: [
         'favicon.ico',
         'apple-touch-icon.png',
         'android-chrome-192x192.png',
-        'android-chrome-512x512.png',
-        '**/*'
+        'android-chrome-512x512.png'
       ],
       manifest: {
         name: 'Kanjigami App',

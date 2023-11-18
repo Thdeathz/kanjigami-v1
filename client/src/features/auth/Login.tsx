@@ -4,7 +4,6 @@ import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDocumentTitle } from 'usehooks-ts'
 
-import Button from '~/components/Button'
 import Input from '~/components/Input'
 import Loading from '~/components/Loading'
 import { EMAIL_REGEX } from '~/config/regex'
@@ -14,6 +13,7 @@ import AuthLayout from './components/AuthLayout'
 import GoogleLogin from './components/GoogleLogin'
 import { useLoginByEmailMutation } from './store/authService'
 import { signInErrorMessages } from './utils/errorMessages'
+import AnimateButton from '~/components/AnimateButton'
 
 function Login() {
   useDocumentTitle('Login | 漢字ガミ')
@@ -89,9 +89,9 @@ function Login() {
           </p>
         </div>
 
-        <Button className="w-full text-lg" type="primary" htmlType="submit" disabled={isLoading}>
-          {isLoading ? <Loading /> : 'Sign in'}
-        </Button>
+        <AnimateButton className="w-full text-lg" type="primary" htmlType="submit" disabled={isLoading}>
+          {isLoading ? <Loading /> : 'Sign In'}
+        </AnimateButton>
 
         <Divider plain className="uppercase text-text-light dark:text-text-dark">
           or

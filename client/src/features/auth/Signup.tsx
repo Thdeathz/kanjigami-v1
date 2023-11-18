@@ -12,6 +12,7 @@ import { EMAIL_REGEX, PWD_REGEX } from '~/config/regex'
 import AuthLayout from './components/AuthLayout'
 import { useSignupMutation } from './store/authService'
 import { signUpErrorMessages } from './utils/errorMessages'
+import AnimateButton from '~/components/AnimateButton'
 
 function Signup() {
   useDocumentTitle('Register | 漢字ガミ')
@@ -94,9 +95,9 @@ function Signup() {
           </p>
         </div>
 
-        <Button className="w-full text-lg" type="primary" htmlType="submit">
-          {isLoading ? <Loading /> : 'Create account'}
-        </Button>
+        <AnimateButton className="w-full text-lg" type="primary" htmlType="submit">
+          {isLoading ? <Loading /> : 'SignUp'}
+        </AnimateButton>
 
         <div className="mt-4 text-base text-text-light dark:text-text-dark">
           Already has account?{' '}

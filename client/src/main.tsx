@@ -8,12 +8,16 @@ import './index.css'
 import 'antd/dist/reset.css'
 import store from './app/store'
 
+import ReloadPrompt from './components/Layouts/ReloadPrompt'
+
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
-          <Route path="/*" element={<App />} />
+          <Route element={<ReloadPrompt />}>
+            <Route path="/*" element={<App />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </Provider>

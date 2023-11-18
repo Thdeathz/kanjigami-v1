@@ -1,11 +1,10 @@
 import { motion } from 'framer-motion'
 import React, { ReactElement } from 'react'
 import { type IconType } from 'react-icons'
-import { GiDiceFire } from 'react-icons/gi'
 import { useNavigate } from 'react-router-dom'
+import AnimateButton from '~/components/AnimateButton'
 
 import Avatar from '~/components/Avatar'
-import Button from '~/components/Button'
 import IconWrapper from '~/components/IconWrapper'
 import Panel from '~/components/Panel'
 import { panelVariants } from '~/config/variants'
@@ -59,12 +58,9 @@ function GameEnd({ icon, title, username, avatarUrl, setIsEnd }: PropsType) {
           </div>
         </div>
 
-        <Button className="w-full" type="primary" onClick={handleRestart}>
-          <div className="flex-center gap-2 text-lg">
-            <GiDiceFire />
-            Restart
-          </div>
-        </Button>
+        <AnimateButton animate="drive" className="w-full" type="primary" onClick={handleRestart}>
+          Restart
+        </AnimateButton>
       </Panel>
     </motion.div>
   )
