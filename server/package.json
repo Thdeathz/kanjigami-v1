@@ -8,12 +8,13 @@
     "migrate": "prisma migrate deploy",
     "prod": "node -r ts-node/register/transpile-only -r tsconfig-paths/register ./dist/src/server.js",
     "build": "tsc",
-    "seed": "ts-node ./prisma/seed.ts"
+    "seed": "ts-node ./prisma/seeders/seed.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@faker-js/faker": "^8.3.1",
     "@types/bcrypt": "^5.0.0",
     "@types/cookie-parser": "^1.4.3",
     "@types/cors": "^2.8.13",
@@ -26,6 +27,8 @@
     "@types/nodemailer": "^6.4.10",
     "@types/otp-generator": "^4.0.0",
     "@types/uuid": "^9.0.7",
+    "kuroshiro": "^1.2.0",
+    "kuroshiro-analyzer-kuromoji": "^1.1.0",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.22",
     "prettier": "^2.8.7",

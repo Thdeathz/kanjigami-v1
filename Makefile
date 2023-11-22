@@ -33,7 +33,8 @@ prisma-deploy:
 	docker exec -it $(COMPOSE_PROJECT_NAME)-server-1 yarn prisma migrate deploy
 
 prisma-reset:
-	docker exec -it $(COMPOSE_PROJECT_NAME)-server-1 yarn prisma migrate reset --force
+	@docker exec -it $(COMPOSE_PROJECT_NAME)-server-1 yarn prisma migrate reset --force
+	@docker exec -it $(COMPOSE_PROJECT_NAME)-server-1 yarn seed
 
 prisma-seed:
 	docker exec -it $(COMPOSE_PROJECT_NAME)-server-1 yarn seed
