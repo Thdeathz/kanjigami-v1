@@ -11,14 +11,6 @@ type Account = {
 export const accountFactory = async () => {
   let accounts: Account[] = []
 
-  accounts.push({
-    email: 'admin@gmail.com',
-    password: '$2b$10$S1DyrPjcRntNMjTdhAyeXu5zfp9EB0xyvLOvy90/LQTmTd75zdfqa',
-    username: 'ADMIN',
-    avatarUrl: '',
-    rankingScore: 0
-  })
-
   Array.from(Array(50)).map(async () => {
     const email = faker.internet.email()
     const password = '$2b$10$S1DyrPjcRntNMjTdhAyeXu5zfp9EB0xyvLOvy90/LQTmTd75zdfqa'

@@ -8,8 +8,9 @@ import IconWrapper from '~/components/IconWrapper'
 type PropsType = {
   icon: ReactElement<IconType>
   title: string
-  href: string
+  link: string
   className?: string
+  matchRegex?: RegExp
 }
 
 function getButtonClassName(isActive: boolean, className?: string) {
@@ -41,21 +42,20 @@ function getParagraphClassName(isActive: boolean) {
   )
 }
 
-function SideItem({ icon, title, href, className }: PropsType) {
+function SideItem({ icon, title, link, matchRegex, className }: PropsType) {
   const navigate = useNavigate()
   const currentPath = useLocation().pathname
   const isActive =
-    currentPath.slice(1).split('/').includes(href.slice(1)) ||
-    (currentPath === '/' && href === '/') ||
-    (currentPath.includes('/player') && href.includes('/player'))
+    currentPath === link || (currentPath === '/' && link === '/') || Boolean(matchRegex?.test(currentPath))
 
   const buttonClassName = getButtonClassName(isActive, className)
   const iconClassName = getIconClassName(isActive)
   const paragraphClassName = getParagraphClassName(isActive)
 
   return (
-    <button type="button" className={buttonClassName} onClick={() => navigate(href)}>
+    <button type="button" className={buttonClassName} onClick={() => navigate(link)}>
       <IconWrapper icon={icon} className={iconClassName} />
+      <>{console.log('==> path', currentPath)}</>
 
       <p className={paragraphClassName}>{title}</p>
     </button>

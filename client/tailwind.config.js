@@ -19,16 +19,12 @@ export default {
         card: '0px 0 20px rgba(0, 0, 0, 0.1)',
         'dark-app-icon': '4px 4px 0px rgba(255, 255, 255, 0.8)',
         'dark-app-icon-hover': '-4px -4px 0px rgba(255, 255, 255, 0.8)',
-        'dark-panel':
-          '0 0 30px rgba(255,223,0,0),0px 20px 50px rgba(0,0,0,.2),inset 1px 1px 3px hsla(0,0%,100%,.1)',
+        'dark-panel': '0 0 30px rgba(255,223,0,0),0px 20px 50px rgba(0,0,0,.2),inset 1px 1px 3px hsla(0,0%,100%,.1)',
         'dark-side-item': 'inset 1px 1px 2px rgba(255, 255, 255, 0.1)',
-        'glory-dark':
-          '0 0 15px rgba(255, 224, 0, 0.3), 0 0 0 2px #FFDF00, 0px 10px 50px rgba(0, 0, 0, 0.15)',
+        'glory-dark': '0 0 15px rgba(255, 224, 0, 0.3), 0 0 0 2px #FFDF00, 0px 10px 50px rgba(0, 0, 0, 0.15)',
         'glory-hover': '0px 10px 50px rgba(0, 0, 0, 0.15)',
-        'glory-light':
-          '0 0 15px rgba(255, 224, 0, 0.15), 0 0 0 2px #976E06, 0px 10px 50px rgba(0, 0, 0, 0.15)',
-        'hard-shadow':
-          '0px 8px 20px rgba(0, 0, 0, 0.1), inset 1px 1px 3px rgba(255, 255, 255, 0.1)',
+        'glory-light': '0 0 15px rgba(255, 224, 0, 0.15), 0 0 0 2px #976E06, 0px 10px 50px rgba(0, 0, 0, 0.15)',
+        'hard-shadow': '0px 8px 20px rgba(0, 0, 0, 0.1), inset 1px 1px 3px rgba(255, 255, 255, 0.1)',
         filter: 'inset 1px 1px 2px hsla(0, 0%, 100%,.1)',
         'light-app-icon': '4px 4px 0px rgba(0, 0, 0, 0.8)',
         'light-app-icon-hover': '-4px -4px 0px rgba(0, 0, 0, 0.8)',
@@ -68,7 +64,8 @@ export default {
         13: '#000000'
       },
       red: {
-        light: '#FF2C2C',
+        light: '#C1121F',
+        hover: '#8B0508',
         dark: '#A3483D'
       },
       green: {
@@ -109,8 +106,12 @@ export default {
         dark: '#FFFFFF'
       },
       'clr-border-1': {
-        light: '#E0E4E8',
+        light: '#E2E8F0',
         dark: '#20262E'
+      },
+      divider: {
+        light: '#E2E8F0',
+        dark: '#21272D'
       },
       'drop-down': {
         light: '#EDF2F7',

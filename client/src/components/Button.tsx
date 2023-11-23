@@ -8,7 +8,7 @@ type PropsType = {
   onClick?: MouseEventHandler<HTMLAnchorElement> & MouseEventHandler<HTMLButtonElement>
   children: ReactNode
   disabled?: boolean
-  type?: 'primary' | 'default' | 'disabled'
+  type?: 'primary' | 'default' | 'disabled' | 'danger'
 }
 
 function getButtonClassNames(type: string, disabled: boolean, className?: string) {
@@ -18,8 +18,9 @@ function getButtonClassNames(type: string, disabled: boolean, className?: string
       'hover:translate-y-[-3px] active:scale-90 dark:bg-button-dark': !disabled && type !== 'disabled',
       'bg-button-light text-button-light-text hover:bg-button-light-hover dark:text-button-dark-text dark:hover:bg-button-dark-hover':
         type === 'default',
-      'bg-primary-light text-white hover:bg-primary-hover dark:bg-primary-light dark:text-white dark:hover:bg-primary-hover':
+      'bg-primary-light text-white hover:bg-primary-hover dark:bg-primary-light dark:hover:bg-primary-hover':
         type === 'primary',
+      'bg-red-light text-white hover:bg-red-hover dark:bg-red-dark dark:hover:bg-red-hover': type === 'danger',
       'cursor-not-allowed bg-neutral-8 text-white dark:bg-neutral-8 dark:text-white': type === 'disabled'
     },
     className
