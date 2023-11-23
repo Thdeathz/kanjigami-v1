@@ -15,7 +15,7 @@ interface PropsType extends InputHTMLAttributes<HTMLInputElement> {
 
 function getInputClassName(withPrefix: boolean, status: string, className?: string) {
   return classNames(
-    'grow border bg-input-light px-4 py-3 transition-colors focus:border-input-glory-light  dark:bg-input-dark dark:focus:border-white',
+    'grow border bg-input-light px-4 py-3 transition-colors focus:border-input-glory-light dark:bg-input-dark dark:focus:border-white',
     {
       'rounded-e-full': withPrefix,
       'rounded-full': !withPrefix,

@@ -10,6 +10,7 @@ import Loading from '~/components/Loading'
 import { useUpdateAvatarMutation } from '../store/userService'
 
 import InputWrapper from './InputWrapper'
+import UploadButton from '~/components/UploadButton'
 
 type PropsType = {
   userId: string
@@ -69,23 +70,7 @@ function EditAvatar({ userId, username, currentAvatar }: PropsType) {
               </>
             )}
 
-            <div className="group relative rounded-full border border-input-border-light bg-input-light px-6 py-2 text-sm font-medium transition-all hover:translate-y-[-3px] active:scale-95 dark:border-input-border-dark dark:bg-input-dark">
-              <div className="flex-center gap-2">
-                <IconWrapper
-                  icon={<BsFileEarmarkImageFill />}
-                  className="transition-colors group-hover:text-clr-link-light dark:group-hover:text-clr-link-dark"
-                />
-
-                <span className="">{avatar ? 'Select other image' : 'Select image'}</span>
-              </div>
-
-              <input
-                type="file"
-                className="absolute right-0 top-0 h-full w-full cursor-pointer opacity-0"
-                accept=".png,.jpg,.jpeg"
-                onChange={onChangeAvatar}
-              />
-            </div>
+            <UploadButton isFileExist={!!avatar} onChange={onChangeAvatar} />
           </div>
         )}
       </div>

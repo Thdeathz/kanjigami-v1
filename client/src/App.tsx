@@ -20,6 +20,9 @@ import Leaderboards from './features/user/Leaderboards'
 import Profile from './features/user/Profile'
 import ProfileSetting from './features/user/ProfileSetting'
 import UserStats from './features/user/UserStats'
+import KanjiStackList from './features/admin/KanjiStackList'
+import OnlineEventList from './features/admin/OnlineEventList'
+import CreateKanjiStack from './features/admin/CreateKanjiStack'
 
 function App() {
   return (
@@ -49,6 +52,14 @@ function App() {
           <Route path="/settings" element={<ProfileSetting />} />
           <Route path="/play/:stackId/blind-card" element={<FlipBlindCard />} />
           <Route path="/play/:stackId/kanji-shooter" element={<KanjiShooter />} />
+        </Route>
+
+        <Route element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
+          <Route path="/admin/kanjis">
+            <Route index element={<KanjiStackList />} />
+            <Route path="create" element={<CreateKanjiStack />} />
+          </Route>
+          <Route path="/admin/events" element={<OnlineEventList />} />
         </Route>
       </Route>
     </Routes>

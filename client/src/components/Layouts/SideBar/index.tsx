@@ -28,31 +28,53 @@ function getSideBarClassNames(fixedSideBar: boolean, isSideBarOpen: boolean) {
 }
 
 function SideBar({ fixedSideBar = true, isSideBarOpen = true }: PropsType) {
-  const { email } = useAuth()
+  const { email, isAdmin } = useAuth()
 
   const sideBarClassNames = getSideBarClassNames(fixedSideBar, isSideBarOpen)
+
+  if (isAdmin)
+    return (
+      <div className={sideBarClassNames}>
+        <div className="w-full pl-6">
+          <SideItem className="my-4" icon={<IoHome />} title="Home" link="/" />
+        </div>
+
+        {isAdmin && (
+          <SideSection heading="setting">
+            <SideItem icon={<BsStack />} title="Kanji stack" link="/admin/kanjis" matchRegex={/\/admin\/kanjis\/\S+/} />
+
+            <SideItem
+              icon={<RiSwordFill />}
+              title="Online battles"
+              link="/admin/events"
+              matchRegex={/\/admin\/events\/\S+/}
+            />
+          </SideSection>
+        )}
+      </div>
+    )
 
   return (
     <div className={sideBarClassNames}>
       <div className="w-full pl-6">
-        <SideItem className="my-4" icon={<IoHome />} title="Home" href="/" />
+        <SideItem className="my-4" icon={<IoHome />} title="Home" link="/" />
       </div>
 
       <SideSection heading="play">
-        <SideItem icon={<RiSwordFill />} title="Online battles" href="/battles" />
+        <SideItem icon={<RiSwordFill />} title="Online battles" link="/battles" matchRegex={/\/battle\/\S+/} />
 
-        <SideItem icon={<BsStack />} title="Kanji stack" href="/kanji" />
+        <SideItem icon={<BsStack />} title="Kanji stack" link="/kanji" matchRegex={/\/kanji\/\S+/} />
 
-        <SideItem icon={<BsTrophyFill />} title="Leaderboards" href="/leaderboard" />
+        <SideItem icon={<BsTrophyFill />} title="Leaderboards" link="/leaderboard" />
       </SideSection>
 
       {email && (
         <SideSection heading="about you">
-          <SideItem icon={<FaUser />} title="Profile" href={`/player/${email.split('@')[0]}`} />
+          <SideItem icon={<FaUser />} title="Profile" link={`/player/${email.split('@')[0]}`} />
 
-          <SideItem icon={<FaChartArea />} title="Stats" href="/me" />
+          <SideItem icon={<FaChartArea />} title="Stats" link="/me" />
 
-          <SideItem icon={<RiSettings3Fill />} title="Settings" href="/settings" />
+          <SideItem icon={<RiSettings3Fill />} title="Settings" link="/settings" />
         </SideSection>
       )}
     </div>
