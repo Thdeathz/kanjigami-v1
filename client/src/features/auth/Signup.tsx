@@ -4,7 +4,7 @@ import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDocumentTitle } from 'usehooks-ts'
 
-import Button from '~/components/Button'
+import AnimateButton from '~/components/AnimateButton'
 import Input from '~/components/Input'
 import Loading from '~/components/Loading'
 import { EMAIL_REGEX, PWD_REGEX } from '~/config/regex'
@@ -12,7 +12,6 @@ import { EMAIL_REGEX, PWD_REGEX } from '~/config/regex'
 import AuthLayout from './components/AuthLayout'
 import { useSignupMutation } from './store/authService'
 import { signUpErrorMessages } from './utils/errorMessages'
-import AnimateButton from '~/components/AnimateButton'
 
 function Signup() {
   useDocumentTitle('Register | 漢字ガミ')

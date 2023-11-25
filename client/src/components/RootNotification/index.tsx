@@ -18,7 +18,7 @@ function RootNotification() {
             key={`looper-instance-${index}`}
             className="looper__listInstance flex w-max select-none gap-4"
             style={{
-              animationDuration: `${notiLength * 7}s`
+              animationDuration: `${notiLength * 10}s`
             }}
           >
             {Array.from(Array(notiLength).keys()).map(each => (

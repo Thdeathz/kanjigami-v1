@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, HTMLAttributes } from 'react'
+import React, { HTMLAttributes } from 'react'
 import { BsFileEarmarkImageFill } from 'react-icons/bs'
 
 import IconWrapper from './IconWrapper'
@@ -7,7 +7,7 @@ interface PropsType extends HTMLAttributes<HTMLInputElement> {
   isFileExist: boolean
 }
 
-const UploadButton = ({ isFileExist, ...props }: PropsType) => {
+function UploadButton({ isFileExist, ...props }: PropsType) {
   return (
     <div className="group relative rounded-full border border-input-border-light bg-input-light px-6 py-2 text-sm font-medium transition-all hover:translate-y-[-3px] active:scale-95 dark:border-input-border-dark dark:bg-input-dark">
       <div className="flex-center gap-2">

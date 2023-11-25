@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Outlet } from 'react-router-dom'
 
-import DefaultLayout from '~/components/Layouts/DefaultLayout'
+import LoadingLayout from '~/components/Layouts/LoadingLayout'
 import usePersist from '~/hooks/usePersist'
+import Loading from '~/components/Loading'
 import { useAppSelector } from '~/hooks/useRedux'
 
 import { useRefreshMutation } from '../store/authService'
@@ -38,7 +39,7 @@ function PersistLogin() {
 
   const shouldRenderOutlet = !persist || (isSuccess && trueSuccess) || (token && isUninitialized) || trueSuccess
 
-  if (!shouldRenderOutlet || isLoading) return <DefaultLayout>Loading...</DefaultLayout>
+  if (!shouldRenderOutlet || isLoading) return <LoadingLayout />
 
   return <Outlet />
 }

@@ -15,9 +15,10 @@ type GameItemPropsType = {
   name: string
   onClick?: MouseEventHandler<HTMLDivElement>
   thumbnail: string
+  isShowHiScore?: boolean
 }
 
-function GameItem({ name, onClick, thumbnail }: GameItemPropsType) {
+export function GameItem({ name, onClick, thumbnail, isShowHiScore = true }: GameItemPropsType) {
   return (
     <div className="basis-1/4">
       <p className="mx-auto mb-4 w-min whitespace-nowrap rounded-md bg-gradient-to-tr from-filter-start-light to-filter-end-light p-1.5 font-medium uppercase dark:from-filter-start-dark dark:to-filter-end-dark">
@@ -32,16 +33,20 @@ function GameItem({ name, onClick, thumbnail }: GameItemPropsType) {
           <Image src={thumbnail} alt="round-game" className="h-full w-full rounded-lg object-cover object-top" />
         </div>
 
-        <div className="flex items-center justify-between p-2">
-          <div>
-            <p className="text-lg font-medium text-text-secondary-light dark:text-text-secondary-dark">Your hi-score</p>
-            <p className="text-base font-medium">Not played</p>
-          </div>
+        {isShowHiScore && (
+          <div className="flex items-center justify-between p-2">
+            <div>
+              <p className="text-lg font-medium text-text-secondary-light dark:text-text-secondary-dark">
+                Your hi-score
+              </p>
+              <p className="text-base font-medium">Not played</p>
+            </div>
 
-          <Button type="primary" className="flex-center aspect-square">
-            <IconWrapper icon={<BsFillPlayFill />} className="text-2xl text-white" />
-          </Button>
-        </div>
+            <Button type="primary" className="flex-center aspect-square">
+              <IconWrapper icon={<BsFillPlayFill />} className="text-2xl text-white" />
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   )

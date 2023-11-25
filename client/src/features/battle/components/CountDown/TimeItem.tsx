@@ -20,7 +20,7 @@ function TimeItem({ value, label, size = 'normal', type, isHiddenSeparator = fal
           <p className="text-xs font-medium uppercase text-footer-light-text">{label}</p>
         </div>
 
-        {!isHiddenSeparator && <p className="text-2xl font-bold text-footer-light-text">:</p>}
+        {!isHiddenSeparator && <p className="text-2xl font-semibold text-footer-light-text">:</p>}
       </div>
     )
 

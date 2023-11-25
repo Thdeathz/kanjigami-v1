@@ -1,7 +1,7 @@
+import classNames from 'classnames'
 import React, { CSSProperties, ReactNode } from 'react'
 
 import Button, { ButtonPropsType } from './Button'
-import classNames from 'classnames'
 
 interface PropsType extends ButtonPropsType {
   children: string | ReactNode

@@ -1,6 +1,9 @@
 import { Routes, Route } from 'react-router-dom'
 
 import { ROLES } from './config/roles'
+import CreateKanjiStack from './features/admin/CreateKanjiStack'
+import KanjiStackList from './features/admin/KanjiStackList'
+import OnlineEventList from './features/admin/OnlineEventList'
 import LoggedIn from './features/auth/components/LoggedIn'
 import PersistLogin from './features/auth/components/PersistLogin'
 import RequireAuth from './features/auth/components/RequireAuth'
@@ -20,9 +23,7 @@ import Leaderboards from './features/user/Leaderboards'
 import Profile from './features/user/Profile'
 import ProfileSetting from './features/user/ProfileSetting'
 import UserStats from './features/user/UserStats'
-import KanjiStackList from './features/admin/KanjiStackList'
-import OnlineEventList from './features/admin/OnlineEventList'
-import CreateKanjiStack from './features/admin/CreateKanjiStack'
+import CreateOnlineEvent from './features/admin/CreateOnlineEvent'
 
 function App() {
   return (
@@ -46,7 +47,7 @@ function App() {
         <Route path="/leaderboard" element={<Leaderboards />} />
 
         {/* PRIVATE ROUTES */}
-        <Route element={<RequireAuth allowedRoles={[...Object.values(ROLES)]} />}>
+        <Route element={<RequireAuth allowedRoles={[ROLES.USER]} />}>
           <Route path="/player/:username" element={<Profile />} />
           <Route path="/me" element={<UserStats />} />
           <Route path="/settings" element={<ProfileSetting />} />
@@ -59,7 +60,10 @@ function App() {
             <Route index element={<KanjiStackList />} />
             <Route path="create" element={<CreateKanjiStack />} />
           </Route>
-          <Route path="/admin/events" element={<OnlineEventList />} />
+          <Route path="/admin/events">
+            <Route index element={<OnlineEventList />} />
+            <Route path="create" element={<CreateOnlineEvent />} />
+          </Route>
         </Route>
       </Route>
     </Routes>
