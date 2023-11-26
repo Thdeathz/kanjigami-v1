@@ -5,7 +5,7 @@ import React, { MouseEventHandler, ReactNode } from 'react'
 type PropsType = {
   className?: string
   htmlType?: 'button' | 'submit' | 'reset'
-  onClick?: MouseEventHandler<HTMLAnchorElement> & MouseEventHandler<HTMLButtonElement>
+  onClick?: MouseEventHandler<HTMLButtonElement>
   children: ReactNode
   disabled?: boolean
   type?: 'primary' | 'default' | 'disabled' | 'danger'
@@ -13,7 +13,7 @@ type PropsType = {
 
 function getButtonClassNames(type: string, disabled: boolean, className?: string) {
   return classNames(
-    'h-10 whitespace-nowrap rounded-full px-4 font-bold shadow-button transition-all duration-200',
+    'h-10 whitespace-nowrap rounded-full px-4 font-semibold shadow-button transition-all duration-200',
     {
       'hover:translate-y-[-3px] active:scale-90 dark:bg-button-dark': !disabled && type !== 'disabled',
       'bg-button-light text-button-light-text hover:bg-button-light-hover dark:text-button-dark-text dark:hover:bg-button-dark-hover':

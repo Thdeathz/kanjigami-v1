@@ -1,8 +1,8 @@
 import React from 'react'
-
-import { useRegisterSW } from 'virtual:pwa-register/react'
-import DefaultLayout from './DefaultLayout'
 import { Outlet } from 'react-router-dom'
+import { useRegisterSW } from 'virtual:pwa-register/react'
+
+import DefaultLayout from './DefaultLayout'
 
 function ReloadPrompt() {
   const {

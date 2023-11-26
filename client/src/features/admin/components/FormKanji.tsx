@@ -3,14 +3,15 @@ import React from 'react'
 import { AiOutlinePlusCircle } from 'react-icons/ai'
 
 import Button from '~/components/Button'
+import IconWrapper from '~/components/IconWrapper'
 import Input from '~/components/Input'
 import Panel from '~/components/Panel'
-import InputWrapper from '~/features/user/components/InputWrapper'
-import SectionDivider from './SectionDivider'
-import IconWrapper from '~/components/IconWrapper'
 import UploadButton from '~/components/UploadButton'
+import InputWrapper from '~/features/user/components/InputWrapper'
 
-const FormKanji = () => {
+import SectionDivider from './SectionDivider'
+
+function FormKanji() {
   return (
     <div className="flex items-start justify-start gap-12">
       <Panel className="basis-1/2">

@@ -4,10 +4,10 @@ import { Provider } from 'react-redux'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 import App from './App'
+import './font.css'
 import './index.css'
 import 'antd/dist/reset.css'
 import store from './app/store'
-
 import ReloadPrompt from './components/Layouts/ReloadPrompt'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(

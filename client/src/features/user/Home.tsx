@@ -20,7 +20,7 @@ function Home() {
   useDocumentTitle('漢字ガミ')
 
   const navigate = useNavigate()
-  const { email } = useAuth()
+  const { isUser } = useAuth()
 
   return (
     <DefaultLayout className="flex flex-col items-start justify-start gap-12">
@@ -65,7 +65,7 @@ function Home() {
         </BattleInfo>
       </Section>
 
-      {email && (
+      {isUser && (
         <Section
           title="Followed kanji stack"
           description="Play game and learn more kanji"

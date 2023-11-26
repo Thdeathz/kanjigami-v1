@@ -1,7 +1,8 @@
 import React from 'react'
+
 import DefaultLayout from './DefaultLayout'
 
-const OfflinePage = () => {
+function OfflinePage() {
   return (
     <DefaultLayout>
       <div className="flex-center text-4xl">Offline Page</div>

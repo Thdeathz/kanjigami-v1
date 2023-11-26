@@ -1,16 +1,14 @@
 import { message } from 'antd'
 import React, { ChangeEvent, useState } from 'react'
-import { BsFileEarmarkImageFill } from 'react-icons/bs'
 
 import Avatar from '~/components/Avatar'
 import Button from '~/components/Button'
-import IconWrapper from '~/components/IconWrapper'
 import Loading from '~/components/Loading'
+import UploadButton from '~/components/UploadButton'
 
 import { useUpdateAvatarMutation } from '../store/userService'
 
 import InputWrapper from './InputWrapper'
-import UploadButton from '~/components/UploadButton'
 
 type PropsType = {
   userId: string

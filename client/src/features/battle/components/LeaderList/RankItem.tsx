@@ -48,7 +48,7 @@ function RankItem({ rank, username, points, battles }: PropsType) {
       <Avatar />
 
       <div className="flex flex-col items-start justify-start gap-1">
-        <div className="flex-center gap-1 text-base font-semibold leading-3">
+        <div className="flex-center gap-1 font-semibold leading-3 text-text-heading-light dark:text-text-heading-dark">
           {rank <= 3 && <IconWrapper icon={<FaCrown />} className={crownColor} />} {username}
         </div>
         <p className="text-sm font-medium leading-3">

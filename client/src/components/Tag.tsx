@@ -9,7 +9,7 @@ type PropsType = {
 
 function getTagClassNames(type: string, className?: string) {
   return classNames(
-    'select-none rounded px-2 py-[0.2rem] text-sm font-medium shadow-button',
+    'select-none w-min whitespace-nowrap rounded px-2 py-[0.2rem] text-sm font-medium shadow-button',
     {
       'bg-green-light dark:bg-green-dark dark:text-white': type === 'ongoing',
       'bg-primary-light text-white': type === 'upcoming',

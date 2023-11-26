@@ -24,8 +24,8 @@ function Section({ title, description, icon, viewButton, className, children }: 
           )}
 
           <div className="flex w-full flex-col items-start justify-between">
-            <p className="text-xl font-semibold">{title}</p>
-            {description && <p className="text-base">{description}</p>}
+            <p className="text-2xl font-semibold text-text-heading-light dark:text-text-heading-dark">{title}</p>
+            {description && <p className="text-base font-medium">{description}</p>}
           </div>
         </div>
 

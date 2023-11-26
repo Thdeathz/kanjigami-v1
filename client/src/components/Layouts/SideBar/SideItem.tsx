@@ -35,7 +35,7 @@ function getIconClassName(isActive: boolean) {
 
 function getParagraphClassName(isActive: boolean) {
   return classNames(
-    'font-semibold transition-colors group-hover:text-side-item-light-link-hover dark:group-hover:text-side-item-dark-link-hover',
+    'font-medium transition-colors group-hover:text-side-item-light-link-hover dark:group-hover:text-side-item-dark-link-hover',
     {
       'text-side-item-light-link-hover dark:text-side-item-dark-link-hover': isActive
     }
@@ -55,7 +55,6 @@ function SideItem({ icon, title, link, matchRegex, className }: PropsType) {
   return (
     <button type="button" className={buttonClassName} onClick={() => navigate(link)}>
       <IconWrapper icon={icon} className={iconClassName} />
-      <>{console.log('==> path', currentPath)}</>
 
       <p className={paragraphClassName}>{title}</p>
     </button>

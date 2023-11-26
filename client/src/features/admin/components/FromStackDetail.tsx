@@ -6,7 +6,7 @@ import Input from '~/components/Input'
 import UploadButton from '~/components/UploadButton'
 import InputWrapper from '~/features/user/components/InputWrapper'
 
-const FromStackDetail = () => {
+function FromStackDetail() {
   return (
     <div className="flex items-start justify-start gap-12">
       <div className="basis-1/2">

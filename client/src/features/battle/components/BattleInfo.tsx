@@ -2,16 +2,16 @@ import { Avatar } from 'antd'
 import React, { ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import AnimateButton from '~/components/AnimateButton'
 import Button from '~/components/Button'
 import CustomDivider from '~/components/CustomDivider'
 import Panel from '~/components/Panel'
 import Tag from '~/components/Tag'
 
 import CountDown from './CountDown'
-import AnimateButton from '~/components/AnimateButton'
 
 type PropsType = {
-  status: 'ongoing' | 'upcoming' | 'finished'
+  status: OnlineEventStatus
   tagName: string
   title: string
   desciption: string
@@ -24,7 +24,7 @@ function BattleInfo({ status, tagName, title, desciption, endTime, className, ch
   const navigate = useNavigate()
 
   return (
-    <Panel className="group flex items-start justify-start gap-8">
+    <Panel className="group flex items-start justify-start gap-12">
       <div className={`flex h-full w-full basis-2/5 flex-col items-start justify-start gap-2 ${className ?? ''}`}>
         <div className="flex items-center justify-start gap-2">
           <Tag type={status} />
@@ -36,7 +36,7 @@ function BattleInfo({ status, tagName, title, desciption, endTime, className, ch
           />
         </div>
 
-        <p className="my-2 text-xl font-semibold">{title}</p>
+        <p className="my-2 text-xl font-semibold text-text-heading-light dark:text-text-heading-dark">{title}</p>
 
         <p className="font-medium">{desciption}</p>
 

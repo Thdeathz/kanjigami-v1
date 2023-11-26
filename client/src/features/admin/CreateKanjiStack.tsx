@@ -2,23 +2,34 @@ import { Form } from 'antd'
 import React from 'react'
 import { BsStack } from 'react-icons/bs'
 
+import Button from '~/components/Button'
 import DefaultLayout from '~/components/Layouts/DefaultLayout'
 import PageHeader from '~/components/PageHeader'
-import SectionDivider from './components/SectionDivider'
-import FromStackDetail from './components/FromStackDetail'
-import Panel from '~/components/Panel'
-import Button from '~/components/Button'
-import InputWrapper from '../user/components/InputWrapper'
-import Input from '~/components/Input'
-import IconWrapper from '~/components/IconWrapper'
-import { AiOutlinePlusCircle } from 'react-icons/ai'
-import FormKanji from './components/FormKanji'
 
-const CreateKanjiStack = () => {
+import FormKanji from './components/FormKanji'
+import FromStackDetail from './components/FromStackDetail'
+import SectionDivider from './components/SectionDivider'
+
+function CreateKanjiStack() {
   const [form] = Form.useForm<CreateStackRequest>()
 
   return (
-    <DefaultLayout>
+    <DefaultLayout
+      breadcrumbs={[
+        {
+          label: (
+            <div className="flex-center gap-2">
+              <BsStack /> Config Kanji Stack
+            </div>
+          ),
+          to: '/admin/kanjis'
+        },
+        {
+          label: <p>Create new</p>,
+          to: `/admin/kanjis/create`
+        }
+      ]}
+    >
       <PageHeader
         icon={<BsStack />}
         title="Create Kanji Stack"
@@ -40,12 +51,8 @@ const CreateKanjiStack = () => {
         </div>
 
         <div className="flex items-center justify-end gap-2">
-          <Button type="danger" className="text-lg">
-            Cancel
-          </Button>
-          <Button type="primary" className="text-lg">
-            Add new
-          </Button>
+          <Button type="danger">Cancel</Button>
+          <Button type="primary">Add new</Button>
         </div>
       </Form>
     </DefaultLayout>

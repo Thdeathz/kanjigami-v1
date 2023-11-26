@@ -5,12 +5,14 @@ import { FaUser, FaChartArea } from 'react-icons/fa'
 import { IoHome } from 'react-icons/io5'
 import { RiSwordFill, RiSettings3Fill } from 'react-icons/ri'
 
+import Loading from '~/components/Loading'
 import useAuth from '~/hooks/useAuth'
 
 import SideItem from './SideItem'
 import SideSection from './SideSection'
 
 type PropsType = {
+  isLoading?: boolean
   fixedSideBar?: boolean
   isSideBarOpen?: boolean
 }
@@ -27,10 +29,19 @@ function getSideBarClassNames(fixedSideBar: boolean, isSideBarOpen: boolean) {
   )
 }
 
-function SideBar({ fixedSideBar = true, isSideBarOpen = true }: PropsType) {
+function SideBar({ isLoading = false, fixedSideBar = true, isSideBarOpen = true }: PropsType) {
   const { email, isAdmin } = useAuth()
 
   const sideBarClassNames = getSideBarClassNames(fixedSideBar, isSideBarOpen)
+
+  if (isLoading)
+    return (
+      <div className={sideBarClassNames}>
+        <div className="mt-32 h-full w-[12.35rem]">
+          <Loading className="text-3xl" />
+        </div>
+      </div>
+    )
 
   if (isAdmin)
     return (
