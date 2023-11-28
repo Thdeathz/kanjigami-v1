@@ -54,6 +54,7 @@ model Stack {
   id          String      @id @default(uuid())
   name        String
   description String
+  thumbnail   String?
   topic       Topic       @relation(fields: [topicId], references: [id])
   topicId     String      // relation scalar feild
   createdAt   DateTime    @default(now())

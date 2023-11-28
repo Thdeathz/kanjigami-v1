@@ -44,9 +44,10 @@ admin.initializeApp({
 app.use('/api', rootRoute)
 app.use('/api/auth', authRoutes)
 app.use('/api/password', passwordRoutes)
+
+// private routes
 app.use('/api/events', eventRoutes)
 app.use('/api/stacks', stackRoutes)
-// private routes
 app.use('/api/user', userRoutes)
 app.use('*', notFoundRoute)
 

@@ -1,4 +1,4 @@
-import { CreateStackReq, FullCreateStackReq } from '../@types/stack'
+import { FullCreateStackReq } from '../@types/stack'
 import prisma from '../databases/init.prisma'
 import HttpError from '../helpers/httpError'
 
@@ -8,6 +8,7 @@ const createStack = async (stack: FullCreateStackReq) => {
       data: {
         name: stack.name,
         description: stack.description,
+        thumbnail: stack.thumbnail,
         gameStacks: {
           create: stack.gameStacks.map(gameStack => ({
             gameId: gameStack.gameId
@@ -20,7 +21,7 @@ const createStack = async (stack: FullCreateStackReq) => {
             },
             create: {
               name: stack.topic.name,
-              description: stack.topic.description || 'Default description'
+              description: stack.topic.description
             }
           }
         },
@@ -29,7 +30,7 @@ const createStack = async (stack: FullCreateStackReq) => {
             kanji: item.kanji,
             kunyomi: item.kunyomi,
             onyomi: item.onyomi,
-            meaning: item.meaning,
+            meaning: item.meaning
           }))
         }
       }
@@ -39,14 +40,18 @@ const createStack = async (stack: FullCreateStackReq) => {
   }
 }
 
-const getAllStacks = async () => {
+const getAllStacks = async (page: number, offset: number) => {
   const stacks = await prisma.stack.findMany({
+    skip: (page - 1) * offset,
+    take: offset,
     select: {
       id: true,
       name: true,
-      description: true
+      description: true,
+      thumbnail: true
     }
   })
+
   return stacks
 }
 
@@ -86,7 +91,7 @@ const setFollowStack = async (userId: string, stackId: string) => {
       })
     }
   } catch (error) {
-    throw new HttpError(500, 'Internal server error')
+    throw new HttpError(500, 'Stack not found')
   }
 }
 

@@ -1,9 +1,10 @@
 export declare interface CreateStackReq {
   name: string
   description: string
+  thumbnail?: string
   topic: {
     name: string
-    description?: string
+    description: string
   }
   gameStacks: {
     gameId: string
