@@ -19,7 +19,6 @@ import authRoutes from '~/api/routes/auth.route'
 import eventRoutes from '~/api/routes/event.route'
 import stackRoutes from '~/api/routes/stack.route'
 import passwordRoutes from '~/api/routes/password.route'
-
 dotenv.config()
 const app = express()
 const PORT: string | 3500 = process.env.PORT || 3500
@@ -45,10 +44,10 @@ admin.initializeApp({
 app.use('/api', rootRoute)
 app.use('/api/auth', authRoutes)
 app.use('/api/password', passwordRoutes)
-app.use('/api/events', eventRoutes)
-app.use('/api/stacks', stackRoutes)
 
 // private routes
+app.use('/api/events', eventRoutes)
+app.use('/api/stacks', stackRoutes)
 app.use('/api/user', userRoutes)
 app.use('*', notFoundRoute)
 

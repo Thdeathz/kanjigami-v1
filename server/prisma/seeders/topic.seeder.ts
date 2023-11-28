@@ -23,6 +23,7 @@ const topicSeeder = async (): Promise<TopicWithStacks[]> => {
             create: Array.from(Array(10)).map(() => ({
               name: fakerJA.person.fullName(),
               description: faker.lorem.sentence(),
+              thumbnail: faker.image.url(),
               kanjis: {
                 create: kanjis.map(each => ({
                   kanji: each.kanji,

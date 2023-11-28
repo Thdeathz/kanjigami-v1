@@ -45,3 +45,5 @@ logserver:
 devclean: devdown
 	@docker rmi $$(docker images -a -q)
 	@docker volume rm $$(docker volume ls -q)
+devrun-server:
+	docker compose exec -it server yarn dev
