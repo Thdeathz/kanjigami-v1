@@ -1,66 +1,29 @@
-import { faker, fakerJA } from '@faker-js/faker'
-import { PrismaClient, Stack, Topic } from '@prisma/client'
-import { kanjiFactory } from '../factories/kanji.factory'
+import { Topic } from '@prisma/client'
 
-export type TopicWithStacks = Topic & { stacks: Stack[] }
+import prisma from './prismaClient'
+import { topicFactory } from '../factories/topic.factory'
 
-const prisma = new PrismaClient()
-
-const topicFactory = ['家族', 'スポーツ', '飲み物', '観光']
-
-const topicSeeder = async (): Promise<TopicWithStacks[]> => {
-  let topicList: TopicWithStacks[] = []
-
-  const kanjis = await kanjiFactory()
+const topicSeeder = async (): Promise<Topic[]> => {
+  console.log('🌱 Seeding topics...')
+  let topics: Topic[] = []
+  const topicsData = await topicFactory()
 
   await Promise.all(
-    topicFactory.map(async topic => {
+    topicsData.map(async each => {
       const newTopic = await prisma.topic.create({
         data: {
-          name: topic,
-          description: faker.lorem.sentence(),
-          stacks: {
-            create: Array.from(Array(10)).map(() => ({
-              name: fakerJA.person.fullName(),
-              description: faker.lorem.sentence(),
-              thumbnail: faker.image.url(),
-              kanjis: {
-                create: kanjis.map(each => ({
-                  kanji: each.kanji,
-                  kunyomi: each.hiragana,
-                  onyomi: each.hiragana,
-                  meaning: each.meaning,
-                  images: {
-                    create: {
-                      url: each.image
-                    }
-                  },
-                  vocabularies: {
-                    create: {
-                      yomikata: each.romanji,
-                      meaning: faker.word.words({ count: { min: 3, max: 8 } }),
-                      examples: {
-                        create: {
-                          example: faker.word.words({ count: { min: 3, max: 8 } }),
-                          meaning: faker.word.words({ count: { min: 3, max: 8 } })
-                        }
-                      }
-                    }
-                  }
-                }))
-              }
-            }))
-          }
-        },
-        include: {
-          stacks: true
+          name: each.name,
+          description: each.description
         }
       })
-      topicList.push(newTopic)
+
+      topics.push(newTopic)
     })
   )
 
-  return topicList
+  console.log('🌱 Seeding topics completed!')
+
+  return topics
 }
 
 export default topicSeeder

@@ -1,12 +1,12 @@
-import { Account, PrismaClient, User } from '@prisma/client'
-import { faker } from '@faker-js/faker'
-import { accountFactory } from '../factories/account.factory'
+import { Account, User } from '@prisma/client'
 
-const prisma = new PrismaClient()
+import prisma from './prismaClient'
+import { accountFactory } from '../factories/account.factory'
 
 export type AccountWithUser = Account & { user: User }
 
 const accountSeeder = async (): Promise<AccountWithUser[]> => {
+  console.log('🌱 Seeding accounts...')
   let accounts: AccountWithUser[] = []
   const accountsData = await accountFactory()
 
@@ -51,6 +51,8 @@ const accountSeeder = async (): Promise<AccountWithUser[]> => {
       accounts.push(newAccount)
     })
   )
+
+  console.log('🌱 Seeding accounts completed!')
 
   return accounts
 }

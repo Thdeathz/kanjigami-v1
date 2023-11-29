@@ -1,10 +1,11 @@
-import { Game, PrismaClient } from '@prisma/client'
+import { Game } from '@prisma/client'
 
-const prisma = new PrismaClient()
+import prisma from './prismaClient'
 
 const gameFactory = ['Blind Flip Card', 'Kanji Shooter', 'Typing Racing']
 
 const gameSeeder = async (): Promise<Game[]> => {
+  console.log('🌱 Seeding games...')
   let games: Game[] = []
   await Promise.all(
     gameFactory.map(async gameType => {
@@ -16,6 +17,8 @@ const gameSeeder = async (): Promise<Game[]> => {
       games.push(newGame)
     })
   )
+
+  console.log('🌱 Seeding games completed!')
 
   return games
 }

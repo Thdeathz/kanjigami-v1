@@ -1,50 +1,68 @@
-import { Event, Game, PrismaClient, Topic } from '@prisma/client'
-import { TopicWithStacks } from './topic.seeder'
-import { faker } from '@faker-js/faker'
-import { AccountWithUser } from './account.seeder'
+import { Event, Game, Stack } from '@prisma/client'
 
-const prisma = new PrismaClient()
+import prisma from './prismaClient'
+import { AccountWithUser } from './account.seeder'
+import { eventFactory } from '../factories/event.factory'
 
 const eventSeeder = async (
   games: Game[],
-  topicList: TopicWithStacks[],
-  accounts: AccountWithUser[]
+  accounts: AccountWithUser[],
+  stacks: Stack[]
 ): Promise<Event[]> => {
+  console.log('🌱 Seeding events...')
   let eventList: Event[] = []
+
+  const eventsData = await eventFactory(accounts, games, stacks)
+
   await Promise.all(
-    Array.from(Array(20)).map(async () => {
+    eventsData.map(async event => {
       const newEvent = await prisma.event.create({
         data: {
-          description: faker.lorem.sentence(),
-          maxPlayers: faker.number.int({ min: 10, max: 20 }),
-          lobbyTime: 10,
-          status: faker.helpers.arrayElement(['Upcoming', 'Onoging', 'Finished']),
-          tags: faker.lorem.word({ length: { min: 5, max: 7 } }),
+          title: event.title,
+          description: event.description,
+          maxPlayers: event.maxPlayers,
+          status: event.status,
+          tags: event.tags,
           rounds: {
-            create: Array.from(Array(8)).map(() => ({
-              gameId: faker.helpers.arrayElement(games).id,
-              stackId:
-                topicList[faker.number.int({ min: 0, max: 3 })].stacks[
-                  faker.number.int({ min: 0, max: 9 })
-                ].id
+            create: event.rounds.map(round => ({
+              order: round.order,
+              status: round.status,
+              game: {
+                connect: {
+                  id: round.gameId
+                }
+              },
+              stack: {
+                connect: {
+                  id: round.stackId
+                }
+              },
+              onlineHistory: {
+                create: round.onlineHistory.map(history => ({
+                  user: {
+                    connect: {
+                      id: history.userId
+                    }
+                  },
+                  archievedPoints: history.archievedPoints
+                }))
+              }
             }))
           },
-          startTime: new Date(),
+          startTime: event.startTime,
           joinedUsers: {
-            connect: Array.from(Array(10).keys()).map(each => ({
-              id: accounts[each + 1].user.id
+            connect: event.joinedUsers.map(account => ({
+              id: account.user.id
             }))
           }
-        },
-        include: {
-          rounds: true,
-          joinedUsers: true
         }
       })
 
       eventList.push(newEvent)
     })
   )
+
+  console.log('🌱 Seeding events completed!')
 
   return eventList
 }
