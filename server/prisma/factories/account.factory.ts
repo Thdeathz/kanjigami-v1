@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 
-type Account = {
+type AccountFactory = {
   email: string
   password: string
   username: string
@@ -9,7 +9,7 @@ type Account = {
 }
 
 export const accountFactory = async () => {
-  let accounts: Account[] = []
+  let accounts: AccountFactory[] = []
 
   Array.from(Array(50)).map(async () => {
     const email = faker.internet.email()

@@ -12,6 +12,12 @@ enum Role {
   USER
 }
 
+enum EventStatus {
+  UPCOMING
+  ONGOING
+  FINISHED
+}
+
 model User {
   id             String          @id @default(uuid())
   avatarUrl      String?
@@ -149,21 +155,23 @@ model Game {
 }
 
 model Event {
-  id          String   @id @default(uuid())
+  id          String      @id @default(uuid())
   startTime   DateTime
   maxPlayers  Int
-  lobbyTime   Int
-  status      String
+  status      EventStatus @default(UPCOMING)
+  title       String
   description String
   tags        String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  rounds      Round[]  // relation to Round
-  joinedUsers User[]   // relation to User
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  rounds      Round[]     // relation to Round
+  joinedUsers User[]      // relation to User
 }
 
 model Round {
   id            String          @id @default(uuid())
+  order         Int
+  status        EventStatus     @default(UPCOMING)
   event         Event           @relation(fields: [eventId], references: [id], onDelete: Cascade)
   eventId       String          // relation scalar feild
   game          Game            @relation(fields: [gameId], references: [id])

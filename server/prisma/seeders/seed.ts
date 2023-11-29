@@ -1,8 +1,10 @@
 import { PrismaClient } from '@prisma/client'
+
+import accountSeeder from './account.seeder'
 import gameSeeder from './game.seeder'
 import topicSeeder from './topic.seeder'
+import stackSeeder from './stack.seeder'
 import eventSeeder from './event.seeder'
-import accountSeeder from './account.seeder'
 
 const prisma = new PrismaClient()
 
@@ -13,7 +15,9 @@ async function seed() {
 
   const topics = await topicSeeder()
 
-  await eventSeeder(games, topics, accounts)
+  const stacks = await stackSeeder(topics)
+
+  await eventSeeder(games, accounts, stacks)
 }
 
 seed()
