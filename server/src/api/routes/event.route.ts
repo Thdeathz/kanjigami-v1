@@ -12,8 +12,8 @@ import validateRequest from '../middleware/validateRequest'
 
 const route = express.Router()
 
-route.route('/').get(getAllEvents).post(validateRequest(createEventSchema), createEvent)
+route.route('/').get(getAllEvents).post(createEvent)
 
-route.route('/:id').get(getEventById).put(updateEventById).delete(deleteEventById)
+route.route('/:id').get(getEventById).delete(deleteEventById)
 
 export default route
