@@ -1,6 +1,8 @@
-import { type RequestHandler } from 'express'
+import type { RequestHandler } from 'express'
+
 import eventService from '../services/event.service'
-import { CreateEventReq, UpdateEventReq } from '../@types/event'
+import { CreateEventRequest, UpdateEventReq } from '../@types/event'
+import { EventStatus } from '@prisma/client'
 
 /**
  * @desc Get all events
@@ -8,9 +10,11 @@ import { CreateEventReq, UpdateEventReq } from '../@types/event'
  * @access Public
  */
 export const getAllEvents: RequestHandler = async (req, res) => {
-  const events = await eventService.getAllEvents()
+  const status = (req.query.status as EventStatus) || EventStatus.UPCOMING
+  const page = parseInt(req.query.page as string) || 1
+  const events = await eventService.getAllEvents(status, page, 3)
 
-  res.json({ message: 'Get all events successfully', data: events })
+  res.json({ message: 'Get all events successfully', data: events, currentPage: page })
 }
 
 /**
@@ -19,7 +23,7 @@ export const getAllEvents: RequestHandler = async (req, res) => {
  * @access Private
  */
 export const createEvent: RequestHandler = async (req, res) => {
-  const createEventRequest = <CreateEventReq>req.body
+  const createEventRequest = <CreateEventRequest>req.body
 
   const event = await eventService.createEvent(createEventRequest)
 

@@ -1,12 +1,13 @@
-export declare interface CreateEventReq {
+export declare interface CreateEventRequest {
+  title: string
   description: string
   maxPlayers: number
-  lobbyTime: number
   startTime: Date
   tags: string
   rounds: {
     gameId: string
     stackId: string
+    order: number
   }[]
 }
 

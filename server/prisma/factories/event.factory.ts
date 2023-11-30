@@ -31,16 +31,13 @@ export const eventFactory = async (accounts: AccountWithUser[], games: Game[], s
   Array.from(Array(30)).map(() => {
     const status = faker.helpers.arrayElement([EventStatus.UPCOMING, EventStatus.FINISHED])
     const title = faker.lorem.word({ length: { min: 5, max: 7 } })
-    const description = faker.lorem.sentences()
-    const tags = fakerJA.lorem.word()
+    const description = faker.lorem.sentence(8)
+    const tags = fakerJA.person.firstName()
     const maxPlayers = faker.number.int({ min: 5, max: 12 })
 
     let startTime = faker.date.future()
-    let joinedUsers: AccountWithUser[] = []
-    if (status === EventStatus.FINISHED) {
-      startTime = faker.date.past()
-      joinedUsers = faker.helpers.shuffle(accounts).slice(0, maxPlayers)
-    }
+    let joinedUsers: AccountWithUser[] = faker.helpers.shuffle(accounts).slice(0, maxPlayers)
+    if (status === EventStatus.FINISHED) startTime = faker.date.past()
 
     const maxRounds = faker.number.int({ min: 6, max: 12 })
     const rounds = Array.from(Array(maxRounds)).map((_, index) => {
