@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react'
 import { useEffectOnce } from 'usehooks-ts'
 
 import { getDateDifference } from '~/utils/countDown'
+import { convertToUserTimeZone } from '~/utils/timezone'
 
 import TimeItem from './TimeItem'
 
@@ -10,23 +11,23 @@ type PropsType = {
   type?: 'animate' | 'normal'
   maxLength?: number
   onFinish?: () => void
+  endTime: Date
 }
 
-function CountDown({ size = 'normal', maxLength = 4, type = 'normal', onFinish }: PropsType) {
+function CountDown({ size = 'normal', maxLength = 4, type = 'normal', endTime, onFinish }: PropsType) {
   const [remaining, setRemaining] = useState<RemainingTime | null>(null)
   const intervalRef = useRef<number>()
 
   const update = () => {
     const now = new Date()
-    const endTime = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1)
-
-    if (now > endTime) {
+    const countTo = convertToUserTimeZone(endTime)
+    if (now > countTo) {
       clearInterval(intervalRef.current)
 
       if (typeof onFinish === 'function') onFinish()
       return
     }
-    let diff = getDateDifference(now, endTime)
+    let diff = getDateDifference(now, countTo)
 
     if (maxLength) {
       const parts = ['days', 'hours', 'minutes', 'seconds'].map(part => {
@@ -55,14 +56,21 @@ function CountDown({ size = 'normal', maxLength = 4, type = 'normal', onFinish }
     }
   })
 
-  const isShowHours = remaining?.days || remaining?.hours
+  const isShowDays = remaining?.days && remaining.days !== undefined
+  const isShowHours = (isShowDays || remaining?.hours) && remaining.hours !== undefined
   const isShowMinutes = (isShowHours || remaining?.minutes) && remaining.minutes !== undefined
   const isShowSecondes = (isShowMinutes || remaining?.seconds) && remaining.seconds !== undefined
 
   return (
     <div className="flex-center gap-1">
-      {remaining?.days && (
-        <TimeItem value={remaining.days} size={size} label={type === 'animate' ? 'days' : 'd'} type={type} />
+      {isShowDays && (
+        <TimeItem
+          value={remaining.days}
+          size={size}
+          label={type === 'animate' ? 'days' : 'd'}
+          type={type}
+          isHiddenSeparator={!isShowHours}
+        />
       )}
 
       {isShowHours && (
@@ -70,7 +78,7 @@ function CountDown({ size = 'normal', maxLength = 4, type = 'normal', onFinish }
           value={remaining.hours}
           size={size}
           label={type === 'animate' ? 'hours' : 'h'}
-          isHiddenSeparator={maxLength === 1}
+          isHiddenSeparator={!isShowMinutes}
           type={type}
         />
       )}
@@ -80,7 +88,7 @@ function CountDown({ size = 'normal', maxLength = 4, type = 'normal', onFinish }
           value={remaining.minutes}
           size={size}
           label={type === 'animate' ? 'minutes' : 'm'}
-          isHiddenSeparator={maxLength === 2}
+          isHiddenSeparator={!isShowSecondes}
           type={type}
         />
       )}

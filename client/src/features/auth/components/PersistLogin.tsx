@@ -3,7 +3,6 @@ import { Outlet } from 'react-router-dom'
 
 import LoadingLayout from '~/components/Layouts/LoadingLayout'
 import usePersist from '~/hooks/usePersist'
-import Loading from '~/components/Loading'
 import { useAppSelector } from '~/hooks/useRedux'
 
 import { useRefreshMutation } from '../store/authService'

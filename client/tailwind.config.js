@@ -70,6 +70,7 @@ export default {
       },
       green: {
         light: '#AFC470',
+        hover: '#8B9A4A',
         dark: '#4A6302'
       },
       'rgb-gray': {

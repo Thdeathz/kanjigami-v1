@@ -2,7 +2,7 @@ import { type Variants } from 'framer-motion'
 
 type AnimationVariants = {
   container: (delay?: number, stagger?: number) => Variants
-  item: () => Variants
+  item: (duration?: number) => Variants
 }
 
 type TopLeaderVariants = {
@@ -13,20 +13,22 @@ type TopLeaderVariants = {
 
 export const gridList: AnimationVariants = {
   container: (delay = 0.1, stagger = 0.1) => ({
-    hidden: { opacity: 1, scale: 0 },
+    hidden: { opacity: 1 },
     enter: {
       opacity: 1,
-      scale: 1,
       transition: {
         delayChildren: delay,
         staggerChildren: stagger
       }
     }
   }),
-  item: () => ({
+  item: (duration = 0.2) => ({
     hidden: { y: 20, opacity: 0 },
     enter: {
       y: 0,
+      transition: {
+        duration
+      },
       opacity: 1
     }
   })

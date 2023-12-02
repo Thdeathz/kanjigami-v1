@@ -11,8 +11,7 @@ const storeFile: storeFileType = async (file, prefix, extention) => {
   try {
     const bucket = getStorage().bucket()
 
-    // const fileName = `${prefix}/${v4()}.${extention}`
-    const fileName = `${prefix}.${extention}`
+    const fileName = `${prefix}/${v4()}.${extention}`
 
     const fileRef = bucket.file(fileName)
     await fileRef.save(file, {

@@ -21,12 +21,12 @@ function getAnimateButtonClassNames(animate: string, className?: string) {
   )
 }
 
-function AnimateButton({ className, animate = 'jumping', children, ...props }: PropsType) {
+function AnimateButton({ className, disabled, animate = 'jumping', children, ...props }: PropsType) {
   const animateButtonClassName = getAnimateButtonClassNames(animate, className)
 
   return (
     <Button className={animateButtonClassName} {...props}>
-      {typeof children === 'string'
+      {typeof children === 'string' && !disabled
         ? children
             .trim()
             .split('')

@@ -11,7 +11,7 @@ type PropsType = {
   }[]
 }
 
-const Table = ({ columns, dataSources }: PropsType) => {
+function Table({ columns, dataSources }: PropsType) {
   return (
     <table className="table w-full">
       <thead className="table-header-group align-middle">

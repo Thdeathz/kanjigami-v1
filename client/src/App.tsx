@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 
 import { ROLES } from './config/roles'
 import CreateKanjiStack from './features/admin/CreateKanjiStack'
+import CreateOnlineEvent from './features/admin/CreateOnlineEvent'
 import KanjiStackList from './features/admin/KanjiStackList'
 import OnlineEventList from './features/admin/OnlineEventList'
 import LoggedIn from './features/auth/components/LoggedIn'
@@ -23,48 +24,51 @@ import Leaderboards from './features/user/Leaderboards'
 import Profile from './features/user/Profile'
 import ProfileSetting from './features/user/ProfileSetting'
 import UserStats from './features/user/UserStats'
-import CreateOnlineEvent from './features/admin/CreateOnlineEvent'
+import Prefetch from './features/auth/components/Prefetch'
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<PersistLogin />}>
-        {/* PUBLIC ROUTES */}
-        <Route element={<LoggedIn />}>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route element={<Prefetch />}>
+          {/* PUBLIC ROUTES */}
+          <Route element={<LoggedIn />}>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
 
-          <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/verify-email" element={<VerifyOTP />} />
-        </Route>
-
-        <Route path="/" element={<Home />} />
-        <Route path="/kanji" element={<KanjiStack />} />
-        <Route path="/kanji/:id" element={<StackDetail />} />
-        <Route path="/battles" element={<OnlineBattles />} />
-        <Route path="/battle/:id" element={<BattleDetail />} />
-        <Route path="/leaderboard" element={<Leaderboards />} />
-
-        {/* PRIVATE ROUTES */}
-        <Route element={<RequireAuth allowedRoles={[ROLES.USER]} />}>
-          <Route path="/player/:username" element={<Profile />} />
-          <Route path="/me" element={<UserStats />} />
-          <Route path="/settings" element={<ProfileSetting />} />
-          <Route path="/play/:stackId/blind-card" element={<FlipBlindCard />} />
-          <Route path="/play/:stackId/kanji-shooter" element={<KanjiShooter />} />
-        </Route>
-
-        <Route element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
-          <Route path="/admin/kanjis">
-            <Route index element={<KanjiStackList />} />
-            <Route path="create" element={<CreateKanjiStack />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/verify-email" element={<VerifyOTP />} />
           </Route>
-          <Route path="/admin/events">
-            <Route index element={<OnlineEventList />} />
-            <Route path="create" element={<CreateOnlineEvent />} />
+
+          <Route path="/" element={<Home />} />
+          <Route path="/battles" element={<OnlineBattles />} />
+          <Route path="/kanji" element={<KanjiStack />} />
+          <Route path="/kanji/:id" element={<StackDetail />} />
+          <Route path="/battle/:id" element={<BattleDetail />} />
+          <Route path="/leaderboard" element={<Leaderboards />} />
+
+          {/* PRIVATE ROUTES */}
+          <Route element={<RequireAuth allowedRoles={[ROLES.USER]} />}>
+            <Route path="/player/:username" element={<Profile />} />
+            <Route path="/me" element={<UserStats />} />
+            <Route path="/settings" element={<ProfileSetting />} />
+            <Route path="/play/:stackId/blind-card" element={<FlipBlindCard />} />
+            <Route path="/play/:stackId/kanji-shooter" element={<KanjiShooter />} />
+          </Route>
+
+          <Route element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
+            <Route path="/admin/kanjis">
+              <Route index element={<KanjiStackList />} />
+              <Route path="create" element={<CreateKanjiStack />} />
+            </Route>
+            <Route path="/admin/events">
+              <Route index element={<OnlineEventList />} />
+              <Route path="create" element={<CreateOnlineEvent />} />
+            </Route>
           </Route>
         </Route>
+        s
       </Route>
     </Routes>
   )

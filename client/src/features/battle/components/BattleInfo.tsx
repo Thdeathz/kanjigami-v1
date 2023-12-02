@@ -1,27 +1,42 @@
 import { Avatar } from 'antd'
-import React, { ReactNode } from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import AnimateButton from '~/components/AnimateButton'
 import Button from '~/components/Button'
 import CustomDivider from '~/components/CustomDivider'
+import OnlineRound from '~/components/OnlineRound'
 import Panel from '~/components/Panel'
 import Tag from '~/components/Tag'
+import { onlineBattleStatus } from '~/config/status'
 
 import CountDown from './CountDown'
 
 type PropsType = {
-  status: OnlineEventStatus
-  tagName: string
-  title: string
-  desciption: string
-  endTime: Date
+  status: OnlineBattleStatus
+  battle: IOnlineBattle
   className?: string
-  children: ReactNode
 }
 
-function BattleInfo({ status, tagName, title, desciption, endTime, className, children }: PropsType) {
+function getCountDownTitle(status: OnlineBattleStatus) {
+  switch (status) {
+    case onlineBattleStatus.UPCOMING:
+      return 'Starts in'
+    case onlineBattleStatus.ONGOING:
+      return 'Ends in'
+    case onlineBattleStatus.FINISHED:
+      return 'Ended'
+  }
+}
+
+function BattleInfo({ status, battle, className }: PropsType) {
   const navigate = useNavigate()
+
+  const countDownTitle = getCountDownTitle(status)
+
+  const handleNavigateToDetail = () => {
+    navigate(`/battle/${battle.id}`)
+  }
 
   return (
     <Panel className="group flex items-start justify-start gap-12">
@@ -31,54 +46,53 @@ function BattleInfo({ status, tagName, title, desciption, endTime, className, ch
 
           <Tag
             type="custom"
-            title={tagName}
+            title={battle.tags}
             className="bg-clr-border-1-light shadow dark:bg-button-dark dark:text-button-dark-text"
           />
         </div>
 
-        <p className="my-2 text-xl font-semibold text-text-heading-light dark:text-text-heading-dark">{title}</p>
+        <p className="my-2 text-xl font-semibold text-text-heading-light dark:text-text-heading-dark">{battle.title}</p>
 
-        <p className="font-medium">{desciption}</p>
+        <p className="font-medium">{battle.description}</p>
 
         <CustomDivider className="my-2" />
 
         <div className="my-2 flex items-end justify-start gap-2 font-medium opacity-70">
-          <span className="text-text-secondary-light dark:text-text-secondary-dark">Ends in</span> <CountDown />
+          <span className="text-text-secondary-light dark:text-text-secondary-dark">{countDownTitle}</span>{' '}
+          <CountDown endTime={battle.startTime} />
         </div>
 
         <div className="flex items-center justify-start gap-2">
-          {status !== 'upcoming' && (
-            <Button className="flex items-center justify-start gap-1">
+          {battle.leaderboards && (
+            <Button className="flex items-center justify-start gap-1" onClick={handleNavigateToDetail}>
               <p>Leaders</p>
+
               <Avatar.Group>
-                <Avatar
-                  size="small"
-                  src="https://firebasestorage.googleapis.com/v0/b/kanjigami-61289.appspot.com/o/default-avatar.jpg?alt=media&token=aeabe6fd-0a4f-4eaa-805b-f27d7b6b6ef3"
-                />
-                <Avatar
-                  size="small"
-                  src="https://firebasestorage.googleapis.com/v0/b/kanjigami-61289.appspot.com/o/default-avatar.jpg?alt=media&token=aeabe6fd-0a4f-4eaa-805b-f27d7b6b6ef3"
-                />
-                <Avatar
-                  size="small"
-                  src="https://firebasestorage.googleapis.com/v0/b/kanjigami-61289.appspot.com/o/default-avatar.jpg?alt=media&token=aeabe6fd-0a4f-4eaa-805b-f27d7b6b6ef3"
-                />
+                {battle.leaderboards.map(leader => (
+                  <Avatar key={`leader-${leader.id}`} size="small" src={leader.avatarUrl} />
+                ))}
               </Avatar.Group>
             </Button>
           )}
 
-          <AnimateButton
-            className="px-8"
-            animate="smoke"
-            type={status === 'finished' ? 'disabled' : 'primary'}
-            onClick={() => navigate('/battle/1')}
-          >
-            Play
-          </AnimateButton>
+          {status !== onlineBattleStatus.FINISHED && (
+            <AnimateButton className="px-8" animate="smoke" type="primary" onClick={handleNavigateToDetail}>
+              Play
+            </AnimateButton>
+          )}
         </div>
       </div>
 
-      <div className="row-auto grid w-full grow grid-cols-4 items-start gap-4">{children}</div>
+      <div className="row-auto grid w-full grow grid-cols-4 items-start gap-4">
+        {battle.rounds.map(round => (
+          <OnlineRound
+            key={`online-round-${round.id}`}
+            status={status}
+            imageSrc={round.stack.thumbnail}
+            stack={round.game.name}
+          />
+        ))}
+      </div>
     </Panel>
   )
 }

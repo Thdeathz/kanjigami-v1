@@ -30,7 +30,11 @@ function StackItem({ stackId, imageSrc, stack, hightScore, className }: PropsTyp
   const stackItemClassName = getStackItemClassName(className)
 
   return (
-    <motion.div className={stackItemClassName} variants={gridList.item()} onClick={() => navigate(`/kanji/${stackId}`)}>
+    <motion.div
+      className={stackItemClassName}
+      variants={gridList.item(0.1)}
+      onClick={() => navigate(`/kanji/${stackId}`)}
+    >
       <div className="w-full rounded-lg border-[3px] border-white dark:border-[#111217]">
         <Image src={imageSrc} alt="stack-thumbnail" className="aspect-ratio w-full rounded-lg object-cover" />
       </div>

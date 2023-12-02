@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
@@ -148,6 +149,7 @@ model GameStack {
 model Game {
   id         String      @id @default(uuid())
   name       String
+  thumbnail  String?
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
   gameStacks GameStack[] // relation to GameStack

@@ -15,12 +15,13 @@ type GameItemPropsType = {
   name: string
   onClick?: MouseEventHandler<HTMLDivElement>
   thumbnail: string
+  className?: string
   isShowHiScore?: boolean
 }
 
-export function GameItem({ name, onClick, thumbnail, isShowHiScore = true }: GameItemPropsType) {
+export function GameItem({ name, onClick, thumbnail, className, isShowHiScore = true }: GameItemPropsType) {
   return (
-    <div className="basis-1/4">
+    <div className={`basis-1/4 ${className}`}>
       <p className="mx-auto mb-4 w-min whitespace-nowrap rounded-md bg-gradient-to-tr from-filter-start-light to-filter-end-light p-1.5 font-medium uppercase dark:from-filter-start-dark dark:to-filter-end-dark">
         {name}
       </p>

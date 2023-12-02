@@ -1,23 +1,51 @@
 import React from 'react'
 import { RiSwordFill } from 'react-icons/ri'
-import { useParams } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router-dom'
 import { useDocumentTitle } from 'usehooks-ts'
 
 import Button from '~/components/Button'
 import CustomDivider from '~/components/CustomDivider'
 import DefaultLayout from '~/components/Layouts/DefaultLayout'
+import Loading from '~/components/Loading'
 import PageHeader from '~/components/PageHeader'
 import Panel from '~/components/Panel'
 import RootNotification from '~/components/RootNotification'
 import Tag from '~/components/Tag'
+import { onlineBattleStatus } from '~/config/status'
 
 import CountDown from './components/CountDown'
 import EventLeaderboards from './components/LeaderList/EventLeaderboards'
 import OnlineCard from './components/OnlineCard'
+import { useGetBattleDetailQuery } from './store/battleService'
+
+function getCowntDownTitle(status: OnlineBattleStatus) {
+  switch (status) {
+    case onlineBattleStatus.UPCOMING:
+      return 'Starts in'
+    case onlineBattleStatus.ONGOING:
+      return 'Ends in'
+    case onlineBattleStatus.FINISHED:
+      return 'Ended'
+    default:
+      return 'Starts in'
+  }
+}
 
 function BattleDetail() {
   useDocumentTitle('Mid-Autumn Festival | 漢字ガミ')
   const { id: battleId } = useParams()
+  const { data: battle, isLoading, isSuccess, refetch } = useGetBattleDetailQuery(battleId as string)
+
+  if (isLoading || !battle)
+    return (
+      <DefaultLayout>
+        <Loading className="text-3xl" />
+      </DefaultLayout>
+    )
+
+  if (isSuccess && !battle) return <Navigate to="/404" />
+
+  const countDownTitle = getCowntDownTitle(battle.status as OnlineBattleStatus)
 
   return (
     <DefaultLayout
@@ -31,31 +59,29 @@ function BattleDetail() {
           to: '/battles'
         },
         {
-          label: <p>{`Mid-Autumn Festival ${battleId}`}</p>,
-          to: `/battle/${battleId}`
+          label: <p>{battle.title}</p>,
+          to: `/battle/${battle.id}`
         }
       ]}
     >
-      <PageHeader
-        title="Mid-Autumn Festival"
-        subtitle="This is a word package related to the Mid-Autumn Festival. Let's practice kanji together"
-        className="mb-12"
-      >
+      <PageHeader title={battle.title} subtitle={battle.description} className="mb-12">
         <div className="flex-center gap-2">
-          <Tag type="ongoing" />
-          <Tag title="🥮中秋節" />
-          <Tag title="523 PLAYERS" />
+          <Tag type={battle.status} />
+          <Tag title={battle.tags} />
+          {!!battle.totalJoinedUsers && <Tag title={`${battle.totalJoinedUsers} PLAYERS`} />}
         </div>
 
         <div className="flex-center gap-2">
           <CustomDivider className="my-1" />
           <div className="whitespace-nowrap rounded-full bg-clr-border-1-light px-3 py-0.5 text-sm uppercase text-footer-light-text dark:bg-clr-border-1-dark">
-            ends in
+            {countDownTitle}
           </div>
           <CustomDivider className="my-1" />
         </div>
 
-        <CountDown size="large" type="animate" />
+        {battle.status === onlineBattleStatus.UPCOMING && (
+          <CountDown size="large" type="animate" endTime={battle.startTime} onFinish={refetch} />
+        )}
       </PageHeader>
 
       <RootNotification />
@@ -64,51 +90,38 @@ function BattleDetail() {
         <div className="w-full grow">
           <Panel>
             <div className="grid grid-cols-8 gap-3">
-              {Array.from(Array(12).keys()).map(each => (
-                <Button key={`kanji-item-${each}`}>家族</Button>
+              {battle.rounds.map((round, index) => (
+                <Button
+                  key={`kanji-item-${index}`}
+                  type={round.status !== onlineBattleStatus.UPCOMING ? 'green' : 'default'}
+                >
+                  {round.stack.name}
+                </Button>
               ))}
             </div>
           </Panel>
 
           <div className="card-list group pointer-events-none mt-6 grid w-full auto-rows-fr grid-cols-auto-fill gap-6">
-            <OnlineCard
-              key="round-card-64"
-              imageSrc="https://firebasestorage.googleapis.com/v0/b/kanjigami-61289.appspot.com/o/234.png?alt=media&token=4df8d4e0-c249-466c-9be9-b4db8be3806c"
-              topUsername="Kanji kantan"
-              topScore={253}
-              stack="家族"
-            />
-
-            <OnlineCard
-              key="round-card-3457"
-              imageSrc="https://firebasestorage.googleapis.com/v0/b/kanjigami-61289.appspot.com/o/234.png?alt=media&token=4df8d4e0-c249-466c-9be9-b4db8be3806c"
-              topUsername="Kanji kantan"
-              topScore={253}
-              stack="家族"
-            />
-
-            <OnlineCard
-              key="round-card-347}"
-              imageSrc="https://firebasestorage.googleapis.com/v0/b/kanjigami-61289.appspot.com/o/234.png?alt=media&token=4df8d4e0-c249-466c-9be9-b4db8be3806c"
-              topUsername="Kanji kantan"
-              topScore={253}
-              stack="家族"
-            />
-
-            {Array.from(Array(5).keys()).map(each => (
-              <OnlineCard key={`round-card-${each}`} />
+            {battle.rounds.map(round => (
+              <OnlineCard key={`round-card-${round.id}`} round={round} startTime={new Date(battle.startTime)} />
             ))}
           </div>
         </div>
 
         <div className="basis-1/4">
-          <Button className="mb-4 w-full" type="primary">
-            Join lobby
-          </Button>
+          {battle.status === onlineBattleStatus.UPCOMING && (
+            <Button className="mb-4 w-full" type="primary">
+              Join lobby
+            </Button>
+          )}
 
           <p className="mb-4 text-xl font-semibold">Battle leaders</p>
 
-          <EventLeaderboards />
+          {battle.status === onlineBattleStatus.UPCOMING ? (
+            <p className="font-semibold opacity-50">No leaderboards yet</p>
+          ) : (
+            <EventLeaderboards leaderboards={battle.leaderboards} />
+          )}
         </div>
       </div>
     </DefaultLayout>
