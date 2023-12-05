@@ -1,10 +1,11 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import React from 'react'
 
+import Loading from '../Loading'
+
 import Footer from './Footer'
 import Header from './Header'
 import SideBar from './SideBar'
-import Loading from '../Loading'
 
 const variants = {
   hidden: { opacity: 0 },

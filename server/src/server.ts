@@ -19,6 +19,8 @@ import authRoutes from '~/api/routes/auth.route'
 import eventRoutes from '~/api/routes/event.route'
 import stackRoutes from '~/api/routes/stack.route'
 import passwordRoutes from '~/api/routes/password.route'
+import gameRoutes from '~/api/routes/game.route'
+
 dotenv.config()
 const app = express()
 const PORT: string | 3500 = process.env.PORT || 3500
@@ -48,6 +50,7 @@ app.use('/api/password', passwordRoutes)
 // private routes
 app.use('/api/events', eventRoutes)
 app.use('/api/stacks', stackRoutes)
+app.use('/api/games', gameRoutes)
 app.use('/api/user', userRoutes)
 app.use('*', notFoundRoute)
 

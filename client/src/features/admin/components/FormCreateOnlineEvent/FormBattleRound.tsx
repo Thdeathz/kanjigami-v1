@@ -1,12 +1,15 @@
+import { message } from 'antd'
 import React, { useState } from 'react'
 import { AiFillPlusCircle } from 'react-icons/ai'
 
 import NewRoundItem from './NewRoundItem'
-import { message } from 'antd'
 
-const FormBattleRound = () => {
-  const [rounds, setRounds] = useState<NewRound[]>([])
+type PropsType = {
+  rounds: NewRound[]
+  setRounds: React.Dispatch<React.SetStateAction<NewRound[]>>
+}
 
+function FormBattleRound({ rounds, setRounds }: PropsType) {
   const handleAddNewRound = () => {
     if (rounds.length >= 12) {
       message.warning('You can only add up to 12 rounds')
@@ -16,7 +19,8 @@ const FormBattleRound = () => {
     setRounds(prev => [
       ...prev,
       {
-        title: `new round ${prev.length + 1}`
+        game: {},
+        stack: {}
       }
     ])
   }

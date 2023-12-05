@@ -95,9 +95,27 @@ const setFollowStack = async (userId: string, stackId: string) => {
   }
 }
 
+const searchByName = async (searchValue: string) => {
+  const stack = await prisma.stack.findMany({
+    where: {
+      name: {
+        search: searchValue
+      }
+    },
+    select: {
+      id: true,
+      name: true,
+      thumbnail: true
+    }
+  })
+
+  return stack
+}
+
 export default {
   createStack,
   getAllStacks,
   getFollowedStacks,
-  setFollowStack
+  setFollowStack,
+  searchByName
 }

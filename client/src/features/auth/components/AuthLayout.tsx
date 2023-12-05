@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import React from 'react'
+
 import Footer from '~/components/Layouts/Footer'
 import Header from '~/components/Layouts/Header'
 import SideBar from '~/components/Layouts/SideBar'

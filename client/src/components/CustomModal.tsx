@@ -6,9 +6,10 @@ import Button from './Button'
 interface PropsType extends ModalProps {
   children: React.ReactNode
   header: string
+  footer?: React.ReactNode
 }
 
-const CustomModal = ({ header, children, ...props }: PropsType) => {
+function CustomModal({ header, footer, children, ...props }: PropsType) {
   return (
     <Modal
       classNames={{
@@ -24,13 +25,8 @@ const CustomModal = ({ header, children, ...props }: PropsType) => {
       </div>
       <div className="p-8">
         {children}
-        <div className="mt-8 flex items-center justify-end gap-2">
-          <Button onClick={props.onCancel as React.MouseEventHandler<HTMLButtonElement>}>Cancel</Button>
 
-          <Button type="primary" onClick={props.onOk as React.MouseEventHandler<HTMLButtonElement>}>
-            Save & Close
-          </Button>
-        </div>
+        {footer}
       </div>
     </Modal>
   )

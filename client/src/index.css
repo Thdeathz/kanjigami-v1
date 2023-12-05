@@ -71,6 +71,37 @@ input {
   font-family: 'Saira Stencil One';
 }
 
+.ant-select-selector {
+  @apply w-full grow rounded-full border border-input-border-light bg-input-light px-4 py-3 text-text-light transition-colors focus:border-input-glory-light dark:border-input-border-dark dark:bg-input-dark dark:text-text-dark dark:focus:border-white !important;
+}
+
+.ant-select-selector::after {
+  @apply text-text-light dark:text-text-dark !important;
+}
+
+.ant-radio-button-wrapper {
+  background-color: transparent !important;
+  border: 0 !important;
+  opacity: 0.2 !important;
+  transition:
+    opacity 300ms ease,
+    color 150ms ease;
+}
+
+.ant-radio-button-wrapper::before {
+  display: none !important;
+}
+
+.ant-radio-button-wrapper:hover {
+  @apply text-green-light !important;
+  opacity: 1 !important;
+}
+
+.ant-radio-button-wrapper-checked {
+  @apply text-green-light !important;
+  opacity: 1 !important;
+}
+
 /* ANIMATE BUTTON */
 .animate-button {
   --y: 4px;

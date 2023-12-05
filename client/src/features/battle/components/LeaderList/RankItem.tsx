@@ -11,7 +11,8 @@ type PropsType = {
   rank: number
   username: string
   points: number
-  battles: number
+  avatar?: string
+  battles?: number
 }
 
 function getRankItemClassName(rank: number) {
@@ -39,20 +40,20 @@ function getCrownColor(rank: number) {
   }
 }
 
-function RankItem({ rank, username, points, battles }: PropsType) {
+function RankItem({ rank, username, avatar, points, battles }: PropsType) {
   const rankItemClassName = getRankItemClassName(rank)
   const crownColor = getCrownColor(rank)
 
   return (
     <motion.div className={rankItemClassName} variants={gridList.item()}>
-      <Avatar />
+      <Avatar src={avatar} username={username} />
 
       <div className="flex flex-col items-start justify-start gap-1">
         <div className="flex-center gap-1 font-semibold leading-3 text-text-heading-light dark:text-text-heading-dark">
           {rank <= 3 && <IconWrapper icon={<FaCrown />} className={crownColor} />} {username}
         </div>
         <p className="text-sm font-medium leading-3">
-          {points} ({battles} Battles)
+          {points} {battles && `(${battles} Battles)`}
         </p>
       </div>
     </motion.div>

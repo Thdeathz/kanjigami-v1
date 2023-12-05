@@ -9,11 +9,20 @@ import Image from '~/components/Image'
 import DefaultLayout from '~/components/Layouts/DefaultLayout'
 import PageHeader from '~/components/PageHeader'
 import Panel from '~/components/Panel'
-import Table from './components/Table'
 import Tag from '~/components/Tag'
 
+import Table from './components/Table'
+import { useGetAllEventsQuery } from './store/adminService'
+import { useAppDispatch, useAppSelector } from '~/hooks/useRedux'
+import Loading from '~/components/Loading'
+import { convertToUserTimeZone } from '~/utils/timezone'
+import { setEventCurrentPage } from './store/adminSlice'
+
 function OnlineEventList() {
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const page = useAppSelector(state => state.admin.eventCurrentPage)
+  const { data: events, isLoading } = useGetAllEventsQuery(page)
 
   return (
     <DefaultLayout>
@@ -28,62 +37,97 @@ function OnlineEventList() {
         </Button>
       </PageHeader>
 
-      <Panel>
-        <Table
-          columns={[
-            {
-              title: 'Thumbnail',
-              dataIndex: 'thumbnail',
-              render: () => (
-                <div className="flex-center py-3">
-                  <Image className="aspect-ratio w-[8rem] rounded-md" />
-                </div>
-              )
-            },
-            {
-              title: 'Title',
-              dataIndex: 'title'
-            },
-            {
-              title: 'Number Rounds',
-              dataIndex: 'numberRounds'
-            },
-            {
-              title: 'Start time',
-              dataIndex: 'startTime'
-            },
-            {
-              title: 'Status',
-              dataIndex: 'status',
-              render: value => (
-                <div className="flex-center">
-                  <Tag type={value as OnlineEventStatus} />
-                </div>
-              )
-            },
-            {
-              title: 'Action',
-              dataIndex: 'action',
-              render: () => (
-                <div className="flex-center gap-4">
-                  <Button type="primary" className="flex-center aspect-square">
-                    <IconWrapper icon={<AiTwotoneEdit />} className="text-xl" />
-                  </Button>
-                  <Button type="danger" className="flex-center aspect-square">
-                    <IconWrapper icon={<AiTwotoneDelete />} className="text-xl" />
-                  </Button>
-                </div>
-              )
-            }
-          ]}
-          dataSources={Array.from(Array(10).keys()).map(() => ({
-            thumbnail: '-',
-            title: '-',
-            numberRounds: '-',
-            startTime: new Date().toLocaleString(),
-            status: 'finished'
-          }))}
-        />
+      <Panel className="h-full">
+        {isLoading || !events ? (
+          <Loading className="text-3xl" />
+        ) : (
+          <>
+            <Table
+              columns={[
+                {
+                  title: 'Thumbnail',
+                  dataIndex: 'thumbnail',
+                  render: () => (
+                    <div className="flex-center py-3">
+                      <Image className="aspect-ratio w-[8rem] rounded-md" />
+                    </div>
+                  )
+                },
+                {
+                  title: 'Title',
+                  dataIndex: 'title'
+                },
+                {
+                  title: 'Number Rounds',
+                  dataIndex: 'numberRounds',
+                  render: value => (
+                    <div className="flex-center">
+                      <span className="text-xl font-semibold">{value}</span>
+                    </div>
+                  )
+                },
+                {
+                  title: 'Number Players',
+                  dataIndex: 'numberPlayers',
+                  render: value => (
+                    <div className="flex-center">
+                      <span className="text-xl font-semibold">{value}</span>
+                    </div>
+                  )
+                },
+                {
+                  title: 'Start time',
+                  dataIndex: 'startTime'
+                },
+                {
+                  title: 'Status',
+                  dataIndex: 'status',
+                  render: value => (
+                    <div className="flex-center">
+                      <Tag type={value as OnlineBattleStatus} />
+                    </div>
+                  )
+                },
+                {
+                  title: 'Action',
+                  dataIndex: 'action',
+                  render: () => (
+                    <div className="flex-center gap-4">
+                      <Button type="primary" className="flex-center aspect-square">
+                        <IconWrapper icon={<AiTwotoneEdit />} className="text-xl" />
+                      </Button>
+                      <Button type="danger" className="flex-center aspect-square">
+                        <IconWrapper icon={<AiTwotoneDelete />} className="text-xl" />
+                      </Button>
+                    </div>
+                  )
+                }
+              ]}
+              dataSources={events.data.map(event => ({
+                thumbnail: event.thumbnail,
+                title: event.title,
+                numberRounds: event.totalRounds,
+                numberPlayers: event.totalJoinedUsers,
+                startTime: convertToUserTimeZone(event.startTime).toLocaleString(),
+                status: event.status
+              }))}
+            />
+
+            {events.totalPages > 0 && (
+              <div className="my-4 flex items-center justify-end gap-2 text-lg font-medium">
+                {Array.from(Array(events.totalPages).keys()).map(index => (
+                  <button
+                    key={`paginate-${index}`}
+                    className={`p-2 ${page === index + 1 ? 'text-primary-light' : ''}`}
+                    onClick={() => dispatch(setEventCurrentPage(index + 1))}
+                  >
+                    {index + 1}
+                  </button>
+                ))}
+              </div>
+            )}
+          </>
+        )}
       </Panel>
     </DefaultLayout>
   )

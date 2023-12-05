@@ -61,3 +61,19 @@ export const followStack: RequestHandler = async (req, res) => {
   const setFollowStack = await stackService.setFollowStack(userId, stackId)
   return res.status(201).json(setFollowStack)
 }
+
+/**
+ * @desc Search stack by name admin
+ * @route GET /stacks/admin/search
+ * @access Private
+ */
+export const searchByName: RequestHandler = async (req, res) => {
+  const searchValue = <string>req.query.name
+
+  const stacks = await stackService.searchByName(searchValue)
+
+  return res.status(200).json({
+    message: 'Found stacks',
+    data: stacks
+  })
+}

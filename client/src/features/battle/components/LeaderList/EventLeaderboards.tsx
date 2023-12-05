@@ -7,7 +7,11 @@ import { gridList } from '~/config/variants'
 
 import RankItem from './RankItem'
 
-function EventLeaderboards() {
+type PropsType = {
+  leaderboards?: ITopUser[]
+}
+
+function EventLeaderboards({ leaderboards }: PropsType) {
   const navigate = useNavigate()
 
   return (
@@ -17,15 +21,32 @@ function EventLeaderboards() {
       initial="hidden"
       animate="enter"
     >
-      <>
-        {Array.from(Array(11).keys()).map(each => {
-          return <RankItem key={each} rank={each + 1} username="Kantan kanji" points={154532} battles={233} />
-        })}
-      </>
+      {leaderboards ? (
+        <>
+          {leaderboards.map((user, index) => (
+            <RankItem
+              key={`leader-${user.id}`}
+              rank={index + 1}
+              avatar={user.avatarUrl}
+              username={user.username}
+              points={user.totalPoints}
+              battles={user.totalGames}
+            />
+          ))}
+        </>
+      ) : (
+        <>
+          {Array.from(Array(11).keys()).map(each => {
+            return <RankItem key={each} rank={each + 1} username="Kantan kanji" points={154532} battles={233} />
+          })}
+        </>
+      )}
 
-      <Button className="w-full font-semibold" onClick={() => navigate('/leaderboard')}>
-        See top 100
-      </Button>
+      <motion.div className="w-full" variants={gridList.item()}>
+        <Button className="w-full font-semibold" onClick={() => navigate('/leaderboard')}>
+          See top 100
+        </Button>
+      </motion.div>
     </motion.div>
   )
 }

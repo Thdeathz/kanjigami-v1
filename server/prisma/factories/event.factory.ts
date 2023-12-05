@@ -30,7 +30,7 @@ export const eventFactory = async (accounts: AccountWithUser[], games: Game[], s
 
   Array.from(Array(30)).map(() => {
     const status = faker.helpers.arrayElement([EventStatus.UPCOMING, EventStatus.FINISHED])
-    const title = faker.lorem.word({ length: { min: 5, max: 7 } })
+    const title = faker.word.words({ count: { min: 2, max: 4 } })
     const description = faker.lorem.sentence(8)
     const tags = fakerJA.person.firstName()
     const maxPlayers = faker.number.int({ min: 5, max: 12 })

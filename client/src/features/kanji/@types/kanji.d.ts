@@ -1,4 +1,11 @@
-interface CreateKanji {
+declare interface IStack {
+  id: string
+  name: string
+  description: string
+  thumbnail: string
+}
+
+declare interface CreateKanji {
   kanji: string
   onyomi: string
   kunyomi: string
@@ -14,10 +21,16 @@ interface CreateKanji {
   }[]
 }
 
-interface CreateStackRequest {
+declare interface CreateStackRequest {
   title: string
   description: string
   image: string
   tags: string[]
   kanjis: CreateKanji[]
+}
+
+declare interface IGame {
+  id: string
+  name: string
+  thumbnail: string
 }

@@ -9,6 +9,7 @@ import Image from '~/components/Image'
 import DefaultLayout from '~/components/Layouts/DefaultLayout'
 import PageHeader from '~/components/PageHeader'
 import Panel from '~/components/Panel'
+
 import Table from './components/Table'
 
 function KanjiStackList() {

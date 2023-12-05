@@ -1,13 +1,14 @@
 export declare interface CreateEventRequest {
   title: string
   description: string
-  maxPlayers: number
+  maxPlayers: string
   startTime: Date
   tags: string
+  thumbnail?: string
   rounds: {
     gameId: string
     stackId: string
-    order: number
+    order: string
   }[]
 }
 

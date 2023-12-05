@@ -11,6 +11,13 @@ declare interface ApiResponse<T> {
   data: T
 }
 
+declare interface ApiResponsePaginated<T> {
+  message: string
+  data: T
+  currentPage: number
+  totalPages: number
+}
+
 declare interface ApiResult {
   isError: boolean
   message: string

@@ -1,3 +1,8 @@
+declare interface IGame {
+  id: string
+  name: string
+}
+
 declare type Position = {
   x: number
   y: number
