@@ -1,8 +1,6 @@
 import { Modal, ModalProps } from 'antd'
 import React from 'react'
 
-import Button from './Button'
-
 interface PropsType extends ModalProps {
   children: React.ReactNode
   header: string

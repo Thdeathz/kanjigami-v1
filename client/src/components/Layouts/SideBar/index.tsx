@@ -2,6 +2,7 @@ import classNames from 'classnames'
 import React from 'react'
 import { BsTrophyFill, BsStack } from 'react-icons/bs'
 import { FaUser, FaChartArea } from 'react-icons/fa'
+import { FaUserNinja } from 'react-icons/fa6'
 import { IoHome } from 'react-icons/io5'
 import { RiSwordFill, RiSettings3Fill } from 'react-icons/ri'
 
@@ -52,6 +53,8 @@ function SideBar({ isLoading = false, fixedSideBar = true, isSideBarOpen = true 
 
         {isAdmin && (
           <SideSection heading="setting">
+            <SideItem icon={<FaUserNinja />} title="Users" link="/admin/users" matchRegex={/\/admin\/users\/\S+/} />
+
             <SideItem icon={<BsStack />} title="Kanji stack" link="/admin/kanjis" matchRegex={/\/admin\/kanjis\/\S+/} />
 
             <SideItem

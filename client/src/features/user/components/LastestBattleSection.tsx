@@ -1,6 +1,7 @@
 import React from 'react'
 import { RiSwordFill } from 'react-icons/ri'
 import { useNavigate } from 'react-router-dom'
+
 import Button from '~/components/Button'
 import Loading from '~/components/Loading'
 import Section from '~/components/Section'
@@ -8,7 +9,7 @@ import { onlineBattleStatus } from '~/config/status'
 import BattleInfo from '~/features/battle/components/BattleInfo'
 import { useGetBattlesQuery } from '~/features/battle/store/battleService'
 
-const LastestBattleSection = () => {
+function LastestBattleSection() {
   const navigate = useNavigate()
   const { data: battle, isLoading } = useGetBattlesQuery({
     status: onlineBattleStatus.FINISHED,

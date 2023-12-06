@@ -16,11 +16,11 @@ export const stackFactory = async (topics: Topic[]) => {
 
   await Promise.all(
     Array.from(Array(60)).map(async () => {
-      const name = fakerJA.person.firstName()
-      const description = faker.lorem.sentences()
+      const name = fakerJA.person.fullName()
+      const description = faker.lorem.sentence(8)
       const thumbnail = faker.image.url()
       const topic = faker.helpers.arrayElement(topics)
-      const kanjis = await kanjiFactory(120)
+      const kanjis = await kanjiFactory(80)
 
       stacks.push({
         name,

@@ -4,8 +4,12 @@ import prisma from '../databases/init.prisma'
 import { RegisterByGoogle, RegisterRequest } from '../@types/user'
 import HttpError from '../helpers/httpError'
 
-const getAllUsers = async () => {
-  return await prisma.user.findMany({
+const getAllUsers = async (page: number, offset: number) => {
+  const total = await prisma.user.count()
+
+  const users = await prisma.user.findMany({
+    skip: (page - 1) * offset,
+    take: offset,
     select: {
       id: true,
       username: true,
@@ -16,9 +20,28 @@ const getAllUsers = async () => {
           email: true,
           isActive: true
         }
+      },
+      _count: {
+        select: {
+          gameLogs: true,
+          onlineHistory: true
+        }
       }
+    },
+    orderBy: {
+      createdAt: 'desc'
     }
   })
+
+  if (!users) throw new HttpError(404, 'Not found')
+
+  // Normalize data
+  const usersResult = users.map(user => ({
+    ...user,
+    totalGames: user._count.gameLogs + user._count.onlineHistory
+  }))
+
+  return { users: usersResult, total }
 }
 
 const getUserById = async (id: string) => {

@@ -10,22 +10,14 @@ import Section from '~/components/Section'
 import useAuth from '~/hooks/useAuth'
 
 import HomeThumbnail from './components/HomeThumbnail'
-import StacksList from './components/StacksList'
-import { RiSwordFill } from 'react-icons/ri'
-import { useGetBattlesQuery } from '../battle/store/battleService'
-import { onlineBattleStatus } from '~/config/status'
-import BattleInfo from '../battle/components/BattleInfo'
 import LastestBattleSection from './components/LastestBattleSection'
+import StacksList from './components/StacksList'
 
 function Home() {
   useDocumentTitle('漢字ガミ')
 
   const navigate = useNavigate()
   const { isUser } = useAuth()
-  const { data: battle } = useGetBattlesQuery({
-    status: onlineBattleStatus.FINISHED,
-    page: 1
-  })
 
   return (
     <DefaultLayout className="flex flex-col items-start justify-start gap-12">

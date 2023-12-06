@@ -1,5 +1,3 @@
-import { EventStatus } from '@prisma/client'
-
 import HttpError from '../helpers/httpError'
 import prisma from '../databases/init.prisma'
 import { TopUser } from '../@types/online-history'

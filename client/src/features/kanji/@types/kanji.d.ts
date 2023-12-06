@@ -34,3 +34,15 @@ declare interface IGame {
   name: string
   thumbnail: string
 }
+
+declare interface IStackDetail {
+  id: string
+  name: string
+  description: string
+  thumbnail: string
+  kanjis: {
+    id: string
+    kanji: string
+  }[]
+  leaderboards: ITopUser[]
+}

@@ -1,7 +1,7 @@
 import { type RequestHandler } from 'express'
 
-import gamelogService from '../services/gamelog.service'
-import { CreateUpdateGameLogReq } from '../@types/gamelog'
+import { CreateUpdateGameLogReq } from '../@types/game-log'
+import gameLogService from '../services/game-log.service'
 
 /**
  * @desc Get all game logs
@@ -9,7 +9,7 @@ import { CreateUpdateGameLogReq } from '../@types/gamelog'
  * @access Public
  */
 export const getAllGameLog: RequestHandler = async (req, res) => {
-  const gameLog = await gamelogService.getAllGameLog()
+  const gameLog = await gameLogService.getAllGameLog()
 
   res.status(200).json({
     message: 'Get all game logs successfully',
@@ -27,7 +27,7 @@ export const createGameLog: RequestHandler = async (req, res) => {
   const userId = currentUser.id
   const data = <CreateUpdateGameLogReq>req.body
 
-  const gameLog = await gamelogService.createGameLog(userId, data)
+  const gameLog = await gameLogService.createGameLog(userId, data)
 
   res.status(200).json({
     message: 'Create game log successfully',
@@ -45,7 +45,7 @@ export const updateGameLog: RequestHandler = async (req, res) => {
   const userId = currentUser.id
   const data = <CreateUpdateGameLogReq>req.body
 
-  const gameLog = await gamelogService.updateGameLog(userId, data)
+  const gameLog = await gameLogService.updateGameLog(userId, data)
 
   res.status(200).json({
     message: 'Update game log successfully',

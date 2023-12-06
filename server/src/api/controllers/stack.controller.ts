@@ -21,14 +21,32 @@ export const createStack: RequestHandler = async (req, res) => {
  * @route GET /stacks
  * @access Public
  */
-export const getAllStack: RequestHandler = async (req, res) => {
+export const getAllStacks: RequestHandler = async (req, res) => {
   const page = parseInt(<string>req.query.page) || 1
-  const stacks = await stackService.getAllStacks(page, 20)
+  const { stacks, total } = await stackService.getAllStacks(page, 20)
 
-  if ((page > 1 && stacks.length === 0) || page < 1)
-    return res.status(404).json({ message: 'Stack not found' })
+  return res.status(200).json({
+    message: 'Get all kanji stack successfully',
+    data: stacks,
+    currentPage: page,
+    totalPages: Math.ceil(total / 20)
+  })
+}
 
-  return res.status(200).json({ message: 'Get all kanji stack successfully', data: stacks })
+/**
+ * @desc Get stack by id
+ * @route GET /stacks/:id
+ * @access Public
+ */
+export const getStackById: RequestHandler = async (req, res) => {
+  const { id } = req.params
+
+  const stack = await stackService.getStackById(id)
+
+  return res.status(200).json({
+    message: 'Get stack successfully',
+    data: stack
+  })
 }
 
 /**
@@ -75,5 +93,22 @@ export const searchByName: RequestHandler = async (req, res) => {
   return res.status(200).json({
     message: 'Found stacks',
     data: stacks
+  })
+}
+
+/**
+ * @desc Get all stacks admin
+ * @route GET /stacks/admin
+ * @access Private
+ */
+export const adminGetAllStacks: RequestHandler = async (req, res) => {
+  const page = parseInt(<string>req.query.page) || 1
+  const { stacks, total } = await stackService.adminGetAllStacks(page, 10)
+
+  return res.status(200).json({
+    message: 'Get all kanji stack successfully',
+    data: stacks,
+    currentPage: page,
+    totalPages: Math.ceil(total / 10)
   })
 }

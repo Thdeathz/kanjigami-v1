@@ -1,7 +1,7 @@
 import React from 'react'
-import { AiTwotoneDelete, AiTwotoneEdit } from 'react-icons/ai'
-import { BsStack } from 'react-icons/bs'
-import { useNavigate } from 'react-router-dom'
+import { AiTwotoneEdit } from 'react-icons/ai'
+import { FaBan } from 'react-icons/fa'
+import { FaUserNinja } from 'react-icons/fa6'
 
 import Button from '~/components/Button'
 import IconWrapper from '~/components/IconWrapper'
@@ -10,42 +10,32 @@ import DefaultLayout from '~/components/Layouts/DefaultLayout'
 import Loading from '~/components/Loading'
 import PageHeader from '~/components/PageHeader'
 import Panel from '~/components/Panel'
+import Tag from '~/components/Tag'
 import { useAppDispatch, useAppSelector } from '~/hooks/useRedux'
 
 import Table from './components/Table'
-import { useGetStacksQuery } from './store/adminService'
-import { selectStackCurrentPage, setStackCurrentPage } from './store/adminSlice'
+import { useGetAllUsersQuery } from './store/adminService'
+import { selectUserCurrentPage, setUserCurrentPage } from './store/adminSlice'
 
-function KanjiStackList() {
-  const navigate = useNavigate()
+function UserList() {
   const dispatch = useAppDispatch()
-
-  const page = useAppSelector(selectStackCurrentPage)
-  const { data: stacks, isLoading } = useGetStacksQuery(page)
+  const page = useAppSelector(selectUserCurrentPage)
+  const { data: users, isLoading } = useGetAllUsersQuery(page)
 
   return (
     <DefaultLayout>
-      <PageHeader
-        icon={<BsStack />}
-        title="Config Kanji Stack"
-        subtitle="Play game and learn more kanji"
-        className="mb-12"
-      >
-        <Button className="mt-4" onClick={() => navigate('/admin/kanjis/create')}>
-          Create new stack
-        </Button>
-      </PageHeader>
+      <PageHeader icon={<FaUserNinja />} title="Config User Account" subtitle="Manage user account" className="mb-12" />
 
-      <Panel>
-        {isLoading || !stacks ? (
+      <Panel className="h-full">
+        {isLoading || !users ? (
           <Loading className="text-3xl" />
         ) : (
           <>
             <Table
               columns={[
                 {
-                  title: 'Thumbnail',
-                  dataIndex: 'thumbnail',
+                  title: 'Avatar',
+                  dataIndex: 'avatarUrl',
                   render: value => (
                     <div className="flex-center py-3">
                       <Image src={value} className="aspect-ratio w-[8rem] rounded-md" />
@@ -53,12 +43,16 @@ function KanjiStackList() {
                   )
                 },
                 {
-                  title: 'Title',
-                  dataIndex: 'title'
+                  title: 'Username',
+                  dataIndex: 'username'
                 },
                 {
-                  title: 'Number kanjis',
-                  dataIndex: 'numberKanjis',
+                  title: 'Email',
+                  dataIndex: 'email'
+                },
+                {
+                  title: 'Total games',
+                  dataIndex: 'totalGames',
                   render: value => (
                     <div className="flex-center">
                       <span className="text-xl font-semibold">{value}</span>
@@ -66,11 +60,15 @@ function KanjiStackList() {
                   )
                 },
                 {
-                  title: 'User followed',
-                  dataIndex: 'userFollowed',
+                  title: 'Status',
+                  dataIndex: 'isActive',
                   render: value => (
                     <div className="flex-center">
-                      <span className="text-xl font-semibold">{value}</span>
+                      <Tag
+                        type="custom"
+                        className={`text-white ${value ? 'bg-red-light dark:bg-red-dark' : 'bg-primary-light'}`}
+                        title={value ? 'Banned' : 'Active'}
+                      />
                     </div>
                   )
                 },
@@ -83,26 +81,28 @@ function KanjiStackList() {
                         <IconWrapper icon={<AiTwotoneEdit />} className="text-xl" />
                       </Button>
                       <Button type="danger" className="flex-center aspect-square">
-                        <IconWrapper icon={<AiTwotoneDelete />} className="text-xl" />
+                        <IconWrapper icon={<FaBan />} className="text-xl" />
                       </Button>
                     </div>
                   )
                 }
               ]}
-              dataSources={stacks.data.map(stack => ({
-                thumbnail: stack.thumbnail,
-                title: stack.name,
-                numberKanjis: stack.totalKanjis,
-                userFollowed: stack.totalFollowers
+              dataSources={users.data.map(user => ({
+                username: user.username,
+                avatarUrl: user.avatarUrl,
+                email: user.account.email,
+                totalGames: user.totalGames,
+                isActivate: user.account.isActive
               }))}
             />
-            {stacks.totalPages > 0 && (
+
+            {users.totalPages > 0 && (
               <div className="my-4 flex items-center justify-end gap-2 text-lg font-medium">
-                {Array.from(Array(stacks.totalPages).keys()).map(index => (
+                {Array.from(Array(users.totalPages).keys()).map(index => (
                   <button
                     key={`paginate-${index}`}
                     className={`p-2 ${page === index + 1 ? 'text-primary-light' : ''}`}
-                    onClick={() => dispatch(setStackCurrentPage(index + 1))}
+                    onClick={() => dispatch(setUserCurrentPage(index + 1))}
                   >
                     {index + 1}
                   </button>
@@ -116,4 +116,4 @@ function KanjiStackList() {
   )
 }
 
-export default KanjiStackList
+export default UserList

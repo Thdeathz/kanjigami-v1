@@ -1,4 +1,5 @@
-import { CreateUpdateGameLogReq } from '../@types/gamelog'
+import { CreateUpdateGameLogReq } from '../@types/game-log'
+import { TopUser } from '../@types/online-history'
 import prisma from '../databases/init.prisma'
 import HttpError from '../helpers/httpError'
 
@@ -34,6 +35,44 @@ const getAllGameLog = async () => {
   } catch (error) {
     throw new HttpError(500, 'Internal Server Error')
   }
+}
+
+const getLeaderboards = async (stackId: string, limit: number) => {
+  const top = await prisma.$queryRaw<TopUser[]>`
+    SELECT
+      "u"."id",
+      "u"."username",
+      "u"."avatarUrl",
+      SUM("gl"."archievedPoints") AS "totalPoints",
+      COUNT("gl"."archievedPoints") AS "totalGames"
+    FROM
+      "GameLog" AS "gl"
+    LEFT JOIN
+      "GameStack" AS "gs"
+    ON
+      "gl"."gameStackId" = "gs"."id"
+    LEFT JOIN
+      "User" AS "u"
+    ON
+      "gl"."userId" = "u"."id"
+    WHERE
+      "gs"."stackId" = ${stackId}
+    GROUP BY
+      "u"."id"
+    ORDER BY
+      "totalPoints" DESC
+    LIMIT
+      ${limit}
+  `
+
+  // Nomalize data
+  const topUsers = top.map(user => ({
+    ...user,
+    totalPoints: Number(user.totalPoints),
+    totalGames: Number(user.totalGames)
+  }))
+
+  return topUsers
 }
 
 const createGameLog = async (userId: string, gameLog: CreateUpdateGameLogReq) => {
@@ -81,5 +120,6 @@ const updateGameLog = async (userId: string, gameLog: CreateUpdateGameLogReq) =>
 export default {
   getAllGameLog,
   createGameLog,
-  updateGameLog
+  updateGameLog,
+  getLeaderboards
 }

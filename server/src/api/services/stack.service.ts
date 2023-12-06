@@ -1,6 +1,7 @@
 import { FullCreateStackReq } from '../@types/stack'
 import prisma from '../databases/init.prisma'
 import HttpError from '../helpers/httpError'
+import gameLogService from './game-log.service'
 
 const createStack = async (stack: FullCreateStackReq) => {
   try {
@@ -41,6 +42,8 @@ const createStack = async (stack: FullCreateStackReq) => {
 }
 
 const getAllStacks = async (page: number, offset: number) => {
+  const total = await prisma.stack.count()
+
   const stacks = await prisma.stack.findMany({
     skip: (page - 1) * offset,
     take: offset,
@@ -52,7 +55,35 @@ const getAllStacks = async (page: number, offset: number) => {
     }
   })
 
-  return stacks
+  if (!stacks) throw new HttpError(404, 'No stack found')
+
+  return { stacks, total }
+}
+
+const getStackById = async (id: string) => {
+  const stack = await prisma.stack.findUnique({
+    where: {
+      id
+    },
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      thumbnail: true,
+      kanjis: {
+        select: {
+          id: true,
+          kanji: true
+        }
+      }
+    }
+  })
+
+  if (!stack) throw new HttpError(404, 'Stack not found')
+
+  const leaderboards = await gameLogService.getLeaderboards(stack.id, 10)
+
+  return { ...stack, leaderboards }
 }
 
 const getFollowedStacks = async (userId: string) => {
@@ -67,32 +98,58 @@ const getFollowedStacks = async (userId: string) => {
     select: {
       id: true,
       name: true,
-      description: true
+      description: true,
+      kanjis: {
+        select: {
+          kanji: true
+        }
+      }
     }
   })
   return followedStacks
 }
 
 const setFollowStack = async (userId: string, stackId: string) => {
-  try {
-    const followedStacks = getFollowedStacks(userId)
-    if (!(await followedStacks).find(stack => stack.id === stackId)) {
-      return await prisma.stack.update({
+  const isFollowed = await prisma.stack.findUnique({
+    where: {
+      id: stackId
+    },
+    select: {
+      likedBy: {
         where: {
-          id: stackId
-        },
-        data: {
-          likedBy: {
-            connect: {
-              id: userId
-            }
+          id: userId
+        }
+      }
+    }
+  })
+
+  if (isFollowed?.likedBy.length) {
+    return await prisma.stack.update({
+      where: {
+        id: stackId
+      },
+      data: {
+        likedBy: {
+          disconnect: {
+            id: userId
           }
         }
-      })
-    }
-  } catch (error) {
-    throw new HttpError(500, 'Stack not found')
+      }
+    })
   }
+
+  return await prisma.stack.update({
+    where: {
+      id: stackId
+    },
+    data: {
+      likedBy: {
+        connect: {
+          id: userId
+        }
+      }
+    }
+  })
 }
 
 const searchByName = async (searchValue: string) => {
@@ -112,10 +169,44 @@ const searchByName = async (searchValue: string) => {
   return stack
 }
 
+const adminGetAllStacks = async (page: number, offset: number) => {
+  const total = await prisma.stack.count()
+
+  const stacks = await prisma.stack.findMany({
+    skip: (page - 1) * offset,
+    take: offset,
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      thumbnail: true,
+      _count: {
+        select: {
+          kanjis: true,
+          likedBy: true
+        }
+      }
+    }
+  })
+
+  if (!stacks) throw new HttpError(404, 'No stack found')
+
+  // Normalize data
+  const stacksResult = stacks.map(stack => ({
+    ...stack,
+    totalKanjis: stack._count.kanjis,
+    totalFollowers: stack._count.likedBy
+  }))
+
+  return { stacks: stacksResult, total }
+}
+
 export default {
   createStack,
   getAllStacks,
+  getStackById,
   getFollowedStacks,
   setFollowStack,
-  searchByName
+  searchByName,
+  adminGetAllStacks
 }

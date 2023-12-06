@@ -1,15 +1,15 @@
-import type { SelectProps } from 'antd/es/select'
 import { Select } from 'antd'
+import type { SelectProps } from 'antd/es/select'
 import React, { useState } from 'react'
 import { useDebounce } from 'usehooks-ts'
 
-import { useSearchStacksQuery } from '../../store/adminService'
 import Loading from '~/components/Loading'
 
-interface PropsType<ValueType = ISearchStackResult>
-  extends Omit<SelectProps<ValueType | ValueType[]>, 'options' | 'children'> {}
+import { useSearchStacksQuery } from '../../store/adminService'
 
-const StackSearch = ({ ...props }: PropsType) => {
+type PropsType<ValueType = ISearchStackResult> = Omit<SelectProps<ValueType | ValueType[]>, 'options' | 'children'>
+
+function StackSearch({ ...props }: PropsType) {
   const [searchValue, setSearchValue] = useState<string>('')
   const debounceSearch = useDebounce<string>(searchValue, 800)
   const { data: stacks, isLoading, isFetching } = useSearchStacksQuery(debounceSearch)

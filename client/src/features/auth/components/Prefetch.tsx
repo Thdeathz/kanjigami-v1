@@ -1,12 +1,12 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
-import store from '~/app/store'
-
 import { useEffectOnce } from 'usehooks-ts'
-import { battleService } from '~/features/battle/store/battleService'
-import { onlineBattleStatus } from '~/config/status'
 
-const Prefetch = () => {
+import store from '~/app/store'
+import { onlineBattleStatus } from '~/config/status'
+import { battleService } from '~/features/battle/store/battleService'
+
+function Prefetch() {
   useEffectOnce(() => {
     store.dispatch(
       battleService.util.prefetch(

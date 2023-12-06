@@ -37,3 +37,24 @@ declare interface IOnlineEventItem {
   totalRounds: number
   totalJoinedUsers: number
 }
+
+declare interface IStackItem {
+  id: string
+  name: string
+  description: string
+  thumbnail: string
+  totalKanjis: number
+  totalFollowers: number
+}
+
+declare interface IUserItem {
+  id: string
+  username: string
+  avatarUrl: string
+  roles: string[]
+  account: {
+    email: string
+    isActive: boolean
+  }
+  totalGames: number
+}

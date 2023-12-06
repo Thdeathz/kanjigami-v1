@@ -33,20 +33,16 @@ function EventLeaderboards({ leaderboards }: PropsType) {
               battles={user.totalGames}
             />
           ))}
+
+          <motion.div className="w-full" variants={gridList.item()}>
+            <Button className="w-full font-semibold" onClick={() => navigate('/leaderboard')}>
+              See top 100
+            </Button>
+          </motion.div>
         </>
       ) : (
-        <>
-          {Array.from(Array(11).keys()).map(each => {
-            return <RankItem key={each} rank={each + 1} username="Kantan kanji" points={154532} battles={233} />
-          })}
-        </>
+        <p className="font-semibold opacity-50">Empty...</p>
       )}
-
-      <motion.div className="w-full" variants={gridList.item()}>
-        <Button className="w-full font-semibold" onClick={() => navigate('/leaderboard')}>
-          See top 100
-        </Button>
-      </motion.div>
     </motion.div>
   )
 }

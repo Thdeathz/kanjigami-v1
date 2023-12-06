@@ -2,14 +2,13 @@ import React, { MouseEventHandler } from 'react'
 import { BsFillPlayFill } from 'react-icons/bs'
 import { useNavigate } from 'react-router-dom'
 
-import FlipBlindCardThumbnail from '~/assets/thumbnails/flip-blind-card-thumbnail.png'
-import FlipCardThumbnail from '~/assets/thumbnails/flip-card-thumbnail.png'
-import KanjiShooterThumbnail from '~/assets/thumbnails/kanji-shooter-thumbnail.png'
-import MultipleChoiceThumbnail from '~/assets/thumbnails/multiple-choice-thumbnail.png'
 import Button from '~/components/Button'
 import IconWrapper from '~/components/IconWrapper'
 import Image from '~/components/Image'
+import Loading from '~/components/Loading'
 import Panel from '~/components/Panel'
+
+import { useGetAllGamesQuery } from '../store/kanjiService'
 
 type GameItemPropsType = {
   name: string
@@ -19,7 +18,7 @@ type GameItemPropsType = {
   isShowHiScore?: boolean
 }
 
-export function GameItem({ name, onClick, thumbnail, className, isShowHiScore = true }: GameItemPropsType) {
+function GameItem({ name, onClick, thumbnail, className, isShowHiScore = true }: GameItemPropsType) {
   return (
     <div className={`basis-1/4 ${className}`}>
       <p className="mx-auto mb-4 w-min whitespace-nowrap rounded-md bg-gradient-to-tr from-filter-start-light to-filter-end-light p-1.5 font-medium uppercase dark:from-filter-start-dark dark:to-filter-end-dark">
@@ -53,13 +52,35 @@ export function GameItem({ name, onClick, thumbnail, className, isShowHiScore = 
   )
 }
 
-function GamesList() {
+type PropsType = {
+  stackId: string
+}
+
+function GamesList({ stackId }: PropsType) {
   const navigate = useNavigate()
+
+  const { data: games, isLoading } = useGetAllGamesQuery(undefined)
+
+  if (isLoading || !games)
+    return (
+      <Panel className="mt-12">
+        <Loading className="my-32 text-3xl" />
+      </Panel>
+    )
 
   return (
     <Panel className="mt-12">
       <div className="card-list pointer-events-none grid w-full grid-cols-4 gap-12 transition-opacity">
-        <GameItem name="MULTIPLE CHOOSE" thumbnail={MultipleChoiceThumbnail} />
+        {games.map(each => (
+          <GameItem
+            key={`game-item-${each.id}`}
+            name={each.name}
+            thumbnail={each.thumbnail}
+            onClick={() => navigate(`/play/${stackId}/${each.name.toLowerCase().replace(/\s/g, '-')}`)}
+          />
+        ))}
+
+        {/* <GameItem name="MULTIPLE CHOOSE" thumbnail={MultipleChoiceThumbnail} />
 
         <GameItem
           name="KANJI SHOOTER"
@@ -73,7 +94,7 @@ function GamesList() {
           name="FLIP BLIND CARD"
           thumbnail={FlipBlindCardThumbnail}
           onClick={() => navigate('/play/1/blind-card')}
-        />
+        /> */}
       </div>
     </Panel>
   )

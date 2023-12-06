@@ -1,9 +1,9 @@
 import express from 'express'
 
-import { createGameLog, getAllGameLog, updateGameLog } from '../controllers/gamelog.controller'
+import { createGameLog, getAllGameLog, updateGameLog } from '../controllers/game-log.controller'
 import verifyJWT from '../middleware/verifyJWT'
 import validateRequest from '../middleware/validateRequest'
-import { UpdateCreateGameSchema } from '../validations/gamelog.validation'
+import { UpdateCreateGameSchema } from '../validations/game-log.validation'
 
 const router = express.Router()
 
