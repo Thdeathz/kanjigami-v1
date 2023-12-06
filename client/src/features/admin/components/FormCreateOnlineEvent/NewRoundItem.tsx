@@ -2,15 +2,15 @@ import { Form, Radio, message } from 'antd'
 import React, { useState } from 'react'
 
 import newRound from '~/assets/lock.png'
-
 import Button from '~/components/Button'
 import CustomModal from '~/components/CustomModal'
 import Image from '~/components/Image'
+import Loading from '~/components/Loading'
+import { useGetAllGamesQuery } from '~/features/kanji/store/kanjiService'
 
 import FormItem from '../FormItem'
+
 import StackSearch from './StackSearch'
-import { useGetAllGamesQuery } from '~/features/kanji/store/kanjiService'
-import Loading from '~/components/Loading'
 
 type PropsType = {
   index: number

@@ -11,11 +11,15 @@ import firebaseService from '../services/firebase.service'
  * @access Private
  */
 export const getAllUsers: RequestHandler = async (req, res) => {
-  const users = await userService.getAllUsers()
+  const page = parseInt(<string>req.query.page) || 1
+  const { users, total } = await userService.getAllUsers(page, 10)
 
-  if (!users?.length) return res.status(400).json({ message: 'No users found' })
-
-  res.json({ message: 'Get all users successfully', data: users })
+  res.json({
+    message: 'Get all users successfully',
+    data: users,
+    currentPage: page,
+    totalPages: Math.ceil(total / 10)
+  })
 }
 
 /**

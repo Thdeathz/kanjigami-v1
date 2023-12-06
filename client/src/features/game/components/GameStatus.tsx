@@ -16,7 +16,7 @@ function getGmaeStatusWrapperClassName(position: string, isShowFull: boolean) {
     'flex-center absolute right-0 z-[3] h-[3rem] cursor-pointer rounded-s-full bg-gradient-to-br from-side-bar-start from-0% to-side-bar-end to-85% px-4 text-clr-link-light shadow-button backdrop-blur-[5px] transition-transform duration-200 dark:from-rgb-gray-1 dark:to-rgb-gray-0.7 dark:text-clr-link-dark',
     position,
     {
-      'translate-x-[75%]': isShowFull
+      'translate-x-[75%]': !isShowFull
     }
   )
 }
@@ -38,7 +38,7 @@ function GameStatus() {
 
   return (
     <>
-      <GameStatusWrapper position="top-12" isShowFull setIsShowFull={setIsShowFullPoint}>
+      <GameStatusWrapper position="top-12" isShowFull setIsShowFull={setIsShowFullTime}>
         <p className="select-none text-lg font-semibold ">00:01</p>
       </GameStatusWrapper>
 

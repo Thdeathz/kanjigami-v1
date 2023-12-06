@@ -16,7 +16,7 @@ const router = express.Router()
 
 router
   .route('/')
-  .get(verifyJWT, getAllUsers)
+  .get(getAllUsers)
   .post(upload.single('avatar'), validateRequest(registerSchema), createNewUser)
 
 router.route('/:id/avatar').post(upload.single('avatar'), updateAvatar)

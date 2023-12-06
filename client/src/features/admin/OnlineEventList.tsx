@@ -7,15 +7,15 @@ import Button from '~/components/Button'
 import IconWrapper from '~/components/IconWrapper'
 import Image from '~/components/Image'
 import DefaultLayout from '~/components/Layouts/DefaultLayout'
+import Loading from '~/components/Loading'
 import PageHeader from '~/components/PageHeader'
 import Panel from '~/components/Panel'
 import Tag from '~/components/Tag'
+import { useAppDispatch, useAppSelector } from '~/hooks/useRedux'
+import { convertToUserTimeZone } from '~/utils/timezone'
 
 import Table from './components/Table'
 import { useGetAllEventsQuery } from './store/adminService'
-import { useAppDispatch, useAppSelector } from '~/hooks/useRedux'
-import Loading from '~/components/Loading'
-import { convertToUserTimeZone } from '~/utils/timezone'
 import { setEventCurrentPage } from './store/adminSlice'
 
 function OnlineEventList() {
@@ -47,9 +47,9 @@ function OnlineEventList() {
                 {
                   title: 'Thumbnail',
                   dataIndex: 'thumbnail',
-                  render: () => (
+                  render: value => (
                     <div className="flex-center py-3">
-                      <Image className="aspect-ratio w-[8rem] rounded-md" />
+                      <Image src={value} className="aspect-ratio w-[8rem] rounded-md" />
                     </div>
                   )
                 },

@@ -35,13 +35,11 @@ const getAllEvents = async (page: number, offset: number) => {
   if (!events) throw new HttpError(404, 'No events found')
 
   // normalize data
-  const returnEvents = events.map(event => {
-    return {
-      ...event,
-      totalJoinedUsers: event._count?.joinedUsers,
-      totalRounds: event._count?.rounds
-    }
-  })
+  const returnEvents = events.map(event => ({
+    ...event,
+    totalJoinedUsers: event._count?.joinedUsers,
+    totalRounds: event._count?.rounds
+  }))
 
   return {
     events: returnEvents,

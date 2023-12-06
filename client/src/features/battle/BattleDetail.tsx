@@ -32,14 +32,15 @@ function getCowntDownTitle(status: OnlineBattleStatus) {
 }
 
 function BattleDetail() {
-  useDocumentTitle('Mid-Autumn Festival | 漢字ガミ')
   const { id: battleId } = useParams()
   const { data: battle, isLoading, isSuccess, refetch } = useGetBattleDetailQuery(battleId as string)
+
+  useDocumentTitle(battle ? `${battle.title} | 漢字ガミ` : '漢字ガミ')
 
   if (isLoading || !battle)
     return (
       <DefaultLayout>
-        <Loading className="text-3xl" />
+        <Loading className="my-32 text-3xl" />
       </DefaultLayout>
     )
 
@@ -117,11 +118,7 @@ function BattleDetail() {
 
           <p className="mb-4 text-xl font-semibold">Battle leaders</p>
 
-          {battle.status === onlineBattleStatus.UPCOMING ? (
-            <p className="font-semibold opacity-50">No leaderboards yet</p>
-          ) : (
-            <EventLeaderboards leaderboards={battle.leaderboards} />
-          )}
+          <EventLeaderboards leaderboards={battle.leaderboards} />
         </div>
       </div>
     </DefaultLayout>

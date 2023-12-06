@@ -1,9 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/dist/query'
 
+import adminReducer from '~/features/admin/store/adminSlice'
 import authReducer from '~/features/auth/store/authSlice'
 import battleReducer from '~/features/battle/store/battleSlice'
-import adminReducer from '~/features/admin/store/adminSlice'
+import kanjiReducer from '~/features/kanji/store/kanjiSlice'
 
 import apiSlice from './api/apiSlice'
 
@@ -12,7 +13,8 @@ const store = configureStore({
     [apiSlice.reducerPath]: apiSlice.reducer,
     auth: authReducer,
     battle: battleReducer,
-    admin: adminReducer
+    admin: adminReducer,
+    kanji: kanjiReducer
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware().concat(apiSlice.middleware),
   devTools: true

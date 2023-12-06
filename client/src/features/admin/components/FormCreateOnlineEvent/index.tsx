@@ -2,13 +2,13 @@ import { Form, message } from 'antd'
 import React, { useState } from 'react'
 
 import Button from '~/components/Button'
+import Loading from '~/components/Loading'
 
+import { useAddNewOnlineEventMutation } from '../../store/adminService'
 import SectionDivider from '../SectionDivider'
 
 import FormBattleDetail from './FormBattleDetail'
 import FormBattleRound from './FormBattleRound'
-import { useAddNewOnlineEventMutation } from '../../store/adminService'
-import Loading from '~/components/Loading'
 
 function FormCreateOnlineEvent() {
   const [form] = Form.useForm<CreateOnlineEvent>()

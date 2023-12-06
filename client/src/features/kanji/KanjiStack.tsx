@@ -1,21 +1,24 @@
-import { motion } from 'framer-motion'
 import React from 'react'
 import { BsStack } from 'react-icons/bs'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useDocumentTitle } from 'usehooks-ts'
 
 import DefaultLayout from '~/components/Layouts/DefaultLayout'
 import PageHeader from '~/components/PageHeader'
 import RootNotification from '~/components/RootNotification'
-import StackItem from '~/components/StackItem'
-import { gridList } from '~/config/variants'
 
 import FilterBox from '../../components/Filter/FilterBox'
 import FilterItem from '../../components/Filter/FilterItem'
 
+import KanjiList from './components/KanjiList'
 import SearchKanji from './components/SearchKanji'
 
 function KanjiStack() {
   useDocumentTitle('Kanji Stack | 漢字ガミ')
+
+  const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const filterValue = searchParams.get('filter')
 
   return (
     <DefaultLayout>
@@ -27,31 +30,25 @@ function KanjiStack() {
         <SearchKanji />
 
         <FilterBox>
-          <FilterItem actived>All stacks</FilterItem>
+          <FilterItem actived={filterValue === 'all' || !filterValue} onClick={() => navigate(`?filter=all`)}>
+            All stacks
+          </FilterItem>
 
-          <FilterItem>Not played</FilterItem>
+          <FilterItem actived={filterValue === 'not-played'} onClick={() => navigate(`?filter=not-played`)}>
+            Not played
+          </FilterItem>
 
-          <FilterItem>Played</FilterItem>
+          <FilterItem actived={filterValue === 'played'} onClick={() => navigate(`?filter=played`)}>
+            Played
+          </FilterItem>
 
-          <FilterItem>Followed</FilterItem>
+          <FilterItem actived={filterValue === 'followed'} onClick={() => navigate(`?filter=followed`)}>
+            Followed
+          </FilterItem>
         </FilterBox>
       </div>
 
-      <motion.div
-        className="card-list group pointer-events-none mt-12 grid auto-rows-fr grid-cols-5 gap-8 transition-opacity"
-        variants={gridList.container()}
-        initial="hidden"
-        animate="enter"
-      >
-        {Array.from(Array(18).keys()).map(index => (
-          <StackItem
-            imageSrc="https://firebasestorage.googleapis.com/v0/b/kanjigami-61289.appspot.com/o/213.png?alt=media&token=3eef68c5-c33c-4eb7-99ff-fb4474f405f8"
-            stack="クリスマス"
-            key={index}
-            stackId={index}
-          />
-        ))}
-      </motion.div>
+      <KanjiList />
     </DefaultLayout>
   )
 }

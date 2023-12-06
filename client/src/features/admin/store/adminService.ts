@@ -21,8 +21,22 @@ export const adminService = apiSlice.injectEndpoints({
     getAllEvents: builder.query<ApiResponsePaginated<IOnlineEventItem[]>, number>({
       query: page => `/events/admin?page=${page}`,
       providesTags: (result, error, page) => [{ type: 'OnlineBattle' as const, id: 'ADMIN' }]
+    }),
+    getStacks: builder.query<ApiResponsePaginated<IStackItem[]>, number>({
+      query: page => `/stacks/admin?page=${page}`,
+      providesTags: (result, error, page) => [{ type: 'Stack' as const, id: 'ADMIN' }]
+    }),
+    getAllUsers: builder.query<ApiResponsePaginated<IUserItem[]>, number>({
+      query: page => `/user?page=${page}`,
+      providesTags: (result, error, page) => [{ type: 'User' as const, id: 'ADMIN' }]
     })
   })
 })
 
-export const { useSearchStacksQuery, useAddNewOnlineEventMutation, useGetAllEventsQuery } = adminService
+export const {
+  useSearchStacksQuery,
+  useAddNewOnlineEventMutation,
+  useGetAllEventsQuery,
+  useGetStacksQuery,
+  useGetAllUsersQuery
+} = adminService
