@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { GiHearts } from 'react-icons/gi'
 
 import IconWrapper from '~/components/IconWrapper'
+import CountDown from '~/features/battle/components/CountDown'
 
 type GameStatusWrapperPropsType = {
   position: string
@@ -31,34 +32,40 @@ function GameStatusWrapper({ position, isShowFull, setIsShowFull, children }: Ga
   )
 }
 
-function GameStatus() {
-  const [isShowFullLeftLive, setIsShowFullLeftLive] = useState<boolean>(false)
+type PropsType = {
+  status: GameStatusType
+}
+
+function GameStatus({ status }: PropsType) {
+  const [isShowFullLeftLive, setIsShowFullLeftLive] = useState<boolean>(true)
   const [isShowFullPoint, setIsShowFullPoint] = useState<boolean>(false)
   const [isShowFullTime, setIsShowFullTime] = useState<boolean>(false)
 
   return (
     <>
       <GameStatusWrapper position="top-12" isShowFull setIsShowFull={setIsShowFullTime}>
-        <p className="select-none text-lg font-semibold ">00:01</p>
+        <CountDown endTime={status.time} />
       </GameStatusWrapper>
 
       <GameStatusWrapper position="top-28" isShowFull={isShowFullLeftLive} setIsShowFull={setIsShowFullLeftLive}>
         <div className="flex-center gap-2">
           <div className="relative">
             <IconWrapper icon={<GiHearts />} className="text-3xl text-red-light" />
+
             {!isShowFullLeftLive && (
-              <p className="absolute left-1.5 top-1 select-none text-sm font-semibold text-white">x5</p>
+              <p className="absolute left-1.5 top-1 select-none text-sm font-semibold text-white">x{status.life}</p>
             )}
           </div>
 
-          {Array.from(Array(4).keys()).map(each => (
-            <IconWrapper key={`left-live-${each}`} icon={<GiHearts />} className="text-3xl text-red-light" />
-          ))}
+          {status.life > 1 &&
+            Array.from(Array(status.life - 1).keys()).map(each => (
+              <IconWrapper key={`left-live-${each}`} icon={<GiHearts />} className="text-3xl text-red-light" />
+            ))}
         </div>
       </GameStatusWrapper>
 
       <GameStatusWrapper position="top-44" isShowFull setIsShowFull={setIsShowFullPoint}>
-        <p className="select-none text-lg font-semibold">0/12</p>
+        <p className="select-none text-lg font-semibold">{status.score}/12</p>
       </GameStatusWrapper>
     </>
   )

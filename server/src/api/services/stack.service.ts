@@ -41,7 +41,7 @@ const createStack = async (stack: FullCreateStackReq) => {
   }
 }
 
-const getAllStacks = async (page: number, offset: number) => {
+const getAllStacks = async (page: number, offset: number, followedUserId?: string) => {
   const total = await prisma.stack.count()
 
   const stacks = await prisma.stack.findMany({
@@ -51,13 +51,24 @@ const getAllStacks = async (page: number, offset: number) => {
       id: true,
       name: true,
       description: true,
-      thumbnail: true
+      thumbnail: true,
+      likedBy: {
+        where: {
+          id: followedUserId
+        }
+      }
     }
   })
 
   if (!stacks) throw new HttpError(404, 'No stack found')
 
-  return { stacks, total }
+  // Normalize data
+  const stacksResult = stacks.map(stack => ({
+    ...stack,
+    isFollowed: stack.likedBy.length > 0
+  }))
+
+  return { stacks: stacksResult, total }
 }
 
 const getStackById = async (id: string) => {
@@ -99,13 +110,12 @@ const getFollowedStacks = async (userId: string) => {
       id: true,
       name: true,
       description: true,
-      kanjis: {
-        select: {
-          kanji: true
-        }
-      }
+      thumbnail: true
     }
   })
+
+  if (!followedStacks) throw new HttpError(404, 'No stack found')
+
   return followedStacks
 }
 
@@ -134,6 +144,9 @@ const setFollowStack = async (userId: string, stackId: string) => {
             id: userId
           }
         }
+      },
+      select: {
+        id: true
       }
     })
   }
@@ -148,6 +161,9 @@ const setFollowStack = async (userId: string, stackId: string) => {
           id: userId
         }
       }
+    },
+    select: {
+      id: true
     }
   })
 }

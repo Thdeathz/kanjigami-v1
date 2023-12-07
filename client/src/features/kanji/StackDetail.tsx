@@ -15,6 +15,7 @@ import EventLeaderboards from '../battle/components/LeaderList/EventLeaderboards
 import GamesList from './components/GamesList'
 import SearchKanji from './components/SearchKanji'
 import { useGetStackDetailQuery } from './store/kanjiService'
+import KanjiModal from './components/KanjiModal'
 
 function StackDetail() {
   const { id: stackId } = useParams()
@@ -65,7 +66,8 @@ function StackDetail() {
           <Panel className="mt-6">
             <div className="grid grid-cols-8 gap-4">
               {stack.kanjis.map(each => (
-                <Button key={`kanji-item-${each.id}`}>{each.kanji}</Button>
+                // <Button key={`kanji-item-${each.id}`}>{each.kanji}</Button>
+                <KanjiModal key={`kanji-items${each.id}`} id={each.id} kanji={each.kanji} />
               ))}
             </div>
           </Panel>

@@ -3,6 +3,7 @@ declare interface IStack {
   name: string
   description: string
   thumbnail: string
+  isFollowed?: boolean
 }
 
 declare interface CreateKanji {
@@ -45,4 +46,28 @@ declare interface IStackDetail {
     kanji: string
   }[]
   leaderboards: ITopUser[]
+}
+
+declare interface IKanji {
+  id: string
+  kanji: string
+  kunyomi: string
+  onyomi: string
+  images: {
+    url: string
+  }[]
+  vocabularies: {
+    yomikata: string
+    meaning: string
+    examples: {
+      example: string
+      meaning: string
+    }[]
+  }[]
+}
+
+type GameStatusType = {
+  life: number
+  time: Date
+  score: number
 }

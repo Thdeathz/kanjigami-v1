@@ -38,7 +38,7 @@ export const kanjiFactory = async (number: number) => {
         image: faker.image.url(),
         vocabulary: {
           yomikata: romanji,
-          meaning: faker.word.words({ count: { min: 3, max: 8 } }),
+          meaning: faker.lorem.sentences({ min: 5, max: 8 }),
           example: {
             example: fakerJA.lorem.sentence(),
             meaning: faker.lorem.sentence()
