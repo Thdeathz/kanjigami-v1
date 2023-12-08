@@ -1,9 +1,11 @@
 import express from 'express'
 
-import { getAllGames } from '../controllers/game.controller'
+import { getAllGames, getFlipCardGameContent } from '../controllers/game.controller'
 
-const route = express.Router()
+const router = express.Router()
 
-route.route('/').get(getAllGames)
+router.route('/').get(getAllGames)
 
-export default route
+router.route('/flip-card/:stackId').get(getFlipCardGameContent)
+
+export default router

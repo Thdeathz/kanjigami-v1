@@ -9,6 +9,7 @@ import { gridList } from '~/config/variants'
 import useAuth from '~/hooks/useAuth'
 
 import Image from './Image'
+import { useFollowStackMutation } from '~/features/kanji/store/kanjiService'
 
 type PropsType = {
   stack: IStack
@@ -25,8 +26,8 @@ function getStackItemClassName(className?: string) {
 
 function StackItem({ stack, hightScore, className }: PropsType) {
   const navigate = useNavigate()
-  const [isBookmarked, setIsBookmarked] = React.useState(false)
   const { isUser } = useAuth()
+  const [followStack, { isLoading }] = useFollowStackMutation(undefined)
 
   const stackItemClassName = getStackItemClassName(className)
 
@@ -54,9 +55,13 @@ function StackItem({ stack, hightScore, className }: PropsType) {
       {isUser && (
         <button
           className="absolute bottom-4 right-4 z-10 aspect-square rounded-full bg-clr-border-1-light p-3 transition-transform duration-200 active:scale-90 dark:bg-clr-border-1-dark"
-          onClick={() => setIsBookmarked(prev => !prev)}
+          onClick={() => followStack(stack.id)}
+          disabled={isLoading}
         >
-          <IconWrapper className="text  -primary-light" icon={isBookmarked ? <BsBookmarksFill /> : <BsBookmarks />} />
+          <IconWrapper
+            className="text  -primary-light"
+            icon={stack.isFollowed ? <BsBookmarksFill /> : <BsBookmarks />}
+          />
         </button>
       )}
     </motion.div>

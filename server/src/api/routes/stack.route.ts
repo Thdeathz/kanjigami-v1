@@ -1,5 +1,7 @@
 import express from 'express'
 
+import verifyJWT from '../middleware/verifyJWT'
+import getCurrentUser from '../middleware/getCurrentUser'
 import {
   createStack,
   getAllStacks,
@@ -9,11 +11,10 @@ import {
   getStackById,
   adminGetAllStacks
 } from '../controllers/stack.controller'
-import verifyJWT from '../middleware/verifyJWT'
 
 const router = express.Router()
 
-router.route('/').post(createStack).get(getAllStacks)
+router.route('/').post(createStack).get(getCurrentUser, getAllStacks)
 
 router.route('/follow').get(verifyJWT, getFollowedStacks)
 

@@ -65,13 +65,7 @@ function KanjiShooterGame() {
 
       {isEnd && (
         <div className="flex-center absolute right-0 top-0 z-[3] min-h-content w-full bg-underlay transition-opacity duration-200">
-          <GameEnd
-            username={username}
-            avatarUrl={avatarUrl}
-            icon={<GiBulletBill />}
-            title="Game over"
-            setIsEnd={setIsEnd}
-          />
+          <GameEnd icon={<GiBulletBill />} title="Game over" />
         </div>
       )}
     </>

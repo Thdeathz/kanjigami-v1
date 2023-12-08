@@ -1,44 +1,19 @@
-declare interface IGame {
+declare interface IFlipCardGameContent {
   id: string
-  name: string
+  kanji: string
+  kunyomi: string
+  image: string
 }
 
-declare type Position = {
-  x: number
-  y: number
+declare interface ImageContent {
+  type: 'image'
+  id: string
+  image: string
+  kunyomi: string
 }
 
-declare interface ILayer {
-  image: HTMLImageElement
-  framesMax: number
-  framesCurrent: number
-  offset: Position
-  imageSrc: string
-}
-
-declare interface ISpriteState {
-  [key: string]: ILayer[]
-}
-
-declare interface ISprite {
-  position: Position
-  radius?: number
-  scale?: number
-  framesElapsed?: number
-  framesHold?: number
-  isRotatable?: boolean
-  angle?: number
-  sprites: ISpriteState
-}
-
-declare interface IEnemy {
-  sprites: ISpriteState
-  radius: number
-  speed?: number
-  damage: number
-  framesHold?: number
-  keyword: string
-  id: number
-  scale?: number
-  maxLives?: number
+declare interface KanjiContent {
+  type: 'kanji'
+  id: string
+  kanji: string
 }

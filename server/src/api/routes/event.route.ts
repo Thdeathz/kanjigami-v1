@@ -11,14 +11,14 @@ import {
 } from '../controllers/event.controller'
 import verifyJWT from '../middleware/verifyJWT'
 
-const route = express.Router()
+const router = express.Router()
 
-route.route('/admin').get(adminGetAllEvents)
+router.route('/admin').get(adminGetAllEvents)
 
-route.route('/').get(getAllEvents).post(upload.single('thumbnail'), createEvent)
+router.route('/').get(getAllEvents).post(upload.single('thumbnail'), createEvent)
 
-route.route('/leaderboards').get(getOnlineEventsLeaderboards)
+router.route('/leaderboards').get(getOnlineEventsLeaderboards)
 
-route.route('/:id').get(getEventById).delete(deleteEventById)
+router.route('/:id').get(getEventById).delete(deleteEventById)
 
-export default route
+export default router

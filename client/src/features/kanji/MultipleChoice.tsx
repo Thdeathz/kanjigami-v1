@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { BsStack } from 'react-icons/bs'
 import { GiSelect } from 'react-icons/gi'
 import { useParams, useSearchParams } from 'react-router-dom'
@@ -18,6 +18,12 @@ function MultipleChoice() {
   const gameId = searchParams.get('gameId')
 
   const { data: stack, isLoading } = useGetStackDetailQuery(stackId as string)
+
+  const [status, setStatus] = useState<GameStatusType>({
+    life: 5,
+    time: new Date(new Date().getTime() + 5 * 60000 + 1000),
+    score: 0
+  })
 
   if (isLoading || !stack)
     return (
@@ -51,7 +57,7 @@ function MultipleChoice() {
     >
       {gameId ? (
         <>
-          <GameStatus />
+          <GameStatus status={status} />
 
           <MultipleChoiceGame />
         </>

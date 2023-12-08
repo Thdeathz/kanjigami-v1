@@ -8,17 +8,16 @@ import Avatar from '~/components/Avatar'
 import IconWrapper from '~/components/IconWrapper'
 import Panel from '~/components/Panel'
 import { panelVariants } from '~/config/variants'
+import useAuth from '~/hooks/useAuth'
 
 type PropsType = {
   icon: ReactElement<IconType>
   title: string
-  username: string
-  avatarUrl?: string
-  setIsEnd: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-function GameEnd({ icon, title, username, avatarUrl, setIsEnd }: PropsType) {
+function GameEnd({ icon, title }: PropsType) {
   const navigate = useNavigate()
+  const { username, avatarUrl } = useAuth()
 
   const handleRestart = () => {
     navigate(
@@ -26,7 +25,6 @@ function GameEnd({ icon, title, username, avatarUrl, setIsEnd }: PropsType) {
         gameId: 'asdfasdfasfdasdf'
       })}`
     )
-    setIsEnd(false)
   }
 
   return (

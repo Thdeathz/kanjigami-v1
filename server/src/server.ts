@@ -20,6 +20,7 @@ import eventRoutes from '~/api/routes/event.route'
 import stackRoutes from '~/api/routes/stack.route'
 import passwordRoutes from '~/api/routes/password.route'
 import gameRoutes from '~/api/routes/game.route'
+import kanjiRoutes from '~/api/routes/kanji.route'
 
 dotenv.config()
 const app = express()
@@ -50,6 +51,7 @@ app.use('/api/password', passwordRoutes)
 // private routes
 app.use('/api/events', eventRoutes)
 app.use('/api/stacks', stackRoutes)
+app.use('/api/kanjis', kanjiRoutes)
 app.use('/api/games', gameRoutes)
 app.use('/api/user', userRoutes)
 app.use('*', notFoundRoute)

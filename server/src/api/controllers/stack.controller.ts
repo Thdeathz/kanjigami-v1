@@ -23,7 +23,9 @@ export const createStack: RequestHandler = async (req, res) => {
  */
 export const getAllStacks: RequestHandler = async (req, res) => {
   const page = parseInt(<string>req.query.page) || 1
-  const { stacks, total } = await stackService.getAllStacks(page, 20)
+  const currentUser = (req as any).currentUser
+
+  const { stacks, total } = await stackService.getAllStacks(page, 20, currentUser?.id)
 
   return res.status(200).json({
     message: 'Get all kanji stack successfully',

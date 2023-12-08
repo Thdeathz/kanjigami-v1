@@ -17,7 +17,7 @@ function InputWrapper({ id, label, saveButton, helper, children }: PropsType) {
 
       {children}
 
-      {helper && <p className="text-sm">{helper}</p>}
+      {helper && <p className="text-sm text-text-light dark:text-text-dark">{helper}</p>}
 
       {saveButton}
     </div>
