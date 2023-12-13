@@ -1,4 +1,4 @@
-import { CreateUpdateGameLogReq } from '../@types/game-log'
+import { CreateUpdateGameLogReq, GameLogQueryResult, UserAchievement } from '../@types/game-log'
 import { TopUser } from '../@types/online-history'
 import prisma from '../databases/init.prisma'
 import HttpError from '../helpers/httpError'
@@ -25,16 +25,6 @@ const select = {
     }
   },
   archievedPoints: true
-}
-
-const getAllGameLog = async () => {
-  try {
-    return await prisma.gameLog.findMany({
-      select
-    })
-  } catch (error) {
-    throw new HttpError(500, 'Internal Server Error')
-  }
 }
 
 const getLeaderboards = async (stackId: string, limit: number) => {
@@ -117,9 +107,119 @@ const updateGameLog = async (userId: string, gameLog: CreateUpdateGameLogReq) =>
   }
 }
 
+const saveUserScore = async (userId: string, data: UserAchievement) => {
+  const gameLog = await prisma.gameLog.findFirst({
+    where: {
+      userId,
+      gameStack: {
+        gameId: data.gameId,
+        stackId: data.stackId
+      }
+    }
+  })
+
+  return await prisma.gameLog.upsert({
+    create: {
+      archievedPoints: data.score < 0 ? 0 : data.score,
+      user: {
+        connect: {
+          id: userId
+        }
+      },
+      gameStack: {
+        connectOrCreate: {
+          create: {
+            stack: {
+              connect: {
+                id: data.stackId
+              }
+            },
+            game: {
+              connect: {
+                id: data.gameId
+              }
+            }
+          },
+          where: {
+            gameId_stackId: {
+              gameId: data.gameId,
+              stackId: data.stackId
+            }
+          }
+        }
+      }
+    },
+    update: {
+      archievedPoints: data.score,
+      user: {
+        connect: {
+          id: userId
+        }
+      },
+      gameStack: {
+        connectOrCreate: {
+          create: {
+            stack: {
+              connect: {
+                id: data.stackId
+              }
+            },
+            game: {
+              connect: {
+                id: data.gameId
+              }
+            }
+          },
+          where: {
+            gameId_stackId: {
+              gameId: data.gameId,
+              stackId: data.stackId
+            }
+          }
+        }
+      }
+    },
+    where: {
+      gameStackId_userId: {
+        gameStackId: gameLog?.gameStackId ?? ' ',
+        userId: userId
+      }
+    },
+    select: {
+      gameStackId: true
+    }
+  })
+}
+
+const getGameLogDetail = async (userId: string, gameStackId: string) => {
+  const result = await prisma.$queryRaw<GameLogQueryResult[]>`
+    SELECT
+      "gl"."archievedPoints",
+      RANK() OVER (ORDER BY "gl"."archievedPoints" DESC) AS "rank"
+    FROM
+      "GameLog" AS "gl"
+    WHERE
+      "gl"."gameStackId" = ${gameStackId}
+    GROUP BY
+      "gl"."userId",
+      "gl"."archievedPoints"
+    HAVING
+      "gl"."userId" = ${userId}
+  `
+
+  // Normalize data
+  const gameLog = {
+    archievedPoints: Number(result[0].archievedPoints),
+    rank: Number(result[0].rank)
+  }
+
+  return gameLog
+}
+
 export default {
-  getAllGameLog,
   createGameLog,
   updateGameLog,
-  getLeaderboards
+  getLeaderboards,
+  saveUserScore,
+  getGameLogDetail
 }

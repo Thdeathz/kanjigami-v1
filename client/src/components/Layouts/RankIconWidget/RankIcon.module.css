@@ -1,0 +1,87 @@
+.widgetMain {
+  width: 103px;
+  height: 78px;
+  position: relative;
+  display: block;
+  transition: 0.3s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+}
+
+.widgetMain:hover {
+  transform: scale(1.15);
+}
+
+.bar {
+  --width: 8px;
+  --separation: 0.5rem;
+  --small-height: 24px;
+
+  position: absolute;
+  width: var(--width);
+  height: 40px;
+  top: 0px;
+  background: var(--rank-bar-clr);
+  box-shadow: inset 1px 1px 3px rgba(255, 255, 255, 0.1);
+  border-radius: 0px 0px 8px 8px;
+  transform-origin: top;
+  transition: 0.3s ease 0.15s;
+}
+
+.bar:nth-last-child(1) {
+  left: calc(100% + var(--separation) * 2 + var(--width));
+  height: var(--small-height);
+}
+.bar:nth-last-child(2) {
+  left: calc(100% + var(--separation));
+}
+
+.bar:nth-last-child(3) {
+  right: calc(100% + var(--separation));
+}
+
+.bar:nth-last-child(4) {
+  height: var(--small-height);
+  right: calc(100% + var(--separation) * 2 + var(--width));
+}
+.widgetMain:hover ~ .bar {
+  --separation: 0.8rem;
+  transform: scale(0.9);
+}
+.rays {
+  /* width: 200%; */
+  /* height: 200px; */
+  position: absolute;
+  top: 2rem;
+  /* radial gradient with repeating-conic-gradient */
+  /* background: repeating-conic-gradient(
+    from 0deg,
+    #39434c 0deg 30deg,
+    #2c353e 30deg 60deg
+  ); */
+  content: url(../../../assets/streak-rays.png);
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%) rotate(0deg);
+  z-index: -2;
+  pointer-events: none;
+  transform-origin: center;
+  animation: rays 60s linear infinite;
+  opacity: 0.075;
+  mix-blend-mode: screen;
+  width: 350px;
+  aspect-ratio: 1 / 1;
+  transition: 0.5s ease 0.1s;
+}
+@keyframes rays {
+  to {
+    transform: translateX(-50%) translateY(-50%) rotate(360deg);
+  }
+}
+
+.widget:has(.widgetMain:hover) .rays {
+  opacity: 0.15;
+}
+
+@media (max-width: 600px) {
+  .rays {
+    width: 240px;
+  }
+}

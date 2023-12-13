@@ -33,6 +33,10 @@ export default {
         timer: '0 10px 5px -5px rgba(0, 0, 0, .2)',
         'timer-item': 'inset 0 1px 2px 0 hsla(0, 0%, 100%, .1)'
       },
+      dropShadow: {
+        'rank-icon-light': '0px 10px 30px rgba(0, 0, 0, 0.15)',
+        'rank-icon-dark': '0px 10px 30px rgba(0, 0, 0, 0.75)'
+      },
       gridTemplateColumns: {
         'auto-fill': 'repeat(auto-fill, minmax(14rem, 1fr))'
       },
@@ -40,18 +44,21 @@ export default {
         'auto-fill': 'repeat(auto-fill, minmax(14rem, 1fr))'
       },
       height: {
-        'main-content': 'calc(100vh - 4rem)',
-        'game-content': 'calc(100vh - 4rem - 2.5rem - 6rem)'
+        'main-content': 'calc(100vh - 3.875rem)',
+        'game-content': 'calc(100vh - 3.875rem - 2.5rem - 6rem)'
       },
       minHeight: {
-        content: 'calc(100vh - 4rem - 2.5rem)'
+        content: 'calc(100vh - 3.875rem - 2.5rem)'
       },
       maxHeight: {
-        content: 'calc(100vh - 4rem - 2.5rem)'
+        content: 'calc(100vh - 3.875rem - 2.5rem)'
       },
       transformOrigin: {
         normal: '0 1rem 0',
         large: '0 1.125rem 0'
+      },
+      transitionTimingFunction: {
+        'rank-icon': 'cubic-bezier(0.445, 0.05, 0.55, 0.95)'
       }
     },
     colors: {

@@ -58,3 +58,9 @@ declare interface IUserItem {
   }
   totalGames: number
 }
+
+declare interface IGameItem {
+  id: string
+  name: string
+  thumbnail: string
+}

@@ -10,17 +10,31 @@ const gameLogSeeder = async (games: Game[], stacks: Stack[], accounts: AccountWi
 
   const gameLogsData = await gameLogFactory(games, stacks, accounts)
 
-  await Promise.all(
-    gameLogsData.map(async gameLog => {
-      const newGameLog = await prisma.gameLog.create({
-        data: {
-          archievedPoints: gameLog.archievedPoints,
-          user: {
-            connect: {
-              id: gameLog.account.user.id
-            }
+  for (const gameLog of gameLogsData) {
+    const existingGameLogs = await prisma.gameLog.findFirst({
+      where: {
+        userId: gameLog.account.user.id,
+        gameStack: {
+          game: {
+            id: gameLog.game.id
           },
-          gameStack: {
+          stack: {
+            id: gameLog.stack.id
+          }
+        }
+      }
+    })
+
+    const newGameLog = await prisma.gameLog.upsert({
+      create: {
+        archievedPoints: gameLog.archievedPoints,
+        user: {
+          connect: {
+            id: gameLog.account.user.id
+          }
+        },
+        gameStack: {
+          connectOrCreate: {
             create: {
               game: {
                 connect: {
@@ -32,14 +46,56 @@ const gameLogSeeder = async (games: Game[], stacks: Stack[], accounts: AccountWi
                   id: gameLog.stack.id
                 }
               }
+            },
+            where: {
+              gameId_stackId: {
+                gameId: gameLog.game.id,
+                stackId: gameLog.stack.id
+              }
             }
           }
         }
-      })
-
-      gameLogs.push(newGameLog)
+      },
+      update: {
+        archievedPoints: gameLog.archievedPoints,
+        user: {
+          connect: {
+            id: gameLog.account.user.id
+          }
+        },
+        gameStack: {
+          connectOrCreate: {
+            create: {
+              game: {
+                connect: {
+                  id: gameLog.game.id
+                }
+              },
+              stack: {
+                connect: {
+                  id: gameLog.stack.id
+                }
+              }
+            },
+            where: {
+              gameId_stackId: {
+                gameId: gameLog.game.id,
+                stackId: gameLog.stack.id
+              }
+            }
+          }
+        }
+      },
+      where: {
+        gameStackId_userId: {
+          gameStackId: existingGameLogs?.gameStackId ?? '',
+          userId: gameLog.account.user.id
+        }
+      }
     })
-  )
+
+    gameLogs.push(newGameLog)
+  }
 
   return gameLogs
 }

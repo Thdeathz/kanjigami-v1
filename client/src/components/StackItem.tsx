@@ -6,10 +6,10 @@ import { useNavigate } from 'react-router-dom'
 
 import IconWrapper from '~/components/IconWrapper'
 import { gridList } from '~/config/variants'
+import { useFollowStackMutation } from '~/features/kanji/store/kanjiService'
 import useAuth from '~/hooks/useAuth'
 
 import Image from './Image'
-import { useFollowStackMutation } from '~/features/kanji/store/kanjiService'
 
 type PropsType = {
   stack: IStack

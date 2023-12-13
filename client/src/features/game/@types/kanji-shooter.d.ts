@@ -1,3 +1,15 @@
+declare interface IKanjiShooterContent {
+  id: string
+  kanji: string
+  kakikata: string
+}
+
+declare interface IKanjiShooterCalculateScore {
+  sessionId: string
+  userId: string
+  score: number
+}
+
 declare interface IGame {
   id: string
   name: string
@@ -37,7 +49,6 @@ declare interface IEnemy {
   speed?: number
   damage: number
   framesHold?: number
-  keyword: string
   id: number
   scale?: number
   maxLives?: number

@@ -3,7 +3,6 @@ import { BsStack } from 'react-icons/bs'
 import { Navigate, useParams } from 'react-router-dom'
 import { useDocumentTitle } from 'usehooks-ts'
 
-import Button from '~/components/Button'
 import DefaultLayout from '~/components/Layouts/DefaultLayout'
 import Loading from '~/components/Loading'
 import PageHeader from '~/components/PageHeader'
@@ -13,9 +12,9 @@ import RootNotification from '~/components/RootNotification'
 import EventLeaderboards from '../battle/components/LeaderList/EventLeaderboards'
 
 import GamesList from './components/GamesList'
+import KanjiModal from './components/KanjiModal'
 import SearchKanji from './components/SearchKanji'
 import { useGetStackDetailQuery } from './store/kanjiService'
-import KanjiModal from './components/KanjiModal'
 
 function StackDetail() {
   const { id: stackId } = useParams()

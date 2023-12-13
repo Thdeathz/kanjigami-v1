@@ -209,6 +209,107 @@ input {
   }
 }
 
+/* BATTLE LIGHT ANIMATE */
+.battle-lights-container {
+  position: relative;
+  pointer-events: none;
+}
+
+.battle-lights {
+  position: absolute;
+  top: -10.5rem;
+  bottom: 0;
+  width: 400px;
+  opacity: 0.75;
+}
+
+.battle-lights-container--finished .battle-lights {
+  opacity: 1;
+}
+
+.battle-lights--left {
+  left: -500px;
+  transform: scaleX(-1);
+}
+
+.battle-lights--right {
+  right: -500px;
+}
+
+.battle-lights:after,
+.battle-lights:before {
+  --clr-1: #82ff37;
+  --clr-2: rgba(255, 223, 0, 0);
+
+  background: radial-gradient(64.96% 73.28% at 0% 50%, var(--clr-1) 0%, var(--clr-2) 100%);
+}
+
+.battle-lights-container--finished .battle-lights:after,
+.battle-lights-container--finished .battle-lights:before {
+  --clr-1: rgb(232, 67, 67);
+  --clr-2: rgba(255, 223, 0, 0);
+}
+
+.battle-lights-container--upcoming .battle-lights:after,
+.battle-lights-container--upcoming .battle-lights:before {
+  --clr-1: rgb(95, 95, 255);
+  --clr-2: rgba(255, 223, 0, 0);
+}
+
+.battle-lights:after,
+.battle-lights:before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  top: 50%;
+  border-radius: 50%;
+  transform-origin: left center;
+  animation-name: lights-rotate;
+  animation-duration: 2s;
+  animation-direction: alternate;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.battle-lights--1:after {
+  filter: blur(20px);
+  opacity: 0.15;
+  height: 140px;
+  animation-delay: 0.05;
+}
+
+.battle-lights--1:before {
+  filter: blur(20px);
+  opacity: 0.15;
+  height: 66px;
+  animation-delay: 0.1;
+}
+
+.battle-lights--2:after {
+  filter: blur(12px);
+  opacity: 0.5;
+  height: 60px;
+  width: 200px;
+  animation-delay: 0.15;
+}
+
+.battle-lights--2:before {
+  filter: blur(4px);
+  opacity: 0.5;
+  height: 16px;
+  width: 80px;
+  animation-delay: 0.2;
+}
+
+@keyframes lights-rotate {
+  0% {
+    transform: translateY(-50%) rotate(145deg);
+  }
+  100% {
+    transform: translateY(-50%) rotate(75deg);
+  }
+}
+
 /* CARDS LIST HOVER ANIMATE */
 .card-item {
   transition:
@@ -336,4 +437,17 @@ input {
 .card-front.pre-hidden > div,
 .card-back.pre-hidden > div {
   transform: translateX(-3px) !important;
+}
+
+/* RANK WIDGET */
+.rank-widget {
+  --rank-widget-clr-1: #b6c0c9;
+  --rank-widget-clr-2: #cbd1d8;
+  --rank-bar-clr: #b6c0c9;
+}
+
+body.dark .rank-widget {
+  --rank-widget-clr-1: #2c353e;
+  --rank-widget-clr-2: #20262c;
+  --rank-bar-clr: #39434c;
 }

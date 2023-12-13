@@ -16,6 +16,7 @@ export declare interface FullCreateStackReq extends CreateStackReq {
     kanji: string
     kunyomi: string
     onyomi: string
+    kakikata: string
     meaning: string
     imageUrl: string[] | null
   }[]

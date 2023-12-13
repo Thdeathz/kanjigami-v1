@@ -1,5 +1,4 @@
-export interface FlipCardGameContent {
+export interface IKanji {
+  id: string
   kanji: string
-  kunyomi: string
-  image: string
 }

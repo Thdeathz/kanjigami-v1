@@ -9,6 +9,8 @@ import IconWrapper from '~/components/IconWrapper'
 import Image from '~/components/Image'
 import useAuth from '~/hooks/useAuth'
 
+import RankIconWidget from '../RankIconWidget'
+
 import Breadcrumb, { BreadcrumbItem } from './Breadcrumb'
 import ThemeButton from './ThemeButton'
 import UserButton from './UserButton'
@@ -22,11 +24,11 @@ type PropsType = {
 
 function Header({ breadcrumbs, hiddenSideBar = false, isSideBarOpen, setIsSideBarOpen }: PropsType) {
   const navigate = useNavigate()
-  const { email } = useAuth()
+  const { isUser, isAdmin } = useAuth()
 
   return (
     <div className="sticky top-0 z-50 flex w-full items-center justify-between bg-gradient-to-r from-header-light-start from-50% to-header-end px-6 py-3 backdrop-blur-lg dark:from-rgb-gray-0">
-      <div className="flex-center gap-8">
+      <div className="flex w-full items-center justify-start gap-8">
         {hiddenSideBar && setIsSideBarOpen && (
           <Button className="flex-center aspect-square" onClick={() => setIsSideBarOpen(prev => !prev)}>
             <IconWrapper
@@ -44,16 +46,18 @@ function Header({ breadcrumbs, hiddenSideBar = false, isSideBarOpen, setIsSideBa
         {breadcrumbs && <Breadcrumb items={breadcrumbs} />}
       </div>
 
-      <div className="flex-center gap-4">
+      <div className="translate-x-[6.2145rem]">{!hiddenSideBar && isUser && <RankIconWidget />}</div>
+
+      <div className="flex w-full items-center justify-end gap-4">
         <ThemeButton />
 
-        {email && (
+        {isUser && (
           <Button className="flex-center aspect-square">
             <IconWrapper icon={<BsBellFill />} className="text-text-primary text-xl" />
           </Button>
         )}
 
-        {email ? <UserButton /> : <Button onClick={() => navigate('/login')}>Sign In / Sign Up</Button>}
+        {isUser || isAdmin ? <UserButton /> : <Button onClick={() => navigate('/login')}>Sign In / Sign Up</Button>}
       </div>
     </div>
   )

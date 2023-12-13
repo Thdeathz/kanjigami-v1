@@ -59,7 +59,7 @@ function BattleInfo({ status, battle, className }: PropsType) {
 
         <div className="my-2 flex items-end justify-start gap-2 font-medium opacity-70">
           <span className="text-text-secondary-light dark:text-text-secondary-dark">{countDownTitle}</span>{' '}
-          <CountDown endTime={battle.startTime} />
+          {status === onlineBattleStatus.UPCOMING && <CountDown endTime={battle.startTime} />}
         </div>
 
         <div className="flex items-center justify-start gap-2">

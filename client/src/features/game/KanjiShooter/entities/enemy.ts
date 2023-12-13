@@ -1,5 +1,3 @@
-import { randomString } from '../../utils/randomString'
-
 import Game from './game'
 import Sprite from './sprite'
 
@@ -16,7 +14,7 @@ class Enemy extends Sprite {
 
   speed: number
 
-  keyword: string
+  keyword: IKanjiShooterContent | null
 
   lives: number
 
@@ -26,18 +24,7 @@ class Enemy extends Sprite {
 
   maxLives: number
 
-  constructor({
-    game,
-    sprites,
-    radius,
-    speed = 0.5,
-    damage,
-    framesHold,
-    keyword,
-    id,
-    scale = 1,
-    maxLives = 1
-  }: IEnemy & { game: Game }) {
+  constructor({ game, sprites, radius, speed = 0.5, damage, framesHold, id, scale = 1 }: IEnemy & { game: Game }) {
     super({
       position: { x: 0, y: 0 },
       radius,
@@ -57,11 +44,11 @@ class Enemy extends Sprite {
     }
     this.color = 'white'
     this.speed = speed
-    this.keyword = keyword
-    this.lives = keyword.length
+    this.keyword = null
+    this.lives = 1
     this.free = true
     this.angle = 0
-    this.maxLives = maxLives
+    this.maxLives = 1
     // this.audios = {
     //   hit: new Audio('../assets/audio/hit.ogg'),
     //   death: new Audio('../assets/audio/explosion_small.ogg')
@@ -71,26 +58,27 @@ class Enemy extends Sprite {
   start() {
     this.free = false
 
+    this.getKeyWord()
+
     this.randomSpawn()
   }
 
   reset() {
     this.free = true
+    this.keyword = null
     this.swapState('idle')
     this.framesElapsed = 0
 
     this.color = 'white'
-    const newKeyword = randomString(this.maxLives, this.maxLives)
-    this.lives = newKeyword.length
-    this.keyword = newKeyword
+    this.lives = 1
   }
 
   visibile(ctx: CanvasRenderingContext2D) {
-    if (!this.free) {
+    if (!this.free && this.keyword) {
       this.draw(ctx)
       ctx.save()
       ctx.fillStyle = this.color
-      ctx.fillText(this.keyword, this.position.x, this.position.y)
+      ctx.fillText(this.keyword.kakikata, this.position.x, this.position.y)
       ctx.restore()
     }
   }
@@ -106,7 +94,7 @@ class Enemy extends Sprite {
   }
 
   update() {
-    if (!this.free) this.collisionLogic()
+    if (!this.free && this.keyword) this.collisionLogic()
 
     // check if enemy is dead show animation
     if (this.lives < 1) {
@@ -122,15 +110,9 @@ class Enemy extends Sprite {
     this.position.x += this.velocity.x
     this.position.y += this.velocity.y
 
-    if (this.game.focusEnemy && this.id === this.game.focusEnemy.id && this.keyword.length <= 0) {
-      this.game.focusEnemy = null
-    }
-
     // check collision enemy / planet
     if (this.game.checkCollision(this, this.game.planet)) {
-      if (this.game.focusEnemy) this.game.focusEnemy = null
-      this.keyword = ''
-      this.hit(1000)
+      this.hit(100)
     }
 
     // check collision enemy / projectile
@@ -138,7 +120,7 @@ class Enemy extends Sprite {
       if (!projectile.free && this.game.checkCollision(this, projectile) && this.id === projectile.targetId) {
         projectile.reset()
         this.hit(1)
-        this.game.userScore += 100
+        this.game.userScore += 16
       }
     })
   }
@@ -163,6 +145,13 @@ class Enemy extends Sprite {
       x: Math.cos(angle) * this.speed,
       y: Math.sin(angle) * this.speed
     }
+  }
+
+  getKeyWord() {
+    const randomIndex = Math.floor(Math.random() * this.game.kanjiPool.length)
+    const keyword = this.game.kanjiPool.splice(randomIndex, 1)[0]
+
+    this.keyword = keyword
   }
 }
 

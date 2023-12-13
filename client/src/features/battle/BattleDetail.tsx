@@ -65,13 +65,19 @@ function BattleDetail() {
         }
       ]}
     >
-      <PageHeader title={battle.title} subtitle={battle.description} className="mb-12">
-        <div className="flex-center gap-2">
-          <Tag type={battle.status} />
-          <Tag title={battle.tags} />
-          {!!battle.totalJoinedUsers && <Tag title={`${battle.totalJoinedUsers} PLAYERS`} />}
-        </div>
-
+      <PageHeader
+        className="mb-12"
+        title={battle.title}
+        subtitle={battle.description}
+        showLights={battle.status}
+        tags={
+          <>
+            <Tag type={battle.status} />
+            <Tag title={battle.tags} />
+            {!!battle.totalJoinedUsers && <Tag title={`${battle.totalJoinedUsers} PLAYERS`} />}
+          </>
+        }
+      >
         <div className="flex-center gap-2">
           <CustomDivider className="my-1" />
           <div className="whitespace-nowrap rounded-full bg-clr-border-1-light px-3 py-0.5 text-sm uppercase text-footer-light-text dark:bg-clr-border-1-dark">

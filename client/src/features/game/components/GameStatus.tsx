@@ -1,71 +1,50 @@
 import classNames from 'classnames'
-import React, { useState } from 'react'
-import { GiHearts } from 'react-icons/gi'
+import React from 'react'
 
-import IconWrapper from '~/components/IconWrapper'
 import CountDown from '~/features/battle/components/CountDown'
 
 type GameStatusWrapperPropsType = {
   position: string
-  isShowFull: boolean
-  setIsShowFull: React.Dispatch<React.SetStateAction<boolean>>
   children: React.ReactNode
 }
 
-function getGmaeStatusWrapperClassName(position: string, isShowFull: boolean) {
+function getGmaeStatusWrapperClassName(position: string) {
   return classNames(
     'flex-center absolute right-0 z-[3] h-[3rem] cursor-pointer rounded-s-full bg-gradient-to-br from-side-bar-start from-0% to-side-bar-end to-85% px-4 text-clr-link-light shadow-button backdrop-blur-[5px] transition-transform duration-200 dark:from-rgb-gray-1 dark:to-rgb-gray-0.7 dark:text-clr-link-dark',
-    position,
-    {
-      'translate-x-[75%]': !isShowFull
-    }
+    position
   )
 }
 
-function GameStatusWrapper({ position, isShowFull, setIsShowFull, children }: GameStatusWrapperPropsType) {
-  const gameStatusWrapperClassName = getGmaeStatusWrapperClassName(position, isShowFull)
+function GameStatusWrapper({ position, children }: GameStatusWrapperPropsType) {
+  const gameStatusWrapperClassName = getGmaeStatusWrapperClassName(position)
 
   return (
-    <button type="button" className={gameStatusWrapperClassName} onClick={() => setIsShowFull(prev => !prev)}>
+    <button type="button" className={gameStatusWrapperClassName}>
       {children}
     </button>
   )
 }
 
 type PropsType = {
-  status: GameStatusType
+  time?: string
+  score: number
+  maxScore: number
+  onTimeOut: () => void
 }
 
-function GameStatus({ status }: PropsType) {
-  const [isShowFullLeftLive, setIsShowFullLeftLive] = useState<boolean>(true)
-  const [isShowFullPoint, setIsShowFullPoint] = useState<boolean>(false)
-  const [isShowFullTime, setIsShowFullTime] = useState<boolean>(false)
-
+function GameStatus({ score, maxScore, time, onTimeOut }: PropsType) {
   return (
     <>
-      <GameStatusWrapper position="top-12" isShowFull setIsShowFull={setIsShowFullTime}>
-        <CountDown endTime={status.time} />
-      </GameStatusWrapper>
+      {time && (
+        <GameStatusWrapper position="top-12">
+          <CountDown endTime={time} onFinish={onTimeOut} />
+        </GameStatusWrapper>
+      )}
 
-      <GameStatusWrapper position="top-28" isShowFull={isShowFullLeftLive} setIsShowFull={setIsShowFullLeftLive}>
-        <div className="flex-center gap-2">
-          <div className="relative">
-            <IconWrapper icon={<GiHearts />} className="text-3xl text-red-light" />
-
-            {!isShowFullLeftLive && (
-              <p className="absolute left-1.5 top-1 select-none text-sm font-semibold text-white">x{status.life}</p>
-            )}
-          </div>
-
-          {status.life > 1 &&
-            Array.from(Array(status.life - 1).keys()).map(each => (
-              <IconWrapper key={`left-live-${each}`} icon={<GiHearts />} className="text-3xl text-red-light" />
-            ))}
-        </div>
-      </GameStatusWrapper>
-
-      <GameStatusWrapper position="top-44" isShowFull setIsShowFull={setIsShowFullPoint}>
-        <p className="select-none text-lg font-semibold">{status.score}/12</p>
+      <GameStatusWrapper position="top-28">
+        <p className="select-none text-lg font-semibold">
+          {score}/{maxScore}
+        </p>
       </GameStatusWrapper>
     </>
   )

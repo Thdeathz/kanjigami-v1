@@ -72,7 +72,7 @@ const decodeAccessToken = async (accessToken: string): Promise<AccessTokenPayloa
     jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET as string, async (err, decoded) => {
       const userData = decoded as AccessTokenPayload | undefined
       if (err || !userData || !userData.UserInfo)
-        return reject(new HttpError(401, 'Unauthorized/InvalidAccessToken'))
+        return reject(new HttpError(403, 'Unauthorized/InvalidAccessToken'))
 
       resolve(userData)
     })

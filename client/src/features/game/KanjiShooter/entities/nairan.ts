@@ -1,5 +1,3 @@
-import { randomString } from '../../utils/randomString'
-
 import Enemy from './enemy'
 import Game from './game'
 
@@ -11,9 +9,8 @@ class Nairan extends Enemy {
       radius: 35,
       damage: 1,
       scale: 1.2,
-      speed: 0.3,
+      speed: 0.1,
       framesHold: 11,
-      keyword: randomString(2, 2),
       sprites: {
         idle: [
           {
@@ -68,23 +65,15 @@ class Nairan extends Enemy {
           }
         ]
       },
-      maxLives: 2
+      maxLives: 1
     })
-  }
-
-  visibile(ctx: CanvasRenderingContext2D) {
-    if (!this.free) {
-      this.draw(ctx)
-      ctx.fillStyle = this.color
-      ctx.save()
-      ctx.fillText(this.keyword, this.position.x, this.position.y)
-      ctx.restore()
-    }
   }
 
   start() {
     this.free = false
     this.swapState('shield')
+
+    this.getKeyWord()
 
     this.randomSpawn()
   }
@@ -104,7 +93,7 @@ class Nairan extends Enemy {
   }
 
   update() {
-    if (!this.free) this.collisionLogic()
+    if (!this.free && this.keyword) this.collisionLogic()
 
     if (this.currentState === 'shield') {
       this.animateFrames(this.sprites.shield)

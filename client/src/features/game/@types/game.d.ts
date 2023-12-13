@@ -1,19 +1,10 @@
-declare interface IFlipCardGameContent {
-  id: string
-  kanji: string
-  kunyomi: string
-  image: string
+declare interface GameData<T> {
+  gameContent: T
+  time: number
+  score: number
 }
 
-declare interface ImageContent {
-  type: 'image'
-  id: string
-  image: string
-  kunyomi: string
-}
-
-declare interface KanjiContent {
-  type: 'kanji'
-  id: string
-  kanji: string
+declare interface GameLog {
+  archievedPoints: number
+  rank: number
 }

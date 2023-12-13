@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { useToggle } from 'usehooks-ts'
 
 import Button from '~/components/Button'
+
 import Modal from './Modal'
 
 type PropsType = {
@@ -8,13 +10,13 @@ type PropsType = {
   kanji: string
 }
 
-const KanjiModal = ({ id, kanji }: PropsType) => {
-  const [isOpen, setIsOpen] = useState(false)
+function KanjiModal({ id, kanji }: PropsType) {
+  const [value, toggle, setValue] = useToggle()
 
   return (
     <>
-      <Button onClick={() => setIsOpen(true)}>{kanji}</Button>
-      {isOpen && <Modal kanjiId={id} isOpen={isOpen} setIsOpen={setIsOpen} />}
+      <Button onClick={toggle}>{kanji}</Button>
+      {value && <Modal kanjiId={id} isOpen={value} setIsOpen={setValue} />}
     </>
   )
 }

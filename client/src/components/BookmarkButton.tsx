@@ -1,4 +1,5 @@
 import React from 'react'
+
 import SVGMorph from './SvgMorph'
 
 const shape1 = 'm0,0h53v178H0V0Z'
@@ -23,7 +24,7 @@ const intermediateCornerPath4 =
 const finalCornerPath =
   'M10 30C10 30 17.8758 23.5 18 23.5C18.1242 23.5 26 30 26 30C26 30 26 23.5 26 23H10C10 24.5 10 30 10 30Z'
 
-const BookmarkButton = () => {
+function BookmarkButton() {
   const [followed, setFollowed] = React.useState(true)
 
   return (

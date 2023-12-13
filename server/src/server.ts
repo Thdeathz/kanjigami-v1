@@ -8,9 +8,14 @@ import path from 'path'
 import cookieParser from 'cookie-parser'
 import admin from 'firebase-admin'
 
+import app from '~/servers/init.express'
+import io from './servers/init.socket'
+import transporter from '~/servers/init.mailer'
+
 import corsOptions from '~/config/corsOptions'
-import serviceAccount from './config/firebase'
-import { transporter } from './config/mailTransporter'
+import serviceAccount from '~/config/firebase'
+
+import socketEvent from './api/socket/socket'
 import errorHandler from '~/api/middleware/errorHandler'
 import rootRoute from '~/api/routes/root.route'
 import notFoundRoute from '~/api/routes/404.route'
@@ -21,10 +26,9 @@ import stackRoutes from '~/api/routes/stack.route'
 import passwordRoutes from '~/api/routes/password.route'
 import gameRoutes from '~/api/routes/game.route'
 import kanjiRoutes from '~/api/routes/kanji.route'
+import gameLogRoutes from '~/api/routes/game-log.route'
 
 dotenv.config()
-const app = express()
-const PORT: string | 3500 = process.env.PORT || 3500
 
 console.log(process.env.NODE_ENV)
 
@@ -53,6 +57,7 @@ app.use('/api/events', eventRoutes)
 app.use('/api/stacks', stackRoutes)
 app.use('/api/kanjis', kanjiRoutes)
 app.use('/api/games', gameRoutes)
+app.use('/api/game-log', gameLogRoutes)
 app.use('/api/user', userRoutes)
 app.use('*', notFoundRoute)
 
@@ -67,6 +72,4 @@ transporter.verify((error, success) => {
   }
 })
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server is running on port ${PORT}`)
-})
+io.on('connection', socketEvent)

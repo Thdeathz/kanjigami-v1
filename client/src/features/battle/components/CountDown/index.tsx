@@ -1,8 +1,8 @@
 import React, { useRef, useState } from 'react'
 import { useEffectOnce } from 'usehooks-ts'
 
+import Loading from '~/components/Loading'
 import { getDateDifference } from '~/utils/countDown'
-import { convertToUserTimeZone } from '~/utils/timezone'
 
 import TimeItem from './TimeItem'
 
@@ -11,7 +11,7 @@ type PropsType = {
   type?: 'animate' | 'normal'
   maxLength?: number
   onFinish?: () => void
-  endTime: Date
+  endTime: Date | string
 }
 
 function CountDown({ size = 'normal', maxLength = 4, type = 'normal', endTime, onFinish }: PropsType) {
@@ -20,7 +20,7 @@ function CountDown({ size = 'normal', maxLength = 4, type = 'normal', endTime, o
 
   const update = () => {
     const now = new Date()
-    const countTo = convertToUserTimeZone(endTime)
+    const countTo = new Date(endTime)
     if (now > countTo) {
       clearInterval(intervalRef.current)
 
@@ -61,6 +61,8 @@ function CountDown({ size = 'normal', maxLength = 4, type = 'normal', endTime, o
   const isShowMinutes = (isShowHours || remaining?.minutes) && remaining.minutes !== undefined
   const isShowSecondes = (isShowMinutes || remaining?.seconds) && remaining.seconds !== undefined
 
+  if (!isShowDays && !isShowHours && !isShowMinutes && !isShowSecondes) return <Loading />
+
   return (
     <div className="flex-center gap-1">
       {isShowDays && (
@@ -95,7 +97,7 @@ function CountDown({ size = 'normal', maxLength = 4, type = 'normal', endTime, o
 
       {isShowSecondes && (
         <TimeItem
-          value={remaining?.seconds ?? 0}
+          value={remaining.seconds}
           size={size}
           label={type === 'animate' ? 'seconds' : 's'}
           isHiddenSeparator
