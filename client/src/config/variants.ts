@@ -105,3 +105,30 @@ export const panelVariants = {
     }
   }
 }
+
+export const cardList = {
+  container: {
+    hidden: { opacity: 0 },
+    enter: {
+      opacity: 1,
+      transition: {
+        delayChildren: 0.1,
+        staggerChildren: 0.1
+      }
+    }
+  },
+  item: {
+    hidden: { y: -10, opacity: 0 },
+    enter: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.05
+      }
+    },
+    exit: {
+      y: 10,
+      opacity: 0
+    }
+  }
+}

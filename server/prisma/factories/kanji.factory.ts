@@ -1,11 +1,13 @@
 import { faker, fakerJA } from '@faker-js/faker'
 import Kuroshiro from 'kuroshiro'
 import KuromojiAnalyzer from 'kuroshiro-analyzer-kuromoji'
+import wanakana from 'wanakana'
 
 export type KanjiFactory = {
   kanji: string
   hiragana: string
   romanji: string
+  kakikata: string
   meaning: string
   image: string
   vocabulary: {
@@ -29,11 +31,13 @@ export const kanjiFactory = async (number: number) => {
       const kanji = fakerJA.person.firstName()
       const hiragana = await kuroshiro.convert(kanji, { to: 'hiragana' })
       const romanji = await kuroshiro.convert(kanji, { to: 'romaji' })
+      const kakikata = wanakana.toRomaji(hiragana)
 
       kanjis.push({
         kanji,
         hiragana,
         romanji,
+        kakikata,
         meaning: faker.lorem.sentence(),
         image: faker.image.url(),
         vocabulary: {

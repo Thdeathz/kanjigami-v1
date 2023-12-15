@@ -1,5 +1,3 @@
-import { randomString } from '../../utils/randomString'
-
 import Enemy from './enemy'
 import Game from './game'
 
@@ -11,9 +9,8 @@ class Asteroid extends Enemy {
       radius: 18,
       damage: 1,
       scale: 1.2,
-      speed: 0.6,
+      speed: 0.3,
       framesHold: 6,
-      keyword: randomString(1, 1),
       sprites: {
         idle: [
           {

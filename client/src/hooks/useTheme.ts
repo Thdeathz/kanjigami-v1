@@ -15,7 +15,7 @@ const useTheme = () => {
     }
   }, [theme])
 
-  return { theme, setTheme }
+  return { isDarkMode: theme === 'dark', theme, setTheme }
 }
 
 export default useTheme

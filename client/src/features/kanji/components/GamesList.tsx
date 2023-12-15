@@ -8,17 +8,17 @@ import Image from '~/components/Image'
 import Loading from '~/components/Loading'
 import Panel from '~/components/Panel'
 
-import { useGetAllGamesQuery } from '../store/kanjiService'
+import { useGetAllStackGamesQuery } from '../store/kanjiService'
 
 type GameItemPropsType = {
   name: string
   onClick?: MouseEventHandler<HTMLDivElement>
   thumbnail: string
+  score?: number
   className?: string
-  isShowHiScore?: boolean
 }
 
-function GameItem({ name, onClick, thumbnail, className, isShowHiScore = true }: GameItemPropsType) {
+function GameItem({ name, onClick, thumbnail, score, className }: GameItemPropsType) {
   return (
     <div className={`basis-1/4 ${className}`}>
       <p className="mx-auto mb-4 w-min whitespace-nowrap rounded-md bg-gradient-to-tr from-filter-start-light to-filter-end-light p-1.5 font-medium uppercase dark:from-filter-start-dark dark:to-filter-end-dark">
@@ -33,20 +33,22 @@ function GameItem({ name, onClick, thumbnail, className, isShowHiScore = true }:
           <Image src={thumbnail} alt="round-game" className="h-full w-full rounded-lg object-cover object-top" />
         </div>
 
-        {isShowHiScore && (
-          <div className="flex items-center justify-between p-2">
-            <div>
-              <p className="text-lg font-medium text-text-secondary-light dark:text-text-secondary-dark">
-                Your hi-score
+        <div className="flex items-center justify-between p-2">
+          <div>
+            <p className="text-lg font-medium text-text-secondary-light dark:text-text-secondary-dark">Your hi-score</p>
+            {score ? (
+              <p className="text-base font-medium text-profile-avatar-outline-light dark:text-profile-avatar-outline-dark">
+                {score}
               </p>
+            ) : (
               <p className="text-base font-medium">Not played</p>
-            </div>
-
-            <Button type="primary" className="flex-center aspect-square">
-              <IconWrapper icon={<BsFillPlayFill />} className="text-2xl text-white" />
-            </Button>
+            )}
           </div>
-        )}
+
+          <Button type="primary" className="flex-center aspect-square">
+            <IconWrapper icon={<BsFillPlayFill />} className="text-2xl text-white" />
+          </Button>
+        </div>
       </div>
     </div>
   )
@@ -59,7 +61,7 @@ type PropsType = {
 function GamesList({ stackId }: PropsType) {
   const navigate = useNavigate()
 
-  const { data: games, isLoading } = useGetAllGamesQuery(undefined)
+  const { data: games, isLoading } = useGetAllStackGamesQuery(stackId)
 
   if (isLoading || !games)
     return (
@@ -76,25 +78,10 @@ function GamesList({ stackId }: PropsType) {
             key={`game-item-${each.id}`}
             name={each.name}
             thumbnail={each.thumbnail}
-            onClick={() => navigate(`/play/${stackId}/${each.name.toLowerCase().replace(/\s/g, '-')}`)}
+            score={each.currentUserScore}
+            onClick={() => navigate(`/play/${stackId}/${each.id}`)}
           />
         ))}
-
-        {/* <GameItem name="MULTIPLE CHOOSE" thumbnail={MultipleChoiceThumbnail} />
-
-        <GameItem
-          name="KANJI SHOOTER"
-          thumbnail={KanjiShooterThumbnail}
-          onClick={() => navigate('/play/1/kanji-shooter')}
-        />
-
-        <GameItem name="FLIP CARD" thumbnail={FlipCardThumbnail} />
-
-        <GameItem
-          name="FLIP BLIND CARD"
-          thumbnail={FlipBlindCardThumbnail}
-          onClick={() => navigate('/play/1/blind-card')}
-        /> */}
       </div>
     </Panel>
   )

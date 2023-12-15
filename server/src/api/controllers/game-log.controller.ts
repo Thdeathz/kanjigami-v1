@@ -4,20 +4,6 @@ import { CreateUpdateGameLogReq } from '../@types/game-log'
 import gameLogService from '../services/game-log.service'
 
 /**
- * @desc Get all game logs
- * @route GET /api/gamelogs
- * @access Public
- */
-export const getAllGameLog: RequestHandler = async (req, res) => {
-  const gameLog = await gameLogService.getAllGameLog()
-
-  res.status(200).json({
-    message: 'Get all game logs successfully',
-    data: gameLog
-  })
-}
-
-/**
  * @desc Create a game log
  * @route POST /api/gamelogs
  * @access Private
@@ -49,6 +35,19 @@ export const updateGameLog: RequestHandler = async (req, res) => {
 
   res.status(200).json({
     message: 'Update game log successfully',
+    data: gameLog
+  })
+}
+
+export const getGameLogDetail: RequestHandler = async (req, res) => {
+  const { gameStackId } = req.params
+  const currentUser = (req as any).currentUser
+  const userId = currentUser.id
+
+  const gameLog = await gameLogService.getGameLogDetail(userId, gameStackId)
+
+  res.status(200).json({
+    message: 'Get game log detail successfully',
     data: gameLog
   })
 }

@@ -87,6 +87,7 @@ model Kanji {
   kanji        String
   kunyomi      String
   onyomi       String
+  kakikata     String
   meaning      String
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
@@ -144,6 +145,8 @@ model GameStack {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   gameLogs  GameLog[] // relation to GameLog
+
+  @@unique([gameId, stackId])
 }
 
 model Game {

@@ -1,5 +1,6 @@
 import dotenv from 'dotenv'
-import { transporter } from '~/config/mailTransporter'
+
+import transporter from '~/servers/init.mailer'
 
 dotenv.config()
 

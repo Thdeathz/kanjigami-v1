@@ -22,7 +22,7 @@ function getSideBarClassNames(fixedSideBar: boolean, isSideBarOpen: boolean) {
   return classNames(
     'flex h-main-content flex-col items-start justify-start border-r border-clr-border-1-light bg-gradient-to-br from-side-bar-start from-0% to-side-bar-end to-85% backdrop-blur-[5px] dark:border-clr-border-1-dark dark:from-rgb-gray-1 dark:to-rgb-gray-0.7',
     {
-      'sticky top-16': fixedSideBar,
+      'sticky top-[3.875rem]': fixedSideBar,
       'absolute z-50 transition-transform duration-300': !fixedSideBar,
       'translate-x-0': isSideBarOpen,
       'translate-x-[-100%]': !isSideBarOpen

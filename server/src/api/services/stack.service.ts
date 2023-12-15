@@ -31,6 +31,7 @@ const createStack = async (stack: FullCreateStackReq) => {
             kanji: item.kanji,
             kunyomi: item.kunyomi,
             onyomi: item.onyomi,
+            kakikata: item.kakikata,
             meaning: item.meaning
           }))
         }

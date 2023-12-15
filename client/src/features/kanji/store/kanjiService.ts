@@ -2,8 +2,8 @@ import apiSlice from '~/app/api/apiSlice'
 
 export const kanjiService = apiSlice.injectEndpoints({
   endpoints: builder => ({
-    getAllGames: builder.query<IGame[], undefined>({
-      query: () => '/games',
+    getAllStackGames: builder.query<IGame[], string>({
+      query: stackId => `/games/stack/${stackId}`,
       transformResponse: (response: ApiResponse<IGame[]>) => response.data,
       providesTags: () => [{ type: 'Game', id: 'LIST' }]
     }),
@@ -65,7 +65,7 @@ export const kanjiService = apiSlice.injectEndpoints({
 })
 
 export const {
-  useGetAllGamesQuery,
+  useGetAllStackGamesQuery,
   useGetAllStacksQuery,
   useGetStackDetailQuery,
   useFollowStackMutation,

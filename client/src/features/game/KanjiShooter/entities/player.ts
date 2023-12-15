@@ -135,6 +135,7 @@ class Player extends Sprite {
   }
 
   hit(damage: number) {
+    if (this.game.userScore > 0) this.game.userScore -= 10
     this.game.health.lives -= damage
   }
 

@@ -1,6 +1,6 @@
-import { interpolate } from 'flubber'
+import { motion, animate, useMotionValue } from 'framer-motion'
 import React, { useState, useEffect, useCallback } from 'react'
-import { motion, animate, useMotionValue, useTransform } from 'framer-motion'
+
 import { useFlubber } from '~/hooks/useFlubber'
 
 type PropsType = {

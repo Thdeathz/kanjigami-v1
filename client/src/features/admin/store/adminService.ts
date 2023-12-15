@@ -29,6 +29,11 @@ export const adminService = apiSlice.injectEndpoints({
     getAllUsers: builder.query<ApiResponsePaginated<IUserItem[]>, number>({
       query: page => `/user?page=${page}`,
       providesTags: (result, error, page) => [{ type: 'User' as const, id: 'ADMIN' }]
+    }),
+    getAllGames: builder.query<IGameItem[], undefined>({
+      query: () => `/games`,
+      providesTags: (result, error, page) => [{ type: 'Game' as const, id: 'ADMIN' }],
+      transformResponse: (response: ApiResponse<IGameItem[]>) => response.data
     })
   })
 })
@@ -38,5 +43,6 @@ export const {
   useAddNewOnlineEventMutation,
   useGetAllEventsQuery,
   useGetStacksQuery,
-  useGetAllUsersQuery
+  useGetAllUsersQuery,
+  useGetAllGamesQuery
 } = adminService

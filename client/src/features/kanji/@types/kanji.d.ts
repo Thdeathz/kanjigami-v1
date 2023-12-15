@@ -34,6 +34,7 @@ declare interface IGame {
   id: string
   name: string
   thumbnail: string
+  currentUserScore?: number
 }
 
 declare interface IStackDetail {
@@ -67,7 +68,7 @@ declare interface IKanji {
 }
 
 type GameStatusType = {
-  life: number
+  life?: number
   time: Date
   score: number
 }

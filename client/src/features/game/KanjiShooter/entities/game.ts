@@ -1,5 +1,3 @@
-import type { Dispatch, SetStateAction } from 'react'
-
 import Asteroid from './asteroid'
 import Background from './background'
 import Enemy from './enemy'
@@ -39,9 +37,9 @@ class Game {
 
   numberOfProjectiles: number
 
-  focusEnemy: Enemy | null
+  kanjiPool: IKanjiShooterContent[]
 
-  constructor(canvas: HTMLCanvasElement) {
+  constructor(canvas: HTMLCanvasElement, kanjis: IKanjiShooterContent[], input: HTMLInputElement) {
     this.canvas = canvas
     this.width = canvas.width
     this.height = canvas.height
@@ -50,6 +48,7 @@ class Game {
     this.player = new Player(this)
     this.health = new Health(10)
     this.userScore = 0
+    this.kanjiPool = kanjis
 
     // init projectile pool
     this.projectilePool = []
@@ -63,62 +62,24 @@ class Game {
     this.enemyPool[0].start()
     this.enemyTimer = 0
     this.enemyInterval = 2000
-    this.focusEnemy = null
-
-    window.addEventListener('keydown', event => {
-      // if has focus enemy, shoot it
-      if (this.focusEnemy) {
-        if (event.key === this.focusEnemy.keyword[0]) {
-          this.player.shoot(this.focusEnemy)
-
-          this.focusEnemy.keyword = this.focusEnemy.keyword.slice(1)
-        }
-      } else {
-        // else shoot nearest enemy
-        const hasEnemy = this.enemyPool.filter(enemy => !enemy.free && event.key === enemy.keyword[0])
-
-        if (hasEnemy.length === 0) return
-
-        let nearestEnemy = null
-        if (hasEnemy.length > 1) {
-          nearestEnemy = hasEnemy.reduce((prev, curr) => {
-            const prevDistance = Math.hypot(
-              this.planet.position.x - prev.position.x,
-              this.planet.position.y - prev.position.y
-            )
-            const currDistance = Math.hypot(
-              this.planet.position.x - curr.position.x,
-              this.planet.position.y - curr.position.y
-            )
-
-            return prevDistance < currDistance ? prev : curr
-          })
-        } else {
-          nearestEnemy = hasEnemy[0]
-        }
-
-        this.focusEnemy = nearestEnemy
-        this.focusEnemy.color = 'red'
-        this.focusEnemy.keyword = this.focusEnemy.keyword.slice(1)
-        this.player.shoot(nearestEnemy)
-      }
-    })
   }
 
   render(
     ctx: CanvasRenderingContext2D,
     deltaTime: number,
     animationId: number,
-    setIsEnd: Dispatch<SetStateAction<boolean>>
+    sessionId: string,
+    userId: string,
+    handleCalculateScore: ({ sessionId, userId, score }: IKanjiShooterCalculateScore) => void
   ) {
     ctx.fillStyle = 'black'
     ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
 
-    if (this.health.lives <= 0) {
+    if (this.health.lives <= 0 || (this.kanjiPool.length === 0 && !this.checkExistEnemy())) {
       cancelAnimationFrame(animationId)
 
       setTimeout(() => {
-        setIsEnd(true)
+        handleCalculateScore({ sessionId, userId, score: this.userScore })
       }, 200)
     }
 
@@ -145,7 +106,7 @@ class Game {
     })
 
     // periodically spawn enemies
-    if (this.enemyTimer < this.enemyInterval) {
+    if (this.enemyTimer < this.enemyInterval || this.kanjiPool.length === 0) {
       this.enemyTimer += deltaTime
     } else {
       this.enemyTimer = 0
@@ -208,6 +169,10 @@ class Game {
     const distance = Math.hypot(dx, dy)
 
     return distance < object1.radius + object2.radius
+  }
+
+  checkExistEnemy() {
+    return this.enemyPool.filter(enemy => !enemy.free).length > 0
   }
 
   drawStatus(ctx: CanvasRenderingContext2D) {

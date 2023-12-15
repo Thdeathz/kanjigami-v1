@@ -26,6 +26,7 @@ const stackSeeder = async (topics: Topic[]): Promise<Stack[]> => {
               kanji: each.kanji,
               kunyomi: each.hiragana,
               onyomi: each.hiragana,
+              kakikata: each.kakikata,
               meaning: each.meaning,
               images: {
                 create: {

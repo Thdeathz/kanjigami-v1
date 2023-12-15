@@ -14,7 +14,7 @@ type PropsType = {
 function getButtonClassNames(type: string, disabled: boolean, className?: string) {
   return classNames(
     {
-      'h-10 whitespace-nowrap rounded-full px-4 font-semibold shadow-button transition-all duration-200 dark:bg-button-dark':
+      'h-[2.375rem] whitespace-nowrap rounded-full px-4 font-semibold shadow-button transition-all duration-200 dark:bg-button-dark':
         type !== 'link',
       'hover:translate-y-[-3px] active:scale-90': !disabled && type !== 'disabled',
       'bg-button-light text-button-light-text hover:bg-button-light-hover dark:text-button-dark-text dark:hover:bg-button-dark-hover':

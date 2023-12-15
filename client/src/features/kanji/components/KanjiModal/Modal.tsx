@@ -1,8 +1,9 @@
 import React from 'react'
 
 import CustomModal from '~/components/CustomModal'
-import { useGetKanjiDetailQuery } from '../../store/kanjiService'
 import Image from '~/components/Image'
+
+import { useGetKanjiDetailQuery } from '../../store/kanjiService'
 
 type PropsType = {
   kanjiId: string
@@ -15,7 +16,7 @@ type KanjiItemPropsType = {
   value: string
 }
 
-const KanjiItem = ({ title, value }: KanjiItemPropsType) => {
+function KanjiItem({ title, value }: KanjiItemPropsType) {
   return (
     <>
       <div
@@ -30,7 +31,7 @@ const KanjiItem = ({ title, value }: KanjiItemPropsType) => {
   )
 }
 
-const Modal = ({ kanjiId, isOpen, setIsOpen }: PropsType) => {
+function Modal({ kanjiId, isOpen, setIsOpen }: PropsType) {
   const { data: kanji, isLoading } = useGetKanjiDetailQuery(kanjiId)
 
   if (isLoading || !kanji) return <></>
