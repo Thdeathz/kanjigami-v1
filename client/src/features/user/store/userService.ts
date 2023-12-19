@@ -19,8 +19,24 @@ export const usersApiSlice = apiSlice.injectEndpoints({
           console.log(error)
         }
       }
+    }),
+    getAllTimeLeaderboards: builder.query<ITopUser[], { page: number; offset: number }>({
+      query: ({ page, offset }) => ({
+        url: `/game-log/leaderboards?page=${page}&offset=${offset}`,
+        method: 'GET'
+      }),
+      transformResponse: (response: ApiResponse<ITopUser[]>) => response.data,
+      providesTags: ['Leaderboards']
+    }),
+    getUserStats: builder.query<IUserStats, undefined>({
+      query: () => ({
+        url: '/user/stats',
+        method: 'GET'
+      }),
+      transformResponse: (response: ApiResponse<IUserStats>) => response.data,
+      providesTags: ['UserStats']
     })
   })
 })
 
-export const { useUpdateAvatarMutation } = usersApiSlice
+export const { useUpdateAvatarMutation, useGetAllTimeLeaderboardsQuery, useGetUserStatsQuery } = usersApiSlice

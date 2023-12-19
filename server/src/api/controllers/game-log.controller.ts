@@ -5,7 +5,7 @@ import gameLogService from '../services/game-log.service'
 
 /**
  * @desc Create a game log
- * @route POST /api/gamelogs
+ * @route POST /api/game-log
  * @access Private
  */
 export const createGameLog: RequestHandler = async (req, res) => {
@@ -23,7 +23,7 @@ export const createGameLog: RequestHandler = async (req, res) => {
 
 /**
  * @desc Update a game log
- * @route PUT /api/gamelogs
+ * @route PUT /api/game-log
  * @access Private
  */
 export const updateGameLog: RequestHandler = async (req, res) => {
@@ -39,6 +39,11 @@ export const updateGameLog: RequestHandler = async (req, res) => {
   })
 }
 
+/**
+ * @desc Get game log detail
+ * @route GET /api/game-log/:gameStackId
+ * @access Private
+ */
 export const getGameLogDetail: RequestHandler = async (req, res) => {
   const { gameStackId } = req.params
   const currentUser = (req as any).currentUser
@@ -49,5 +54,24 @@ export const getGameLogDetail: RequestHandler = async (req, res) => {
   res.status(200).json({
     message: 'Get game log detail successfully',
     data: gameLog
+  })
+}
+
+/**
+ * @desc Get all time leaderboards
+ * @route GET /api/game-log/leaderboards
+ * @access Public
+ */
+export const getAllTimeLeaderboards: RequestHandler = async (req, res) => {
+  const page = parseInt(<string>req.query.page) || 1
+  const offset = parseInt(<string>req.query.offset) || 13
+
+  const { topUsers, totals } = await gameLogService.getAllTimeLeaderboards(page, offset)
+
+  res.status(200).json({
+    message: 'Get all time leaderboards successfully',
+    data: topUsers,
+    currentPage: page,
+    totalPages: Math.ceil(totals / offset)
   })
 }

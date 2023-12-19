@@ -1,12 +1,10 @@
 import { Server } from 'socket.io'
 
 import httpServer from './init.http'
+import corsOptions from '~/config/corsOptions'
 
 const io = new Server(httpServer, {
-  cors: {
-    origin: '*',
-    methods: ['GET', 'POST']
-  },
+  cors: corsOptions,
   path: '/api/socket/'
 })
 

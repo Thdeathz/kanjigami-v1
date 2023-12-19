@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion'
 import React from 'react'
 import { BsTrophyFill } from 'react-icons/bs'
 import { IoMdArrowDropdown } from 'react-icons/io'
@@ -8,10 +7,8 @@ import FilterBoxWrapper from '~/components/Filter/FilterBox'
 import FilterItem from '~/components/Filter/FilterItem'
 import DefaultLayout from '~/components/Layouts/DefaultLayout'
 import PageHeader from '~/components/PageHeader'
-import { gridList } from '~/config/variants'
 
-import LeaderboardItem from './components/LeaderboardItem'
-import LeaderItem from './components/LeaderItem'
+import LeaderboardsList from './components/Leaderboards/LeaderboardsList'
 
 function Leaderboards() {
   useDocumentTitle('Leaderboard | 漢字ガミ')
@@ -36,32 +33,7 @@ function Leaderboards() {
         </FilterBoxWrapper>
       </PageHeader>
 
-      <div className="mx-auto max-w-[45rem]">
-        <div className="leader-top mb-6 flex items-end justify-end gap-1">
-          <LeaderItem rank={2} />
-
-          <LeaderItem rank={1} />
-
-          <LeaderItem rank={3} />
-        </div>
-
-        <motion.div
-          className="flex flex-col items-center justify-start gap-4"
-          variants={gridList.container(0.4)}
-          initial="hidden"
-          animate="enter"
-        >
-          <>
-            {Array.from(Array(15).keys())
-              .slice(3)
-              .map(rank => (
-                <motion.div key={`leaderboards-${rank}`} className="w-full" variants={gridList.item()}>
-                  <LeaderboardItem username="Kantan kanji" score={368435} games={23} rank={rank + 1} />
-                </motion.div>
-              ))}
-          </>
-        </motion.div>
-      </div>
+      <LeaderboardsList />
     </DefaultLayout>
   )
 }

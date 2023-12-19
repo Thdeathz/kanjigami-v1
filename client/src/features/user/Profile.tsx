@@ -11,14 +11,16 @@ import Avatar from '~/components/Avatar'
 import Button from '~/components/Button'
 import IconWrapper from '~/components/IconWrapper'
 import DefaultLayout from '~/components/Layouts/DefaultLayout'
+import Loading from '~/components/Loading'
 import useAuth from '~/hooks/useAuth'
 
 import UserStatsItem from './components/UserStatsItem'
+import { useGetUserStatsQuery } from './store/userService'
 
 type RankInfoPropsType = {
   icon: ReactElement<IconType>
   label: string
-  value: string
+  value: string | number
 }
 
 const animationVariants = {
@@ -64,8 +66,10 @@ function Profile() {
   useDocumentTitle('Me | 漢字ガミ')
 
   const navigate = useNavigate()
-  // const { username } = useParams()
+
   const { email, username, avatarUrl } = useAuth()
+
+  const { data, isLoading } = useGetUserStatsQuery(undefined)
 
   return (
     <DefaultLayout className="flex-center flex-col gap-6">
@@ -99,32 +103,48 @@ function Profile() {
         </div>
 
         <div className="flex-center w-full gap-6">
-          <RankInfo icon={<GiJewelCrown />} label="Current rank" value="Kanji kunoichi" />
+          {isLoading || !data ? (
+            <Loading className="text-3xl" />
+          ) : (
+            <>
+              <RankInfo icon={<GiJewelCrown />} label="Current rank" value="Kanji kunoichi" />
 
-          <RankInfo icon={<GiLaurelCrown />} label="Current rank point" value="132345" />
+              <RankInfo
+                icon={<GiLaurelCrown />}
+                label="Current rank point"
+                value={data.stackStats.totalPoints + data.onlineStats.totalPoints}
+              />
+            </>
+          )}
         </div>
       </motion.div>
 
       <div className="flex-center w-full gap-6">
-        <UserStatsItem
-          icon={<RiSwordFill />}
-          title="Online battle stats"
-          stats={[
-            { label: 'Global rank', value: 0 },
-            { label: 'Event played', value: 0 },
-            { label: 'Total score', value: 0 }
-          ]}
-        />
+        {isLoading || !data ? (
+          <Loading className="text-3xl" />
+        ) : (
+          <>
+            <UserStatsItem
+              icon={<RiSwordFill />}
+              title="Online battle stats"
+              stats={[
+                { label: 'Global rank', value: 0 },
+                { label: 'Event played', value: data.onlineStats.totalGames },
+                { label: 'Total score', value: data.onlineStats.totalPoints }
+              ]}
+            />
 
-        <UserStatsItem
-          icon={<BsStack />}
-          title="Kanji stack stats"
-          stats={[
-            { label: 'Games played', value: 0 },
-            { label: 'Total score', value: 0 },
-            { label: 'Avg time', value: 0 }
-          ]}
-        />
+            <UserStatsItem
+              icon={<BsStack />}
+              title="Kanji stack stats"
+              stats={[
+                { label: 'Games played', value: data.stackStats.totalGames },
+                { label: 'Total score', value: data.stackStats.totalPoints },
+                { label: 'Avg time', value: 0 }
+              ]}
+            />
+          </>
+        )}
       </div>
     </DefaultLayout>
   )

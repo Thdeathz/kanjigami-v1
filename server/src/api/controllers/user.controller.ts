@@ -107,3 +107,16 @@ export const uploadFile: RequestHandler = async (req, res) => {
 
   return res.json({ message: 'Upload file successfully', data: fileUrl })
 }
+
+/**
+ * @desc Get user stats
+ * @route GET /user/stats
+ * @access Private
+ */
+export const getUserStats: RequestHandler = async (req, res) => {
+  const currentUser = (req as any).currentUser
+
+  const stats = await userService.getUserStats(currentUser.id)
+
+  return res.json({ message: 'Get user stats successfully', data: stats })
+}

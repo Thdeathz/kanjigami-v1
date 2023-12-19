@@ -4,6 +4,7 @@ import validateRequest from '../middleware/validateRequest'
 import {
   createNewUser,
   getAllUsers,
+  getUserStats,
   updateAvatar,
   uploadFile
 } from '~/api/controllers/user.controller'
@@ -22,5 +23,7 @@ router
 router.route('/:id/avatar').post(upload.single('avatar'), updateAvatar)
 
 router.route('/upload').get(upload.single('file'), uploadFile)
+
+router.route('/stats').get(verifyJWT, getUserStats)
 
 export default router

@@ -5,9 +5,9 @@ import DefaultLayout from '~/components/Layouts/DefaultLayout'
 import RootNotification from '~/components/RootNotification'
 import useAuth from '~/hooks/useAuth'
 
-import FollowedStacksSection from './components/FollowedStacksSection'
-import HomeThumbnail from './components/HomeThumbnail'
-import LastestBattleSection from './components/LastestBattleSection'
+import FollowedStacksSection from './components/HomeSection/FollowedStacksSection'
+import HomeThumbnail from './components/HomeSection/HomeThumbnail'
+import LastestBattleSection from './components/HomeSection/LastestBattleSection'
 
 function Home() {
   useDocumentTitle('漢字ガミ')
