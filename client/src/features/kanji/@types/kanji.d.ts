@@ -4,6 +4,7 @@ declare interface IStack {
   description: string
   thumbnail: string
   isFollowed?: boolean
+  currentUserPoints: number
 }
 
 declare interface CreateKanji {

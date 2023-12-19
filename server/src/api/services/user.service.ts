@@ -63,7 +63,7 @@ const getUserById = async (id: string) => {
 }
 
 const getUserByEmail = async (email: string) => {
-  const userInfo = await prisma.account.findUnique({
+  return await prisma.account.findUnique({
     where: { email },
     select: {
       id: true,
@@ -81,10 +81,6 @@ const getUserByEmail = async (email: string) => {
       }
     }
   })
-
-  if (!userInfo) throw new HttpError(404, 'User Not found')
-
-  return userInfo
 }
 
 const getUserStats = async (userId: string) => {
@@ -166,7 +162,7 @@ const createUser = async ({
   // Hash password
   const hashedPassword: string = await bcrypt.hash(<string>password, 10)
 
-  const userInfo = await prisma.account.create({
+  return await prisma.account.create({
     data: {
       email,
       password: hashedPassword,
@@ -189,10 +185,6 @@ const createUser = async ({
       }
     }
   })
-
-  if (!userInfo) throw new HttpError(500, 'Internal server error')
-
-  return userInfo
 }
 
 const createAccountWithGoogle = async (userData: RegisterByGoogle) => {

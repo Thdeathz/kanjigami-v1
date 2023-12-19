@@ -9,7 +9,7 @@ import cookieParser from 'cookie-parser'
 import admin from 'firebase-admin'
 
 import app from '~/servers/init.express'
-import io from './servers/init.socket'
+import io from '~/servers/init.socket'
 import transporter from '~/servers/init.mailer'
 
 import corsOptions from '~/config/corsOptions'

@@ -16,6 +16,9 @@ export const authApiSlice = apiSlice.injectEndpoints({
           const { accessToken } = data as { accessToken: string }
 
           dispatch(setCredentitals({ accessToken }))
+          setTimeout(() => {
+            dispatch(apiSlice.util.resetApiState())
+          }, 1000)
         } catch (error) {
           console.error(error)
         }
@@ -34,6 +37,9 @@ export const authApiSlice = apiSlice.injectEndpoints({
           const { accessToken } = data as { accessToken: string }
 
           dispatch(setCredentitals({ accessToken }))
+          setTimeout(() => {
+            dispatch(apiSlice.util.resetApiState())
+          }, 1000)
         } catch (error) {
           console.error(error)
         }
@@ -52,6 +58,9 @@ export const authApiSlice = apiSlice.injectEndpoints({
           const { accessToken } = data as { accessToken: string }
 
           dispatch(setCredentitals({ accessToken }))
+          setTimeout(() => {
+            dispatch(apiSlice.util.resetApiState())
+          }, 1000)
         } catch (error) {
           console.error(error)
         }

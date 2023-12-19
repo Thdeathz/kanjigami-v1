@@ -55,7 +55,23 @@ const getAllStacks = async (page: number, offset: number, followedUserId?: strin
       thumbnail: true,
       likedBy: {
         where: {
-          id: followedUserId
+          id: followedUserId ?? ''
+        }
+      },
+      gameStacks: {
+        select: {
+          gameLogs: {
+            where: {
+              userId: followedUserId ?? ''
+            },
+            select: {
+              archievedPoints: true
+            },
+            orderBy: {
+              createdAt: 'desc'
+            },
+            take: 1
+          }
         }
       }
     }
@@ -65,8 +81,14 @@ const getAllStacks = async (page: number, offset: number, followedUserId?: strin
 
   // Normalize data
   const stacksResult = stacks.map(stack => ({
-    ...stack,
-    isFollowed: stack.likedBy.length > 0
+    id: stack.id,
+    name: stack.name,
+    description: stack.description,
+    thumbnail: stack.thumbnail,
+    isFollowed: stack.likedBy.length > 0,
+    currentUserPoints: stack.gameStacks?.reduce((sum, gameStack) => {
+      return sum + (gameStack.gameLogs[0]?.archievedPoints || 0)
+    }, 0)
   }))
 
   return { stacks: stacksResult, total }

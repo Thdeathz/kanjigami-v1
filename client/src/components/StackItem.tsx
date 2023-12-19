@@ -47,7 +47,13 @@ function StackItem({ stack, hightScore, className }: PropsType) {
         <div className="flex items-center justify-between p-2">
           <div>
             <p className="text-sm font-medium text-text-secondary-light dark:text-text-secondary-dark">Your hi-score</p>
-            <p className="text-base font-medium">{hightScore ?? 'Not played'}</p>
+            <p
+              className={`text-base font-medium ${
+                hightScore ? 'text-profile-avatar-outline-light dark:text-profile-avatar-outline-dark' : ''
+              }`}
+            >
+              {hightScore ?? 'Not played'}
+            </p>
           </div>
         </div>
       </div>

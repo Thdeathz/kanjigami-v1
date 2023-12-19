@@ -45,7 +45,11 @@ function KanjiList() {
         animate="enter"
       >
         {stacksData.data.map(stack => (
-          <StackItem key={stack.id} stack={stack} />
+          <StackItem
+            key={stack.id}
+            stack={stack}
+            hightScore={stack.currentUserPoints > 0 ? stack.currentUserPoints : undefined}
+          />
         ))}
       </motion.div>
 
