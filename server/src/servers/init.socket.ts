@@ -1,9 +1,13 @@
 import { Server } from 'socket.io'
+import dotenv from 'dotenv'
 
-import httpServer from './init.http'
 import corsOptions from '~/config/corsOptions'
+import { expressServer } from './init.express'
 
-const io = new Server(httpServer, {
+dotenv.config()
+const PORT: string | 3500 = process.env.PORT || 3500
+
+const io = new Server(expressServer, {
   cors: corsOptions,
   path: '/api/socket/'
 })
