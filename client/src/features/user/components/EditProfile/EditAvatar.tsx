@@ -6,7 +6,7 @@ import Button from '~/components/Button'
 import Loading from '~/components/Loading'
 import UploadButton from '~/components/UploadButton'
 
-import { useUpdateAvatarMutation } from '../store/userService'
+import { useUpdateAvatarMutation } from '../../store/userService'
 
 import InputWrapper from './InputWrapper'
 

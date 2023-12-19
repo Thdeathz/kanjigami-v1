@@ -216,10 +216,53 @@ const getGameLogDetail = async (userId: string, gameStackId: string) => {
   return gameLog
 }
 
+const getAllTimeLeaderboards = async (page: number, offset: number) => {
+  const top = await prisma.$queryRaw<TopUser[]>`
+    SELECT
+      "u"."id",
+      "u"."username",
+      "u"."avatarUrl",
+      (SUM("gl"."archievedPoints") + SUM("oh"."archievedPoints")) AS "totalPoints",
+      (COUNT("gl"."archievedPoints") + COUNT("oh"."archievedPoints")) AS "totalGames"
+    FROM
+      "GameLog" AS "gl"
+    LEFT JOIN
+      "GameStack" AS "gs"
+    ON
+      "gl"."gameStackId" = "gs"."id"
+    LEFT JOIN
+      "User" AS "u"
+    ON
+      "gl"."userId" = "u"."id"
+    JOIN
+      "OnlineHistory" AS "oh"
+    ON
+      "oh"."userId" = "u"."id"
+    GROUP BY
+      "u"."id"
+    ORDER BY
+      "totalPoints" DESC
+    LIMIT
+      ${offset}
+  `
+
+  const totals = await prisma.user.count()
+
+  // Nomalize data
+  const topUsers = top.map(user => ({
+    ...user,
+    totalPoints: Number(user.totalPoints),
+    totalGames: Number(user.totalGames)
+  }))
+
+  return { topUsers, totals }
+}
+
 export default {
   createGameLog,
   updateGameLog,
   getLeaderboards,
   saveUserScore,
-  getGameLogDetail
+  getGameLogDetail,
+  getAllTimeLeaderboards
 }

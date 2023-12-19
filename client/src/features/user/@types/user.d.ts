@@ -6,3 +6,14 @@ declare interface IUser {
   roles: ROLE[]
   active: boolean
 }
+
+declare interface IUserStats {
+  stackStats: {
+    totalPoints: number
+    totalGames: number
+  }
+  onlineStats: {
+    totalPoints: number
+    totalGames: number
+  }
+}

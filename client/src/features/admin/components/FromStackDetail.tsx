@@ -4,7 +4,7 @@ import React from 'react'
 import Image from '~/components/Image'
 import Input from '~/components/Input'
 import UploadButton from '~/components/UploadButton'
-import InputWrapper from '~/features/user/components/InputWrapper'
+import InputWrapper from '~/features/user/components/EditProfile/InputWrapper'
 
 function FromStackDetail() {
   return (

@@ -7,7 +7,7 @@ import IconWrapper from '~/components/IconWrapper'
 import Input from '~/components/Input'
 import Panel from '~/components/Panel'
 import UploadButton from '~/components/UploadButton'
-import InputWrapper from '~/features/user/components/InputWrapper'
+import InputWrapper from '~/features/user/components/EditProfile/InputWrapper'
 
 import SectionDivider from './SectionDivider'
 

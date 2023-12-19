@@ -46,7 +46,7 @@ const baseQueryWithRetry: BaseQueryFn = async (args, api, extraOptions) => {
 const apiSlice = createApi({
   baseQuery: baseQueryWithRetry,
   keepUnusedDataFor: 15 * 60 * 1000, // 15 minutes
-  tagTypes: ['User', 'Game', 'OnlineBattle', 'OnlineEventLeaderboards', 'Stack', 'Kanji'],
+  tagTypes: ['User', 'Game', 'OnlineBattle', 'OnlineEventLeaderboards', 'Stack', 'Kanji', 'Leaderboards', 'UserStats'],
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   endpoints: builder => ({})
 })

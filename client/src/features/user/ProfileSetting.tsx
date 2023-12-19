@@ -10,8 +10,8 @@ import Panel from '~/components/Panel'
 import { panelVariants } from '~/config/variants'
 import useAuth from '~/hooks/useAuth'
 
-import EditAvatar from './components/EditAvatar'
-import EditUsername from './components/EditUsername'
+import EditAvatar from './components/EditProfile/EditAvatar'
+import EditUsername from './components/EditProfile/EditUsername'
 
 function ProfileSetting() {
   useDocumentTitle('Settings | 漢字ガミ')

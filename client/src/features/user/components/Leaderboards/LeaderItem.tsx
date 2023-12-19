@@ -8,9 +8,10 @@ import { topLeader } from '~/config/variants'
 
 type PropsType = {
   rank: number
+  topUser: ITopUser
 }
 
-function LeaderItem({ rank }: PropsType) {
+function LeaderItem({ rank, topUser }: PropsType) {
   let height = ''
   let crownColor = ''
 
@@ -35,12 +36,12 @@ function LeaderItem({ rank }: PropsType) {
       <motion.div className="flex-center flex-col gap-4" variants={topLeader.userInfo}>
         <IconWrapper icon={<FaCrown />} className={`text-2xl ${crownColor}`} />
 
-        <Avatar size="large" />
+        <Avatar src={topUser.avatarUrl} size="large" />
 
         <div className="text-center">
-          <p className="mb-1 text-xl font-semibold">Kantan kanji</p>
+          <p className="mb-1 text-xl font-semibold">{topUser.username}</p>
 
-          <p>234534</p>
+          <p>{topUser.totalPoints}</p>
         </div>
       </motion.div>
 

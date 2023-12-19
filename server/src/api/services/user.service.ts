@@ -63,7 +63,7 @@ const getUserById = async (id: string) => {
 }
 
 const getUserByEmail = async (email: string) => {
-  return await prisma.account.findUnique({
+  const userInfo = await prisma.account.findUnique({
     where: { email },
     select: {
       id: true,
@@ -81,6 +81,49 @@ const getUserByEmail = async (email: string) => {
       }
     }
   })
+
+  if (!userInfo) throw new HttpError(404, 'User Not found')
+
+  return userInfo
+}
+
+const getUserStats = async (userId: string) => {
+  const stackStats = await prisma.gameLog.aggregate({
+    where: {
+      userId
+    },
+    _sum: {
+      archievedPoints: true
+    },
+    _count: {
+      archievedPoints: true
+    }
+  })
+
+  const onlineStats = await prisma.onlineHistory.aggregate({
+    where: {
+      userId
+    },
+    _sum: {
+      archievedPoints: true
+    },
+    _count: {
+      archievedPoints: true
+    }
+  })
+
+  if (!stackStats || !onlineStats) throw new HttpError(404, 'User Not found')
+
+  return {
+    stackStats: {
+      totalGames: stackStats._count.archievedPoints ?? 0,
+      totalPoints: stackStats._sum.archievedPoints ?? 0
+    },
+    onlineStats: {
+      totalGames: onlineStats._count.archievedPoints ?? 0,
+      totalPoints: onlineStats._sum.archievedPoints ?? 0
+    }
+  }
 }
 
 const checkUserExisted = async (email: string, username: string) => {
@@ -120,41 +163,41 @@ const createUser = async ({
   roles,
   avatarUrl
 }: RegisterRequest & { avatarUrl?: string }) => {
-  try {
-    // Hash password
-    const hashedPassword: string = await bcrypt.hash(<string>password, 10)
+  // Hash password
+  const hashedPassword: string = await bcrypt.hash(<string>password, 10)
 
-    return await prisma.account.create({
-      data: {
-        email,
-        password: hashedPassword,
-        user: {
-          create: {
-            username,
-            avatarUrl,
-            roles
-          }
-        }
-      },
-      include: {
-        user: {
-          select: {
-            id: true,
-            username: true,
-            roles: true,
-            avatarUrl: true
-          }
+  const userInfo = await prisma.account.create({
+    data: {
+      email,
+      password: hashedPassword,
+      user: {
+        create: {
+          username,
+          avatarUrl,
+          roles
         }
       }
-    })
-  } catch (error) {
-    throw new HttpError(500, 'Internal server error')
-  }
+    },
+    include: {
+      user: {
+        select: {
+          id: true,
+          username: true,
+          roles: true,
+          avatarUrl: true
+        }
+      }
+    }
+  })
+
+  if (!userInfo) throw new HttpError(500, 'Internal server error')
+
+  return userInfo
 }
 
 const createAccountWithGoogle = async (userData: RegisterByGoogle) => {
   const { id, username, avatarUrl, email } = userData
-  return await prisma.account.create({
+  const userInfo = await prisma.account.create({
     data: {
       email,
       password: 'login with google',
@@ -177,6 +220,10 @@ const createAccountWithGoogle = async (userData: RegisterByGoogle) => {
       }
     }
   })
+
+  if (!userInfo) throw new HttpError(500, 'Internal server error')
+
+  return userInfo
 }
 
 const resetPassword = async (accountId: string, password: string) => {
@@ -213,5 +260,6 @@ export default {
   createUser,
   createAccountWithGoogle,
   resetPassword,
-  updateAvatar
+  updateAvatar,
+  getUserStats
 }
