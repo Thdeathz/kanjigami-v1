@@ -64,14 +64,7 @@ class Game {
     this.enemyInterval = 2000
   }
 
-  render(
-    ctx: CanvasRenderingContext2D,
-    deltaTime: number,
-    animationId: number,
-    sessionId: string,
-    userId: string,
-    handleCalculateScore: ({ sessionId, userId, score }: IKanjiShooterCalculateScore) => void
-  ) {
+  render(ctx: CanvasRenderingContext2D, deltaTime: number, animationId: number, handleCalculateScore: () => void) {
     ctx.fillStyle = 'black'
     ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
 
@@ -79,7 +72,7 @@ class Game {
       cancelAnimationFrame(animationId)
 
       setTimeout(() => {
-        handleCalculateScore({ sessionId, userId, score: this.userScore })
+        handleCalculateScore()
       }, 200)
     }
 

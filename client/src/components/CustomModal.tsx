@@ -3,7 +3,7 @@ import React from 'react'
 
 interface PropsType extends ModalProps {
   children: React.ReactNode
-  header: string
+  header?: string
   footer?: React.ReactNode
 }
 

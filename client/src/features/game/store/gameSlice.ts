@@ -12,6 +12,9 @@ type StateType = {
     time?: string
     gameContent: IMultipleChoiceGameContent[]
   }
+  kanjiShooter: {
+    gameContent: IKanjiShooterContent[]
+  }
 }
 
 const initialState: StateType = {
@@ -20,6 +23,9 @@ const initialState: StateType = {
     score: 0
   },
   multipleChoice: {
+    gameContent: []
+  },
+  kanjiShooter: {
     gameContent: []
   }
 }
@@ -72,6 +78,9 @@ const gameSlice = createSlice({
     },
     resetMultipleChoiceState: (state, action) => {
       state.multipleChoice = initialState.multipleChoice
+    },
+    startKanjiShooterGame: (state, action) => {
+      state.kanjiShooter.gameContent = action.payload
     }
   }
 })
@@ -82,7 +91,8 @@ export const {
   resetFlipCardState,
   startMultipleChoiceGame,
   updateMultipleChoiceSelectedAnswers,
-  resetMultipleChoiceState
+  resetMultipleChoiceState,
+  startKanjiShooterGame
 } = gameSlice.actions
 
 export default gameSlice.reducer
@@ -90,3 +100,5 @@ export default gameSlice.reducer
 export const selectFlipCardGameData = (state: RootState) => state.game.flipCard
 
 export const selectMultipleChoiceGameData = (state: RootState) => state.game.multipleChoice
+
+export const selectKanjiShooterGameData = (state: RootState) => state.game.kanjiShooter.gameContent

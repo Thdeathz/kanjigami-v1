@@ -46,10 +46,7 @@ export const kanjiService = apiSlice.injectEndpoints({
         url: `/stacks/follow/${id}`,
         method: 'POST'
       }),
-      invalidatesTags: (result, error, id) => [
-        { type: 'Stack', id },
-        { type: 'Stack', id: 'FOLLOWED' }
-      ]
+      invalidatesTags: (result, error, id) => [{ type: 'Stack', id: 'FOLLOWED' }]
     }),
     getFollowedStacks: builder.query<IStack[], undefined>({
       query: () => '/stacks/follow',

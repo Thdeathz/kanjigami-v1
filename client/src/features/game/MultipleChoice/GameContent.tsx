@@ -4,23 +4,16 @@ import { FaArrowLeftLong, FaArrowRightLong } from 'react-icons/fa6'
 import { useStep } from 'usehooks-ts'
 
 import Button from '~/components/Button'
-import Loading from '~/components/Loading'
 import Panel from '~/components/Panel'
-
-import useMultipleChoiceEvent from '../hooks/useMultipleChoiceEvent'
 
 import QuestionPanel from './QuestionPanel'
 
 type PropsType = {
-  stackId: string
-  gameId: string
-  sessionId: string
-  userId: string
   gameContent: IMultipleChoiceGameContent[]
   onCalculateScore: () => void
 }
 
-function MultipleChoiceGame({ stackId, gameId, sessionId, userId, gameContent, onCalculateScore }: PropsType) {
+function MultipleChoiceGameContent({ gameContent, onCalculateScore }: PropsType) {
   const [currentStep, helpers] = useStep(gameContent.length)
 
   const { canGoToPrevStep, canGoToNextStep, goToNextStep, goToPrevStep, setStep } = helpers
@@ -28,10 +21,6 @@ function MultipleChoiceGame({ stackId, gameId, sessionId, userId, gameContent, o
   const onChangeStep = (step: number) => {
     setStep(step)
   }
-
-  useMultipleChoiceEvent({ sessionId, userId, stackId, gameId })
-
-  if (!gameContent || gameContent.length === 0) return <Loading className="text-3xl" />
 
   return (
     <div className="flex-center min-h-content w-full flex-col gap-6 py-12">
@@ -63,4 +52,4 @@ function MultipleChoiceGame({ stackId, gameId, sessionId, userId, gameContent, o
   )
 }
 
-export default MultipleChoiceGame
+export default MultipleChoiceGameContent

@@ -1,3 +1,5 @@
+import { EventStatus } from '@prisma/client'
+
 export declare interface CreateEventRequest {
   title: string
   description: string
@@ -24,4 +26,39 @@ export declare interface UpdateEventReq {
     gameId: string
     stackId: string
   }[]
+}
+
+export type GameContent =
+  | KanjiShooterContent[]
+  | (ImageContent | KanjiContent)[]
+  | MultipleChoiceContent[]
+
+export declare interface IOngoingEvent {
+  id: string
+  startTime: Date
+  maxPlayers: number
+  status: EventStatus
+  title: string
+  description: string
+  tags: string
+  rounds: {
+    id: string
+    status: EventStatus
+    order: number
+    game: {
+      id: string
+      name: string
+    }
+    stack: {
+      id: string
+      name: string
+      thumbnail: string
+    }
+    gameContent?: GameContent
+  }[]
+}
+
+export interface ICurrentUserPoint {
+  roundId: string
+  archievedPoints: number
 }

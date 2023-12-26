@@ -1,19 +1,17 @@
 import classNames from 'classnames'
 import React from 'react'
-import { FaCrown } from 'react-icons/fa'
 
 import LockedIcon from '~/assets/lock-icon.svg'
-import Avatar from '~/components/Avatar'
-import IconWrapper from '~/components/IconWrapper'
 import Image from '~/components/Image'
 import { onlineBattleStatus } from '~/config/status'
 
 import CountDown from './CountDown'
+import RoundHightScore from './RoundHightScore'
 
 type PropsType = {
   round: IBattleRound
-  startTime?: Date
   className?: string
+  onClick?: () => void
 }
 
 function getOnlineCardClassName(status: OnlineBattleStatus, className?: string) {
@@ -27,20 +25,22 @@ function getOnlineCardClassName(status: OnlineBattleStatus, className?: string) 
   )
 }
 
-function OnlineCard({ round, startTime, className }: PropsType) {
+function OnlineCard({ round, className, onClick }: PropsType) {
   const onlineCardClassName = getOnlineCardClassName(round.status, className)
 
-  const isLocked = round.status === onlineBattleStatus.UPCOMING
+  const isUpcoming = round.status === onlineBattleStatus.UPCOMING
+  const isOnGoing = round.status === onlineBattleStatus.ONGOING
+  const isFinished = round.status === onlineBattleStatus.FINISHED
 
   return (
-    <div className={onlineCardClassName}>
+    <div className={onlineCardClassName} onClick={onClick}>
       <div className="w-full rounded-lg border-[3px] border-white dark:border-[#111217]">
         <div
           className={`relative aspect-ratio rounded-lg transition-transform ${
-            isLocked && 'flex-center bg-game-locked'
+            isUpcoming && 'flex-center bg-game-locked'
           }`}
         >
-          {!isLocked ? (
+          {!isUpcoming ? (
             <>
               <Image
                 src={round.stack.thumbnail}
@@ -59,28 +59,33 @@ function OnlineCard({ round, startTime, className }: PropsType) {
       </div>
 
       <div className="flex-center my-2 w-full shrink grow flex-col gap-2">
-        {!isLocked && round.onlineHistory ? (
-          <>
-            <Avatar src={round.onlineHistory[0].user.avatarUrl} username={round.onlineHistory[0].user.username} />
-
-            <div className="flex-center gap-1 text-base font-semibold leading-3">
-              <IconWrapper icon={<FaCrown />} className="text-ranking-1-crown" /> {round.onlineHistory[0].user.username}
-            </div>
-
-            <p>{round.onlineHistory[0].archievedPoints}</p>
-
-            <div className="w-full rounded-md bg-button-light py-1.5 text-center text-sm font-medium text-button-light-text dark:bg-button-dark dark:text-button-dark-text">
-              You - Not played
-            </div>
-          </>
-        ) : (
+        {isUpcoming && (
           <div>
             <p className="mb-4 text-center font-medium text-footer-light-text">Unlock in</p>
 
-            {round.status === onlineBattleStatus.UPCOMING && startTime && (
-              <CountDown type="animate" maxLength={2} endTime={startTime} />
-            )}
+            <CountDown type="animate" maxLength={2} endTime={round.startTime} />
           </div>
+        )}
+
+        {isOnGoing && (
+          <div>
+            <p className="mb-4 text-center font-medium text-footer-light-text">End in</p>
+
+            <CountDown
+              type="animate"
+              maxLength={2}
+              endTime={new Date(new Date(round.startTime).getTime() + 1 * 60 * 1000)}
+            />
+          </div>
+        )}
+
+        {isFinished && round.topUser && (
+          <RoundHightScore
+            avatar={round.topUser.avatarUrl}
+            username={round.topUser.username}
+            points={round.topUser.totalPoints}
+            currentUserPoint={round.currentUserPoint}
+          />
         )}
       </div>
     </div>

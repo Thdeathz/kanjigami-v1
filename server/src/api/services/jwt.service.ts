@@ -18,7 +18,7 @@ const signNewRefreshToken = async (payload: AccessTokenPayload): Promise<string>
 
         // save refresh token to redis
         const result = await redisClient.set(
-          `rft_${payload.UserInfo.id}`,
+          `rft:${payload.UserInfo.id}`,
           JSON.stringify({
             refreshToken: token,
             userData: payload.UserInfo
@@ -83,7 +83,7 @@ const clearRefreshToken = (refreshToken: string) => {
   return new Promise(async (resolve, reject) => {
     try {
       const userData = await decodeRefreshToken(refreshToken)
-      if (userData) await redisClient.del(`rft_${userData.id}`)
+      if (userData) await redisClient.del(`rft:${userData.id}`)
       resolve(null)
     } catch (error) {
       console.log(error)

@@ -74,12 +74,11 @@ const verifyRefreshToken = (refreshToken: string): Promise<CurrentUserData> => {
   return new Promise(async (resolve, reject) => {
     try {
       const userData = await jwtService.decodeRefreshToken(refreshToken)
-      if (!userData || !userData.id)
-        return reject(new HttpError(401, 'Unauthorized/InvalidRefreshToken'))
+      if (!userData || !userData.id) return reject(new HttpError(401, 'Unauthorized'))
 
       // check if refresh token is still valid
-      const foundUser = await redisClient.get(`rft_${userData.id}`)
-      if (!foundUser) return reject(new HttpError(401, 'Unauthorized/InvalidRefreshToken'))
+      const foundUser = await redisClient.get(`rft:${userData.id}`)
+      if (!foundUser) return reject(new HttpError(401, 'Unauthorized'))
 
       const currentUserData = JSON.parse(foundUser) as CurrentUserData
 
@@ -89,7 +88,7 @@ const verifyRefreshToken = (refreshToken: string): Promise<CurrentUserData> => {
         currentUserData.userData.id !== userData.id
       ) {
         await jwtService.clearRefreshToken(currentUserData.refreshToken)
-        return reject(new HttpError(401, 'Unauthorized/InvalidRefreshToken'))
+        return reject(new HttpError(401, 'Unauthorized'))
       }
 
       resolve(currentUserData)

@@ -35,8 +35,16 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       }),
       transformResponse: (response: ApiResponse<IUserStats>) => response.data,
       providesTags: ['UserStats']
+    }),
+    getOnlineStats: builder.query<IOnlineStats, undefined>({
+      query: () => ({
+        url: '/events/stats',
+        method: 'GET'
+      }),
+      transformResponse: (response: ApiResponse<IOnlineStats>) => response.data
     })
   })
 })
 
-export const { useUpdateAvatarMutation, useGetAllTimeLeaderboardsQuery, useGetUserStatsQuery } = usersApiSlice
+export const { useUpdateAvatarMutation, useGetAllTimeLeaderboardsQuery, useGetUserStatsQuery, useGetOnlineStatsQuery } =
+  usersApiSlice

@@ -222,25 +222,33 @@ const getAllTimeLeaderboards = async (page: number, offset: number) => {
       "u"."id",
       "u"."username",
       "u"."avatarUrl",
-      (SUM("gl"."archievedPoints") + SUM("oh"."archievedPoints")) AS "totalPoints",
-      (COUNT("gl"."archievedPoints") + COUNT("oh"."archievedPoints")) AS "totalGames"
+      (COALESCE("gl"."totalPoints", 0) + COALESCE("oh"."totalPoints", 0)) AS "totalPoints",
+      (COALESCE("gl"."totalGames", 0) + COALESCE("oh"."totalGames", 0)) AS "totalGames"
     FROM
-      "GameLog" AS "gl"
-    LEFT JOIN
-      "GameStack" AS "gs"
-    ON
-      "gl"."gameStackId" = "gs"."id"
-    LEFT JOIN
       "User" AS "u"
-    ON
-      "gl"."userId" = "u"."id"
-    JOIN
-      "OnlineHistory" AS "oh"
-    ON
-      "oh"."userId" = "u"."id"
-    GROUP BY
-      "u"."id"
-    ORDER BY
+    LEFT JOIN (
+        SELECT
+          "userId",
+          SUM("archievedPoints") AS "totalPoints",
+          COUNT("archievedPoints") AS "totalGames"
+        FROM
+          "GameLog"
+        GROUP BY
+          "userId"
+      ) AS "gl"
+      ON "gl"."userId" = "u"."id"
+    LEFT JOIN (
+        SELECT
+          "userId",
+          SUM("archievedPoints") AS "totalPoints",
+          COUNT("archievedPoints") AS "totalGames"
+        FROM
+          "OnlineHistory"
+        GROUP BY
+          "userId"
+      ) AS "oh"
+      ON "oh"."userId" = "u"."id"
+    ORDER BY  
       "totalPoints" DESC
     LIMIT
       ${offset}

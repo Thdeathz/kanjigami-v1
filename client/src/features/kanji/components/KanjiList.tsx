@@ -23,8 +23,6 @@ function KanjiList() {
 
       intObserver.current = new IntersectionObserver(stacks => {
         if (stacks[0].isIntersecting && stacksData && page < stacksData.totalPages && !isFetching) {
-          console.log('We are near the last post!')
-          // setPageNum(prev => prev + 1)
           dispatch(setCurrentPage({ page: page + 1 }))
         }
       })

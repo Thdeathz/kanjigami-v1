@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import { motion } from 'framer-motion'
-import React from 'react'
+import React, { useState } from 'react'
 import { BsBookmarks, BsBookmarksFill } from 'react-icons/bs'
 import { useNavigate } from 'react-router-dom'
 
@@ -28,8 +28,18 @@ function StackItem({ stack, hightScore, className }: PropsType) {
   const navigate = useNavigate()
   const { isUser } = useAuth()
   const [followStack, { isLoading }] = useFollowStackMutation(undefined)
+  const [isFollowed, setIsFollowed] = useState<boolean>(stack.isFollowed || false)
 
   const stackItemClassName = getStackItemClassName(className)
+
+  const handleFollowStack = async () => {
+    try {
+      setIsFollowed(!isFollowed)
+      await followStack(stack.id)
+    } catch (error) {
+      setIsFollowed(isFollowed)
+    }
+  }
 
   return (
     <motion.div className={stackItemClassName} variants={gridList.item(0.1)}>
@@ -61,13 +71,10 @@ function StackItem({ stack, hightScore, className }: PropsType) {
       {isUser && (
         <button
           className="absolute bottom-4 right-4 z-10 aspect-square rounded-full bg-clr-border-1-light p-3 transition-transform duration-200 active:scale-90 dark:bg-clr-border-1-dark"
-          onClick={() => followStack(stack.id)}
+          onClick={handleFollowStack}
           disabled={isLoading}
         >
-          <IconWrapper
-            className="text  -primary-light"
-            icon={stack.isFollowed ? <BsBookmarksFill /> : <BsBookmarks />}
-          />
+          <IconWrapper className="text  -primary-light" icon={isFollowed ? <BsBookmarksFill /> : <BsBookmarks />} />
         </button>
       )}
     </motion.div>

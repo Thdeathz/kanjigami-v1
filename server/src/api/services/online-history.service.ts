@@ -62,4 +62,111 @@ const getOnlineEventsLeaderboards = async () => {
   }))
 }
 
-export default { getLeaderboards, getOnlineEventsLeaderboards }
+const saveUserPoints = async (usersData: { id: string; point: number }[], roundId: string) => {
+  return prisma.onlineHistory.createMany({
+    data: usersData.map(user => ({
+      userId: user.id,
+      roundId,
+      archievedPoints: user.point
+    }))
+  })
+}
+
+const getEventUserPoints = async (userId: string, eventId: string) => {
+  const userPoints = await prisma.onlineHistory.findMany({
+    where: {
+      userId,
+      round: {
+        eventId
+      }
+    },
+    select: {
+      roundId: true,
+      archievedPoints: true
+    }
+  })
+
+  if (!userPoints) return []
+
+  return userPoints
+}
+
+const getLastestUserOnlineStats = async (userId: string) => {
+  const lastestEvent = await prisma.event.findFirst({
+    where: {
+      status: 'FINISHED',
+      rounds: {
+        some: {
+          onlineHistory: {
+            some: {
+              userId
+            }
+          }
+        }
+      }
+    },
+    select: {
+      id: true,
+      title: true,
+      rounds: {
+        select: {
+          id: true,
+          stack: {
+            select: {
+              id: true,
+              thumbnail: true
+            }
+          },
+          onlineHistory: {
+            select: {
+              userId: true,
+              archievedPoints: true
+            },
+            orderBy: {
+              archievedPoints: 'desc'
+            }
+          }
+        }
+      }
+    },
+    orderBy: {
+      createdAt: 'desc'
+    },
+    take: 1
+  })
+
+  if (!lastestEvent) return null
+
+  // normalize data
+  const result = lastestEvent.rounds.map(round => {
+    let rank = 0
+    const userHistory = round.onlineHistory.find((history, index) => {
+      rank = index + 1
+      return history.userId === userId
+    })
+
+    if (!userHistory) return null
+
+    return {
+      id: round.id,
+      stack: round.stack,
+      onlineHistory: {
+        archievedPoints: userHistory.archievedPoints,
+        rank
+      }
+    }
+  })
+
+  return {
+    ...lastestEvent,
+    rounds: result.filter(round => round !== null)
+  }
+}
+
+export default {
+  getLeaderboards,
+  getOnlineEventsLeaderboards,
+  saveUserPoints,
+  getEventUserPoints,
+  getLastestUserOnlineStats
+}

@@ -2,6 +2,8 @@ import { Avatar } from 'antd'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import DefaultAvatar from '~/assets/default-avatar.jpg'
+
 import AnimateButton from '~/components/AnimateButton'
 import Button from '~/components/Button'
 import CustomDivider from '~/components/CustomDivider'
@@ -69,7 +71,7 @@ function BattleInfo({ status, battle, className }: PropsType) {
 
               <Avatar.Group>
                 {battle.leaderboards.map(leader => (
-                  <Avatar key={`leader-${leader.id}`} size="small" src={leader.avatarUrl} />
+                  <Avatar key={`leader-${leader.id}`} size="small" src={leader.avatarUrl ?? DefaultAvatar} />
                 ))}
               </Avatar.Group>
             </Button>
@@ -87,7 +89,7 @@ function BattleInfo({ status, battle, className }: PropsType) {
         {battle.rounds.map(round => (
           <OnlineRound
             key={`online-round-${round.id}`}
-            status={status}
+            status={round.status}
             imageSrc={round.stack.thumbnail}
             stack={round.game.name}
           />

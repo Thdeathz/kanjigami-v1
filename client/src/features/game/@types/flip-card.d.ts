@@ -24,3 +24,5 @@ declare interface ActivedCard {
   card: EventTarget & HTMLDivElement
   kanji: ImageContent | KanjiContent
 }
+
+declare type FlipCardGameContent = (ImageContent | KanjiContent)[]

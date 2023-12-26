@@ -60,7 +60,7 @@ export const loginWithGoogle: RequestHandler = async (req, res) => {
  */
 export const refresh: RequestHandler = async (req, res) => {
   const cookie = req.cookies
-  if (!cookie.jwt) return res.status(401).json({ message: 'Unauthorized' })
+  if (!cookie.jwt) return res.status(403).json({ message: 'Unauthorized' })
 
   // clear current refresh token
   const refreshToken: string = cookie.jwt

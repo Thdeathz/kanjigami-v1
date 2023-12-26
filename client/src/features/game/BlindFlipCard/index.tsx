@@ -12,7 +12,7 @@ import GameStatus from '../components/GameStatus'
 import { useStartGameMutation } from '../store/gameService'
 import { resetFlipCardState, selectFlipCardGameData } from '../store/gameSlice'
 
-import BlindCardGame from './BlindCard'
+import BlindCardGameControl from './GameControl'
 
 type PropsType = {
   game: IGame
@@ -40,8 +40,6 @@ function BlindFlipCard({ game, stack }: PropsType) {
         numberKanji: 12,
         time: 60 * 5
       }).unwrap()
-
-      console.log('start game', sessionId)
 
       navigate(
         `?${new URLSearchParams({
@@ -72,7 +70,7 @@ function BlindFlipCard({ game, stack }: PropsType) {
       <>
         <GameStatus time={gameData.time} score={gameData.score} maxScore={12} onTimeOut={onTimeOut} />
 
-        <BlindCardGame
+        <BlindCardGameControl
           userId={userId}
           sessionId={sessionId}
           stackId={stack.id}

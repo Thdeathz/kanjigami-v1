@@ -9,11 +9,19 @@ type PropsType = {
   activedCard: ActivedCard[]
   setActivedCard: React.Dispatch<React.SetStateAction<ActivedCard[]>>
   userId: string
-  sessionId: string
+  sessionId?: string
   score: number
+  handleCalculateScore?: () => void
 }
 
-function useActiveCardChanges({ activedCard, setActivedCard, userId, sessionId, score }: PropsType) {
+function useActiveCardChanges({
+  activedCard,
+  setActivedCard,
+  userId,
+  sessionId,
+  score,
+  handleCalculateScore
+}: PropsType) {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -26,11 +34,18 @@ function useActiveCardChanges({ activedCard, setActivedCard, userId, sessionId, 
           secondCard.card.classList.add('invisible')
           setActivedCard(prev => prev.filter(each => each.kanji.id !== firstCard.kanji.id))
           dispatch(updateFlipCardScore({ score: score + 1 }))
-          socket.emit('game:blind-card-update', {
-            userId,
-            sessionId,
-            kanjiId: firstCard.kanji.id
-          })
+
+          if (sessionId) {
+            socket.emit('game:blind-card-update', {
+              userId,
+              sessionId,
+              kanjiId: firstCard.kanji.id
+            })
+          }
+
+          if (score + 1 === 12 && handleCalculateScore) {
+            handleCalculateScore()
+          }
         }, 100)
       }
 

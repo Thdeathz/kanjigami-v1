@@ -20,3 +20,5 @@ declare interface IMultipleChoiceGameContent {
   options: Option[]
   selectedAnswer?: number
 }
+
+declare type MultipleChoiceGameContent = IMultipleChoiceGameContent[]

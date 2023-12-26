@@ -8,7 +8,7 @@ import GameEnd from '../components/GameEnd'
 import GameLobby from '../components/GameLobby'
 import { useStartGameMutation } from '../store/gameService'
 
-import KanjiShooterGame from './KanjiShooterGame'
+import KanjiShooterGameControl from './GameControl'
 
 type PropsType = {
   game: IGame
@@ -44,7 +44,8 @@ function KanjiShooter({ game, stack }: PropsType) {
     }
   }
 
-  if (sessionId) return <KanjiShooterGame sessionId={sessionId} userId={userId} stackId={stack.id} gameId={game.id} />
+  if (sessionId)
+    return <KanjiShooterGameControl sessionId={sessionId} userId={userId} stackId={stack.id} gameId={game.id} />
 
   if (logId) return <GameEnd icon={<GiBulletBill />} title={game.name} logId={logId} onRestart={onStart} />
 

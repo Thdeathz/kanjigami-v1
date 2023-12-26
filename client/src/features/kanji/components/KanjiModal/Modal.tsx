@@ -13,7 +13,7 @@ type PropsType = {
 
 type KanjiItemPropsType = {
   title: string
-  value: string
+  value?: string
 }
 
 function KanjiItem({ title, value }: KanjiItemPropsType) {
@@ -34,28 +34,26 @@ function KanjiItem({ title, value }: KanjiItemPropsType) {
 function Modal({ kanjiId, isOpen, setIsOpen }: PropsType) {
   const { data: kanji, isLoading } = useGetKanjiDetailQuery(kanjiId)
 
-  if (isLoading || !kanji) return <></>
-
   return (
-    <CustomModal width="70rem" header={kanji.kanji} open={isOpen} onCancel={() => setIsOpen(false)}>
+    <CustomModal width="70rem" header={kanji?.kanji} open={isOpen} onCancel={() => setIsOpen(false)}>
       <div className="grid grid-cols-2 gap-4">
         <div className="grid grid-cols-4 items-start gap-4 text-text-light dark:text-text-dark">
-          <KanjiItem title="Kanji" value={kanji.kanji} />
+          <KanjiItem title="Kanji" value={kanji?.kanji} />
 
-          <KanjiItem title="Kunyomi" value={kanji.kunyomi} />
+          <KanjiItem title="Kunyomi" value={kanji?.kunyomi} />
 
-          <KanjiItem title="Onyomi" value={kanji.onyomi} />
+          <KanjiItem title="Onyomi" value={kanji?.onyomi} />
 
-          <KanjiItem title="Yomikata" value={kanji.vocabularies[0].yomikata} />
+          <KanjiItem title="Yomikata" value={kanji?.vocabularies[0].yomikata} />
 
-          <KanjiItem title="Meaning" value={kanji.vocabularies[0].meaning} />
+          <KanjiItem title="Meaning" value={kanji?.vocabularies[0].meaning} />
 
-          <KanjiItem title="Example" value={kanji.vocabularies[0].examples[0].example} />
+          <KanjiItem title="Example" value={kanji?.vocabularies[0].examples[0].example} />
 
-          <KanjiItem title="  " value={kanji.vocabularies[0].examples[0].meaning} />
+          <KanjiItem title="  " value={kanji?.vocabularies[0].examples[0].meaning} />
         </div>
 
-        <Image className="rounded-md" src={kanji.images[0].url} alt="example-image" />
+        <Image className="w-full rounded-md object-cover" src={kanji?.images[0].url} alt="example-image" />
       </div>
     </CustomModal>
   )

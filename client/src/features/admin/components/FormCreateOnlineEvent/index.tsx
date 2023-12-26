@@ -37,7 +37,7 @@ function FormCreateOnlineEvent() {
 
       let index = 0
       rounds.forEach(round => {
-        if (!round.game.id || !round.stack.id) return
+        if (!round || !round.game.id || !round.stack.id) return
 
         formData.append(`rounds[${index}][order]`, index.toString())
         formData.append(`rounds[${index}][gameId]`, round.game.id)

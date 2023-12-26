@@ -1,4 +1,6 @@
 import { UUID } from 'crypto'
+
+import { EventStatus } from '@prisma/client'
 import { UpdateRoundReq } from '../@types/round'
 import prisma from '../databases/init.prisma'
 import HttpError from '../helpers/httpError'
@@ -20,6 +22,17 @@ const updateRound = async (id: UUID, { gameId, stackId }: UpdateRoundReq) => {
   }
 }
 
+const updateRoundStatus = async (roundId: string, status: EventStatus) => {
+  return await prisma.round.update({
+    where: {
+      id: roundId
+    },
+    data: {
+      status
+    }
+  })
+}
+
 const deleteRound = async (id: UUID) => {
   try {
     return await prisma.round.delete({
@@ -35,5 +48,6 @@ const deleteRound = async (id: UUID) => {
 
 export default {
   updateRound,
-  deleteRound
+  deleteRound,
+  updateRoundStatus
 }

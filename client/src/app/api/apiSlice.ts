@@ -4,6 +4,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { setCredentitals } from '~/features/auth/store/authSlice'
 
 import type { RootState } from '~/@types/app'
+import { message } from 'antd'
 
 const baseQuery = fetchBaseQuery({
   baseUrl: import.meta.env.VITE_API_URL,
@@ -31,6 +32,7 @@ const baseQueryWithRetry: BaseQueryFn = async (args, api, extraOptions) => {
       // retry original request
       result = await baseQuery(args, api, extraOptions)
     } else {
+      console.log('refreshResult', refreshResult)
       if (refreshResult?.error?.status === 403) {
         const error = refreshResult.error.data as { message: string }
         error.message = 'Your session has expired. Please log in again ><!'

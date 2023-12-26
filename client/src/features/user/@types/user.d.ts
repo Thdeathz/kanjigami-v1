@@ -17,3 +17,19 @@ declare interface IUserStats {
     totalGames: number
   }
 }
+
+declare interface IOnlineStats {
+  id: string
+  title: string
+  rounds: {
+    id: string
+    stack: {
+      id: string
+      thumbnail: string
+    }
+    onlineHistory: {
+      rank: number
+      archievedPoints: number
+    }
+  }[]
+}

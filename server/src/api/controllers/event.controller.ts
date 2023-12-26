@@ -13,6 +13,7 @@ import firebaseService from '../services/firebase.service'
  */
 export const getAllEvents: RequestHandler = async (req, res) => {
   const status = (req.query.status as EventStatus) || EventStatus.UPCOMING
+  const search = req.query.search as string
   const page = parseInt(req.query.page as string) || 1
   const { events, total } = await eventService.getAllEventsByStatus(status, page, 3)
 
@@ -53,7 +54,8 @@ export const createEvent: RequestHandler = async (req, res) => {
  */
 export const getEventById: RequestHandler = async (req, res) => {
   const id = req.params.id
-  const event = await eventService.findEventById(id)
+  const currentUser = (req as any).currentUser
+  const event = await eventService.findEventById(id, currentUser.id)
 
   res.json({ message: 'Get event by id successfully', data: event })
 }
@@ -110,5 +112,20 @@ export const adminGetAllEvents: RequestHandler = async (req, res) => {
     data: events,
     currentPage: page,
     totalPages: Math.ceil(total / 10)
+  })
+}
+
+/**
+ * @desc Admin Get event by id
+ * @route GET /events/stats
+ * @access Private
+ */
+export const getLastestUserOnlineStats: RequestHandler = async (req, res) => {
+  const userId = (req as any).currentUser.id
+  const lastestEvent = await onlineHistoryService.getLastestUserOnlineStats(userId)
+
+  res.json({
+    message: 'Get lastest user online stats successfully',
+    data: lastestEvent
   })
 }
