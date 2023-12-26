@@ -21,6 +21,7 @@ type EventFactory = {
     status: EventStatus
     gameId: string
     stackId: string
+    startTime: Date
     onlineHistory: OnlineHistoryFactory[]
   }[]
 }
@@ -35,13 +36,13 @@ export const eventFactory = async (accounts: AccountWithUser[], games: Game[], s
     const tags = fakerJA.person.firstName()
     const maxPlayers = faker.number.int({ min: 5, max: 12 })
 
-    let startTime = faker.date.future()
+    let eventStartTime = faker.date.future()
     let joinedUsers: AccountWithUser[] = faker.helpers.shuffle(accounts).slice(0, maxPlayers)
-    if (status === EventStatus.FINISHED) startTime = faker.date.past()
+    if (status === EventStatus.FINISHED) eventStartTime = faker.date.past()
 
     const maxRounds = faker.number.int({ min: 6, max: 12 })
     const rounds = Array.from(Array(maxRounds)).map((_, index) => {
-      const order = index + 1
+      const order = index
 
       let roundStatus: EventStatus = EventStatus.UPCOMING
       let onlineHistory: OnlineHistoryFactory[] = []
@@ -64,12 +65,13 @@ export const eventFactory = async (accounts: AccountWithUser[], games: Game[], s
         status: roundStatus,
         gameId,
         stackId,
+        startTime: new Date(eventStartTime.getTime() + 1000 * 60 * 5 * order),
         onlineHistory
       }
     })
 
     events.push({
-      startTime,
+      startTime: eventStartTime,
       maxPlayers,
       status,
       title,

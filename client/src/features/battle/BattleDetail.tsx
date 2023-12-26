@@ -15,8 +15,10 @@ import { onlineBattleStatus } from '~/config/status'
 
 import CountDown from './components/CountDown'
 import EventLeaderboards from './components/LeaderList/EventLeaderboards'
+import OngoingBattle from './components/OngoingBattle'
 import OnlineCard from './components/OnlineCard'
 import { useGetBattleDetailQuery } from './store/battleService'
+import { socket } from '~/config/socket'
 
 function getCowntDownTitle(status: OnlineBattleStatus) {
   switch (status) {
@@ -47,6 +49,8 @@ function BattleDetail() {
   if (isSuccess && !battle) return <Navigate to="/404" />
 
   const countDownTitle = getCowntDownTitle(battle.status as OnlineBattleStatus)
+
+  const isOngoingBattle = battle.status === onlineBattleStatus.ONGOING
 
   return (
     <DefaultLayout
@@ -93,40 +97,44 @@ function BattleDetail() {
 
       <RootNotification />
 
-      <div className="mt-12 flex w-full items-start justify-start gap-12">
-        <div className="w-full grow">
-          <Panel>
-            <div className="grid grid-cols-8 gap-3">
-              {battle.rounds.map((round, index) => (
-                <Button
-                  key={`kanji-item-${index}`}
-                  type={round.status !== onlineBattleStatus.UPCOMING ? 'green' : 'default'}
-                >
-                  {round.stack.name}
-                </Button>
+      {!isOngoingBattle ? (
+        <div className="mt-12 flex w-full items-start justify-start gap-12">
+          <div className="w-full grow">
+            <Panel>
+              <div className="grid grid-cols-8 gap-3">
+                {battle.rounds.map((round, index) => (
+                  <Button
+                    key={`kanji-item-${index}`}
+                    type={round.status !== onlineBattleStatus.UPCOMING ? 'green' : 'default'}
+                  >
+                    {round.stack.name}
+                  </Button>
+                ))}
+              </div>
+            </Panel>
+
+            <div className="card-list group pointer-events-none mt-6 grid w-full auto-rows-fr grid-cols-auto-fill gap-6">
+              {battle.rounds.map(round => (
+                <OnlineCard key={`round-card-${round.id}`} round={round} />
               ))}
             </div>
-          </Panel>
+          </div>
 
-          <div className="card-list group pointer-events-none mt-6 grid w-full auto-rows-fr grid-cols-auto-fill gap-6">
-            {battle.rounds.map(round => (
-              <OnlineCard key={`round-card-${round.id}`} round={round} startTime={new Date(battle.startTime)} />
-            ))}
+          <div className="basis-1/4">
+            {battle.status === onlineBattleStatus.UPCOMING && (
+              <Button className="mb-4 w-full" type="primary">
+                Join lobby
+              </Button>
+            )}
+
+            <p className="mb-4 text-xl font-semibold">Battle leaders</p>
+
+            <EventLeaderboards leaderboards={battle.leaderboards} />
           </div>
         </div>
-
-        <div className="basis-1/4">
-          {battle.status === onlineBattleStatus.UPCOMING && (
-            <Button className="mb-4 w-full" type="primary">
-              Join lobby
-            </Button>
-          )}
-
-          <p className="mb-4 text-xl font-semibold">Battle leaders</p>
-
-          <EventLeaderboards leaderboards={battle.leaderboards} />
-        </div>
-      </div>
+      ) : (
+        <OngoingBattle eventId={battle.id} refetch={refetch} />
+      )}
     </DefaultLayout>
   )
 }

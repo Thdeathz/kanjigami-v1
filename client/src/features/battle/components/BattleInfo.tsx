@@ -87,7 +87,7 @@ function BattleInfo({ status, battle, className }: PropsType) {
         {battle.rounds.map(round => (
           <OnlineRound
             key={`online-round-${round.id}`}
-            status={status}
+            status={round.status}
             imageSrc={round.stack.thumbnail}
             stack={round.game.name}
           />

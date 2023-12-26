@@ -20,14 +20,13 @@ function Play() {
 
   if (isGetStackData || isGetGameData || !stack || !game || !stackId)
     return (
-      <GameLayout game="blind-card">
+      <GameLayout>
         <Loading className="text-3xl" />
       </GameLayout>
     )
 
   return (
     <GameLayout
-      game="blind-card"
       breadcrumbs={[
         {
           label: (

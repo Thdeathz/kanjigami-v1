@@ -62,4 +62,14 @@ const getOnlineEventsLeaderboards = async () => {
   }))
 }
 
-export default { getLeaderboards, getOnlineEventsLeaderboards }
+const saveUserPoints = async (usersData: { id: string; point: number }[], roundId: string) => {
+  return prisma.onlineHistory.createMany({
+    data: usersData.map(user => ({
+      userId: user.id,
+      roundId,
+      archievedPoints: user.point
+    }))
+  })
+}
+
+export default { getLeaderboards, getOnlineEventsLeaderboards, saveUserPoints }

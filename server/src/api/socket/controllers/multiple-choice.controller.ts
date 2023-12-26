@@ -1,7 +1,7 @@
 import type { Socket } from 'socket.io'
 
 import redisClient from '~/api/databases/init.redis'
-import { GetGameContentRequest, UserSubmitAnswerRequest } from '../@types/game'
+import { GetGameContentRequest, UserSelectAnswers, UserSubmitAnswerRequest } from '../@types/game'
 import { GameData, MultipleChoiceContent } from '~/api/@types/game'
 import gameLogService from '~/api/services/game-log.service'
 
@@ -16,16 +16,7 @@ const handleGetContent = async (socket: Socket, { sessionId, userId }: GetGameCo
 
   const data = JSON.parse(gameData) as GameData<MultipleChoiceContent>
 
-  const questions = data.gameContent.map(each => ({
-    question: {
-      ...each.question,
-      id: 'question'
-    },
-    options: each.options.map(option => ({
-      id: 'option',
-      option: option.kunyomi
-    }))
-  }))
+  const questions = getQuestions(data.gameContent)
 
   socket.emit('game:multiple-choice-content', {
     gameContent: questions,
@@ -49,17 +40,7 @@ const handleSaveScore = async (
   const data = JSON.parse(gameData) as GameData<MultipleChoiceContent>
 
   // calculate score
-  let finalScore =
-    gameContent.reduce((acc, each, index) => {
-      const question = data.gameContent[index]
-      if (question.answer.id === question.options[each.selectedAnswer]?.id) {
-        return acc + 1
-      }
-
-      return acc
-    }, 0) * 16
-
-  if (time > 0) finalScore -= (60 * 5 - time) * 0.2
+  const finalScore = calculateScore(data.gameContent, gameContent, time)
 
   const result = await gameLogService.saveUserScore(userId, {
     gameId: data.gameId,
@@ -70,7 +51,45 @@ const handleSaveScore = async (
   socket.emit('game:calculate-score-success', { logId: result.gameStackId })
 }
 
+const getQuestions = (gameContent: MultipleChoiceContent[]) => {
+  return gameContent.map(each => ({
+    question: {
+      ...each.question,
+      id: 'question'
+    },
+    options: each.options.map(option => ({
+      id: 'option',
+      option: option.kunyomi
+    }))
+  }))
+}
+
+const calculateScore = (
+  gameContent: MultipleChoiceContent[],
+  userAnswers: UserSelectAnswers[],
+  time: number
+) => {
+  let finalScore =
+    userAnswers.reduce((acc, each, index) => {
+      const question = gameContent[index]
+      const userSelected = question.options?.find((_, index) => index === each.selectedAnswer)
+      console.log(question, userSelected)
+
+      if (userSelected && question.answer.id === userSelected.id) {
+        return acc + 1
+      }
+
+      return acc
+    }, 0) * 16
+
+  if (time > 0) finalScore -= (60 * 5 - time) * 0.2
+
+  return finalScore
+}
+
 export default {
   handleGetContent,
-  handleSaveScore
+  handleSaveScore,
+  getQuestions,
+  calculateScore
 }

@@ -27,6 +27,7 @@ const eventSeeder = async (
             create: event.rounds.map(round => ({
               order: round.order,
               status: round.status,
+              startTime: round.startTime,
               game: {
                 connect: {
                   id: round.gameId

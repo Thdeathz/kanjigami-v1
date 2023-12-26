@@ -9,7 +9,6 @@ import SideBar from './SideBar'
 type PropsType = {
   breadcrumbs?: BreadcrumbItem[]
   className?: string
-  game: 'blind-card' | 'flip-card'
   children: React.ReactNode
 }
 
@@ -22,7 +21,7 @@ const variants = {
   exit: { opacity: 0 }
 }
 
-function GameLayout({ breadcrumbs, className, game, children }: PropsType) {
+function GameLayout({ breadcrumbs, className, children }: PropsType) {
   const [isSideBarOpen, setIsSideBarOpen] = useState(false)
 
   return (
@@ -44,7 +43,7 @@ function GameLayout({ breadcrumbs, className, game, children }: PropsType) {
 
         <div
           className={`
-            relative flex h-max items-start justify-start bg-cover bg-top ${game} dark:${game}-dark
+            blind-card dark:blind-card-dark relative flex h-max items-start justify-start bg-cover bg-top
           `}
         >
           <SideBar fixedSideBar={false} isSideBarOpen={isSideBarOpen} />

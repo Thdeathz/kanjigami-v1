@@ -5,8 +5,6 @@ declare interface IKanjiShooterContent {
 }
 
 declare interface IKanjiShooterCalculateScore {
-  sessionId: string
-  userId: string
   score: number
 }
 

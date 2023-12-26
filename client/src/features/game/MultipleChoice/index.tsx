@@ -12,7 +12,7 @@ import GameStatus from '../components/GameStatus'
 import { useStartGameMutation } from '../store/gameService'
 import { resetMultipleChoiceState, selectMultipleChoiceGameData } from '../store/gameSlice'
 
-import MultipleChoiceGame from './Game'
+import MultipleChoiceGameControl from './GameControl'
 
 type PropsType = {
   game: IGame
@@ -69,7 +69,7 @@ function MultipleChoice({ game, stack }: PropsType) {
           onTimeOut={onCalculateScore}
         />
 
-        <MultipleChoiceGame
+        <MultipleChoiceGameControl
           sessionId={sessionId}
           stackId={stack.id}
           gameId={game.id}

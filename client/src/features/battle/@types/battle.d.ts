@@ -12,12 +12,12 @@ declare interface IBattleRound {
   id: string
   order: number
   status: OnlineBattleStatus
+  startTime: Date
+  gameContent?: FlipCardGameContent | MultipleChoiceGameContent
   stack: Pick<Stack, 'id' | 'name' | 'thumbnail'>
   game: IGame
-  onlineHistory?: {
-    user: Pick<IUser, 'id' | 'username' | 'avatarUrl'>
-    archievedPoints: number
-  }[]
+  topUser?: ITopUser
+  currentUserPoint?: number
 }
 
 declare interface IOnlineBattle {

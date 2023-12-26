@@ -8,12 +8,20 @@ type StateType = {
   upComingCurrentPage: number
   onGoingCurrentPage: number
   finishedCurrentPage: number
+  onGoingbattle: {
+    data?: IOnlineBattle
+    users: ITopUser[]
+    currentRound?: IBattleRound
+  }
 }
 
 const initialState: StateType = {
   upComingCurrentPage: 1,
   onGoingCurrentPage: 1,
-  finishedCurrentPage: 1
+  finishedCurrentPage: 1,
+  onGoingbattle: {
+    users: []
+  }
 }
 
 const battleSlice = createSlice({
@@ -36,11 +44,24 @@ const battleSlice = createSlice({
         default:
           break
       }
+    },
+    updateOnGoingBattleData: (state, action) => {
+      state.onGoingbattle.data = action.payload
+    },
+    updateOnGoingBattleUsers: (state, action) => {
+      state.onGoingbattle.users = action.payload
+    },
+    setCurrentRound: (state, action) => {
+      state.onGoingbattle.currentRound = action.payload
+    },
+    resetCurrentRound: state => {
+      state.onGoingbattle.currentRound = undefined
     }
   }
 })
 
-export const { setCurrentPage } = battleSlice.actions
+export const { setCurrentPage, updateOnGoingBattleData, updateOnGoingBattleUsers, setCurrentRound, resetCurrentRound } =
+  battleSlice.actions
 
 export default battleSlice.reducer
 
@@ -56,3 +77,7 @@ export const selectCurrentPage = (state: RootState, type: OnlineBattleStatus) =>
       return 1
   }
 }
+
+export const selectOngoingBattle = (state: RootState) => state.battle.onGoingbattle
+export const selectCurrentRound = (state: RootState) => state.battle.onGoingbattle.currentRound
+export const selectBattleLeaderboard = (state: RootState) => state.battle.onGoingbattle.users

@@ -1,29 +1,21 @@
 import { motion } from 'framer-motion'
 import React, { MouseEvent, useState } from 'react'
 
-import Loading from '~/components/Loading'
 import { cardList } from '~/config/variants'
 
 import useActiveCardChanges from '../hooks/useActiveCardChanges'
-import useFlipCardEvent from '../hooks/useFlipCardEvent'
 
 import Card from './Card'
 
-type ActivedCard = {
-  card: EventTarget & HTMLDivElement
-  kanji: ImageContent | KanjiContent
-}
-
 type PropsType = {
-  gameContent: (ImageContent | KanjiContent)[]
   userId: string
-  sessionId: string
+  sessionId?: string
   score: number
-  stackId: string
-  gameId: string
+  gameContent: (ImageContent | KanjiContent)[]
+  handleCalculateScore?: () => void
 }
 
-function BlindCardGame({ gameContent, userId, sessionId, stackId, gameId, score }: PropsType) {
+function BlindCardGameContent({ userId, sessionId, score, gameContent, handleCalculateScore }: PropsType) {
   const [activedCard, setActivedCard] = useState<ActivedCard[]>([])
 
   const handleCardClick = (e: MouseEvent<HTMLDivElement>, kanji: ImageContent | KanjiContent) => {
@@ -41,10 +33,7 @@ function BlindCardGame({ gameContent, userId, sessionId, stackId, gameId, score 
     ])
   }
 
-  useActiveCardChanges({ activedCard, setActivedCard, userId, sessionId, score })
-  useFlipCardEvent({ userId, sessionId, stackId, gameId })
-
-  if (!gameContent || gameContent.length === 0) return <Loading className="text-3xl" />
+  useActiveCardChanges({ activedCard, setActivedCard, userId, sessionId, score, handleCalculateScore })
 
   return (
     <motion.div
@@ -60,4 +49,4 @@ function BlindCardGame({ gameContent, userId, sessionId, stackId, gameId, score 
   )
 }
 
-export default BlindCardGame
+export default BlindCardGameContent

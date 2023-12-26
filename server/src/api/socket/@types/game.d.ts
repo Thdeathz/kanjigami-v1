@@ -17,11 +17,13 @@ export type SaveGameScoreRequest = {
   score: number
 }
 
+export type UserSelectAnswers = {
+  question: number
+  selectedAnswer: number
+}
+
 export type UserSubmitAnswerRequest = {
   userId: string
   sessionId: string
-  gameContent: {
-    question: number
-    selectedAnswer: number
-  }[]
+  gameContent: UserSelectAnswers[]
 }

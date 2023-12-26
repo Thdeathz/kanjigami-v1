@@ -78,7 +78,7 @@ const verifyRefreshToken = (refreshToken: string): Promise<CurrentUserData> => {
         return reject(new HttpError(401, 'Unauthorized/InvalidRefreshToken'))
 
       // check if refresh token is still valid
-      const foundUser = await redisClient.get(`rft_${userData.id}`)
+      const foundUser = await redisClient.get(`rft:${userData.id}`)
       if (!foundUser) return reject(new HttpError(401, 'Unauthorized/InvalidRefreshToken'))
 
       const currentUserData = JSON.parse(foundUser) as CurrentUserData
