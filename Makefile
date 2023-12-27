@@ -12,10 +12,10 @@ devrun:
 	@docker exec -it $(COMPOSE_PROJECT_NAME)-client-1 yarn dev
 
 devup:
-	docker compose up -d --remove-orphans
+	docker compose -f ./docker-compose.dev.yml up -d --remove-orphans
 
 devdown:
-	docker compose down --remove-orphans
+	docker compose -f ./docker-compose.dev.yml down --remove-orphans
 
 devinstall:
 	@docker exec -it $(COMPOSE_PROJECT_NAME)-server-1 yarn
@@ -46,4 +46,4 @@ devclean: devdown
 	@docker rmi $$(docker images -a -q)
 	@docker volume rm $$(docker volume ls -q)
 devrun-server:
-	docker compose exec -it server yarn dev
+	docker compose -f ./docker-compose.dev.yml exec -it server yarn dev

@@ -1,44 +1,25 @@
-# React + Typescript
-
-## Features
-
-- Ant Design (Antd) and Tailwind CSS for user interface.
-- Redux Toolkit for state management.
-- RTK Query for making API calls.
-
-## Getting Started
-
-Install the dependencies:
-
-```bash
-yarn
-```
-
-Create a `.env` file in the client folder and add the following variables:
-
-```bash
-VITE_NODE_ENV=
-VITE_API_URL=<your-api-url>
-```
-
-Start the client:
-
-```bash
-yarn dev
-```
-
-The client will start running at `http://localhost:3000`.
-
 ## Folder Structure
 
 ```
+├── public                 # Static files (favicon, robots.txt, etc.)
 ├── src
-│   ├── @types             # Contains global types
-│   ├── app                # Contains redux store and rtk query configuration
-│   ├── components         # Contains reusable components
-│   ├── config             # Contains enum variable
-│   ├── features           # Contains feature modules (e.g., Redux slices)
-│   └── hooks              # Contains custom hook
-├── App.tsx                # Entry point of the application
-└── README.md              # This file
+│   ├── @types             # Global types
+│   ├── app                # Redux store and rtk query configuration
+│   ├── assets             # Static assets (images, fonts, etc.)
+│   ├── components         # Reusable components
+│   ├── config             # Enum variables, constants, and configuration
+│   ├── features           # Feature modules (e.g., Redux slices)
+│   │   ├── auth           # Auth feature module
+│   │   │   ├── @types               # Types for auth feature module
+│   │   │   ├── components           # Components for auth feature module
+│   │   │   ├── store
+│   │   │   │   ├── authService.ts   # Auth service to call API
+│   │   │   │   └── authSlice.ts     # Auth state and reducer
+│   │   │   ├── utils                # Utility functions for auth feature module
+│   │   │   └── ...tsx               # Pages for auth feature module
+│   │   └── ...
+│   ├── hooks              # Global custom hooks
+│   └── utils              # Utility functions
+├── App.tsx                # Application route setup
+└── main.tsx               # Entry point
 ```

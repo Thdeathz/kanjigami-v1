@@ -106,7 +106,6 @@ function OngoingBattle({ eventId, refetch }: PropsType) {
       </div>
 
       <div className="basis-1/4">
-        <>{console.log('==> joined users', joinedUser)}</>
         {!isFirstRoundStarted ? (
           <>
             <Button type="primary" className="mb-4 w-full" onClick={onJoinLobby}>

@@ -1,0 +1,76 @@
+services:
+  traefik:
+    image: traefik:2.9
+    restart: unless-stopped
+    command:
+      - --api.dashboard=true
+      - --entrypoints.http.address=:80
+      - --providers.docker
+      - --providers.docker.network=${COMPOSE_PROJECT_NAME}_client
+      - --providers.docker.watch=true
+      - --providers.docker.exposedbydefault=false
+    ports:
+      - ${PORT:-80}:80
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.traefik.rule=Host(`${TRAEFIK_DOMAIN}`)
+      - traefik.http.routers.traefik.service=api@internal
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  server:
+    image: node:18-alpine
+    restart: unless-stopped
+    working_dir: /srv/server
+    tty: true
+    volumes:
+      - ./server:/srv/server
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-server.rule=Host(`${DOMAIN}`) && PathPrefix(`/api`)
+      - traefik.http.services.${COMPOSE_PROJECT_NAME}-server.loadbalancer.server.port=80
+    links:
+      - postgres
+      - redis
+    depends_on:
+      - traefik
+      - postgres
+      - redis
+
+  client:
+    image: node:18-alpine
+    restart: unless-stopped
+    working_dir: /srv/client
+    tty: true
+    volumes:
+      - ./client:/srv/client
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-client.rule=Host(`${DOMAIN}`)
+      - traefik.http.services.${COMPOSE_PROJECT_NAME}-client.loadbalancer.server.port=3000
+    depends_on:
+      - traefik
+      - server
+
+  redis:
+    image: redis:7.2-alpine
+    restart: unless-stopped
+    volumes:
+      - ./.data/redis:/data
+    command: >
+      redis-server
+      --requirepass ${REDIS_PASSWORD:-redis}
+    ports:
+      - ${REDIS_PORT:-6379}:6379
+
+  postgres:
+    image: postgres:11-alpine
+    restart: unless-stopped
+    volumes:
+      - ./.data/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - POSTGRES_DB=${POSTGRES_DB:-postgres}
+    ports:
+      - ${POSTGRES_PORT:-5432}:5432

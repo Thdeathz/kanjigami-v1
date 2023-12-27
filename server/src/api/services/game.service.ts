@@ -76,7 +76,7 @@ const startGame = async (
 
   const sessionId = v4()
 
-  redisClient.set(
+  await redisClient.set(
     `g_${sessionId}`,
     JSON.stringify({
       gameId,
