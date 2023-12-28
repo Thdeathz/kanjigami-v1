@@ -64,3 +64,27 @@ declare interface IGameItem {
   name: string
   thumbnail: string
 }
+
+declare interface CreateKanji {
+  kanji: string
+  onyomi: string
+  kunyomi: string
+  image: FilePreview
+  vocabulary: {
+    yomikata: string
+    meaning: string
+    example: {
+      example: string
+      meaning: string
+    }
+  }
+}
+
+declare interface CreateStackRequest {
+  title: string
+  description: string
+  image: string
+  topic: string
+  kanjis: CreateKanji[]
+}
+s

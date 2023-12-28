@@ -18,6 +18,13 @@ export const adminService = apiSlice.injectEndpoints({
         body: fromData
       })
     }),
+    addNewKanjiStack: builder.mutation<IStack, FormData>({
+      query: fromData => ({
+        url: '/stacks',
+        method: 'POST',
+        body: fromData
+      })
+    }),
     getAllEvents: builder.query<ApiResponsePaginated<IOnlineEventItem[]>, number>({
       query: page => `/events/admin?page=${page}`,
       providesTags: (result, error, page) => [{ type: 'OnlineBattle' as const, id: 'ADMIN' }]
@@ -44,5 +51,6 @@ export const {
   useGetAllEventsQuery,
   useGetStacksQuery,
   useGetAllUsersQuery,
-  useGetAllGamesQuery
+  useGetAllGamesQuery,
+  useAddNewKanjiStackMutation
 } = adminService

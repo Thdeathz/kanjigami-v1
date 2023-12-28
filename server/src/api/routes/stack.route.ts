@@ -11,10 +11,14 @@ import {
   getStackById,
   adminGetAllStacks
 } from '../controllers/stack.controller'
+import upload from '~/config/init.multer'
 
 const router = express.Router()
 
-router.route('/').post(createStack).get(getCurrentUser, getAllStacks)
+router
+  .route('/')
+  .post(verifyJWT, upload.array('images'), createStack)
+  .get(getCurrentUser, getAllStacks)
 
 router.route('/follow').get(verifyJWT, getFollowedStacks)
 

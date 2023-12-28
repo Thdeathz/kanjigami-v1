@@ -35,35 +35,36 @@ const createStackExample = {
   ]
 }
 
-const createStack = async (stack: FullCreateStackReq) => {
+const createStack = async (stack: FullCreateStackReq, imageUrls: string[]) => {
   try {
     return await prisma.stack.create({
       data: {
         name: stack.name,
         description: stack.description,
-        thumbnail: stack.thumbnail,
-        gameStacks: {
-          create: stack.gameStacks.map(gameStack => ({
-            gameId: gameStack.gameId
-          }))
-        },
+        thumbnail: imageUrls[0],
         topic: {
-          connect: {
-            id: stack.topic
+          create: {
+            name: stack.topic,
+            description: stack.topic
           }
         },
         kanjis: {
-          create: stack.kanjis.map(item => ({
+          create: stack.kanjis.map((item, index) => ({
             kanji: item.kanji,
             kunyomi: item.kunyomi,
             onyomi: item.onyomi,
             kakikata: item.kakikata,
-            meaning: item.meaning,
+            meaning: item.vocabularies.meaning,
+            images: {
+              create: {
+                url: imageUrls[index + 1]
+              }
+            },
             vocabularies: {
               create: {
                 yomikata: item.vocabularies.yomikata,
                 meaning: item.vocabularies.meaning,
-                example: {
+                examples: {
                   create: {
                     example: item.vocabularies.example.example,
                     meaning: item.vocabularies.example.meaning
@@ -76,6 +77,7 @@ const createStack = async (stack: FullCreateStackReq) => {
       }
     })
   } catch (error) {
+    console.log(error)
     throw new HttpError(500, 'Internal server error')
   }
 }

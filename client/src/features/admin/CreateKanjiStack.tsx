@@ -6,12 +6,11 @@ import Button from '~/components/Button'
 import DefaultLayout from '~/components/Layouts/DefaultLayout'
 import PageHeader from '~/components/PageHeader'
 
-import FormKanji from './components/FormKanji'
-import FromStackDetail from './components/FromStackDetail'
-import SectionDivider from './components/SectionDivider'
+import FormCreateKanjiStack from './components/FormCreateKanjiStack'
+import { useDocumentTitle } from 'usehooks-ts'
 
 function CreateKanjiStack() {
-  const [form] = Form.useForm<CreateStackRequest>()
+  useDocumentTitle('Create Kanji Stack')
 
   return (
     <DefaultLayout
@@ -37,24 +36,7 @@ function CreateKanjiStack() {
         className="mb-12"
       />
 
-      <Form form={form} name="create-stack" autoComplete="off" className="mx-auto max-w-[80rem]">
-        <div className="mb-8">
-          <SectionDivider title="Stack Details" />
-
-          <FromStackDetail />
-        </div>
-
-        <div className="mb-8">
-          <SectionDivider title="Kanjis" />
-
-          <FormKanji />
-        </div>
-
-        <div className="flex items-center justify-end gap-2">
-          <Button type="danger">Cancel</Button>
-          <Button type="primary">Add new</Button>
-        </div>
-      </Form>
+      <FormCreateKanjiStack />
     </DefaultLayout>
   )
 }

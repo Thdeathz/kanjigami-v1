@@ -2,6 +2,7 @@ import { RequestHandler } from 'express'
 
 import { FullCreateStackReq } from '../@types/stack'
 import stackService from '../services/stack.service'
+import firebaseService from '../services/firebase.service'
 
 /**
  * @desc Create a new stack
@@ -9,9 +10,24 @@ import stackService from '../services/stack.service'
  * @access Private
  */
 export const createStack: RequestHandler = async (req, res) => {
-  const { name, description, topic, gameStacks, kanjis } = <FullCreateStackReq>req.body
+  const data = <FullCreateStackReq>req.body
+  const images = req.files as Express.Multer.File[]
 
-  const newStack = await stackService.createStack({ name, description, topic, gameStacks, kanjis })
+  let imageUrls: string[] = []
+  if (images) {
+    for (const image of images) {
+      const extention = image.originalname.split('.')[1]
+      const imageUrl = await firebaseService.storeFile(image.buffer, 'images/kanji', extention)
+      imageUrls.push(imageUrl)
+    }
+  }
+
+  const { name, description, topic, gameStacks, kanjis } = data
+
+  const newStack = await stackService.createStack(
+    { name, description, topic, gameStacks, kanjis },
+    imageUrls
+  )
 
   res.status(201).json(newStack)
 }
