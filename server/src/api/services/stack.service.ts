@@ -3,6 +3,38 @@ import prisma from '../databases/init.prisma'
 import HttpError from '../helpers/httpError'
 import gameLogService from './game-log.service'
 
+const createStackExample = {
+  name: 'Kanji N5',
+  description: 'Kanji N5 for beginner',
+  thumbnail:
+    'https://i0.wp.com/www.kvbro.com/wp-content/uploads/2020/03/91739365_252506499211824_7993183065570541568_n.jpg?resize=800%2C560&ssl=1',
+  topic: '035d2bff-038b-41f2-a2fb-be3b429dbccd',
+  gameStacks: [
+    {
+      gameId: 'e3d0c83a-262e-4750-91d3-39bc93cd49d7'
+    },
+    {
+      gameId: '9026eee0-8dec-4827-b0d8-e5475c0090db'
+    }
+  ],
+  kanjis: [
+    {
+      kanji: '一',
+      kunyomi: 'ひと・つ',
+      onyomi: 'イチ・イツ',
+      kakikata: '一',
+      meaning: 'One'
+    },
+    {
+      kanji: '二',
+      kunyomi: 'ふた・つ',
+      onyomi: 'ニ・ジ',
+      kakikata: '二',
+      meaning: 'Two'
+    }
+  ]
+}
+
 const createStack = async (stack: FullCreateStackReq) => {
   try {
     return await prisma.stack.create({
@@ -16,14 +48,8 @@ const createStack = async (stack: FullCreateStackReq) => {
           }))
         },
         topic: {
-          connectOrCreate: {
-            where: {
-              name: stack.topic.name
-            },
-            create: {
-              name: stack.topic.name,
-              description: stack.topic.description
-            }
+          connect: {
+            id: stack.topic
           }
         },
         kanjis: {
@@ -32,7 +58,19 @@ const createStack = async (stack: FullCreateStackReq) => {
             kunyomi: item.kunyomi,
             onyomi: item.onyomi,
             kakikata: item.kakikata,
-            meaning: item.meaning
+            meaning: item.meaning,
+            vocabularies: {
+              create: {
+                yomikata: item.vocabularies.yomikata,
+                meaning: item.vocabularies.meaning,
+                example: {
+                  create: {
+                    example: item.vocabularies.example.example,
+                    meaning: item.vocabularies.example.meaning
+                  }
+                }
+              }
+            }
           }))
         }
       }
