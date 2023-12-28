@@ -26,6 +26,9 @@ devinstall:
 prisma-format:
 	docker exec -it $(COMPOSE_PROJECT_NAME)-server-1 yarn prisma format
 
+prisma-generate:
+	docker exec -it $(COMPOSE_PROJECT_NAME)-server-1 yarn prisma generate
+
 prisma-migrate:
 	docker exec -it $(COMPOSE_PROJECT_NAME)-server-1 yarn prisma migrate dev --name init --create-only
 
