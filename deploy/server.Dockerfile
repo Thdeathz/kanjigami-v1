@@ -8,7 +8,8 @@ RUN yarn install --frozen-lockfile
 
 COPY . .
 
-EXPOSE 80
+EXPOSE 3500
+
+RUN npx prisma generate
 
 RUN yarn build
-

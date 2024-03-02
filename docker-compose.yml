@@ -1,53 +1,61 @@
 services:
-  traefik:
-    image: traefik:2.9
-    restart: unless-stopped
-    command:
-      - --api.dashboard=true
-      - --entrypoints.http.address=:80
-      - --providers.docker
-      - --providers.docker.network=${COMPOSE_PROJECT_NAME}_client
-      - --providers.docker.watch=true
-      - --providers.docker.exposedbydefault=false
+  nginx:
+    image: thdeathzz/kanjigami-prod:nginx-latest
+    restart: always
+    depends_on:
+      - client
+      - server
     ports:
-      - ${PORT:-80}:80
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.traefik.rule=Host(`${TRAEFIK_DOMAIN}`)
-      - traefik.http.routers.traefik.service=api@internal
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - '80:80'
 
   server:
-    image: node:18-alpine
+    image: thdeathzz/kanjigami-prod:server-latest
     restart: unless-stopped
-    working_dir: /srv/server
     tty: true
-    volumes:
-      - ./server:/srv/server
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-server.rule=Host(`${DOMAIN}`) && PathPrefix(`/api`)
-      - traefik.http.services.${COMPOSE_PROJECT_NAME}-server.loadbalancer.server.port=80
+    command: >
+      yarn prisma migrate reset --force &&
+      yarn seed &&
+      yarn prod
+    environment:
+      - VITE_NODE_ENV=production
+      - APP_URL=${APP_URL}
+      - DATABASE_URL=${DATABASE_URL}
+      - REDIS_URL=${REDIS_URL}
+      - ACCESS_TOKEN_SECRET=${ACCESS_TOKEN_SECRET}
+      - REFRESH_TOKEN_SECRET=${REFRESH_TOKEN_SECRET}
+      - FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID}
+      - FIREBASE_PRIVATE_KEY_ID=${FIREBASE_PRIVATE_KEY_ID}
+      - FIREBASE_PRIVATE_KEY=${FIREBASE_PRIVATE_KEY}
+      - FIREBASE_CLIENT_EMAIL=${FIREBASE_CLIENT_EMAIL}
+      - FIREBASE_CLIENT_ID=${FIREBASE_CLIENT_ID}
+      - FIREBASE_AUTH_URI=${FIREBASE_AUTH_URI}
+      - FIREBASE_TOKEN_URI=${FIREBASE_TOKEN_URI}
+      - FIREBASE_AUTH_PROVIDER_X509_CERT_URL=${FIREBASE_AUTH_PROVIDER_X509_CERT_URL}
+      - FIREBASE_CLIENT_X509_CERT_URL=${FIREBASE_CLIENT_X509_CERT_URL}
+      - MAILER_EMAIL=${MAILER_EMAIL}
+      - MAILER_PASSWORD=${MAILER_PASSWORD}
     links:
       - postgres
       - redis
     depends_on:
-      - traefik
       - postgres
       - redis
 
   client:
-    image: node:18-alpine
+    image: thdeathzz/kanjigami-prod:client-latest
     restart: unless-stopped
-    working_dir: /srv/client
     tty: true
-    volumes:
-      - ./client:/srv/client
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-client.rule=Host(`${DOMAIN}`)
-      - traefik.http.services.${COMPOSE_PROJECT_NAME}-client.loadbalancer.server.port=3000
+    environment:
+      - NODE_ENV=production
+      - VITE_API_URL=${VITE_API_URL}
+      - VITE_SOCKET_URL=${VITE_SOCKET_URL}
+      - VITE_FIREBASE_APP_ID=${VITE_FIREBASE_APP_ID}
+      - VITE_FIREBASE_API_KEY=${VITE_FIREBASE_API_KEY}
+      - VITE_FIREBASE_AUTH_DOMAIN=${VITE_FIREBASE_AUTH_DOMAIN}
+      - VITE_FIREBASE_PROJECT_ID=${VITE_FIREBASE_PROJECT_ID}
+      - VITE_FIREBASE_STORAGE_BUCKET=${VITE_FIREBASE_STORAGE_BUCKET}
+      - VITE_FIREBASE_MESSAGE_SENDER_ID=${VITE_FIREBASE_MESSAGE_SENDER_ID}
+      - VITE_FIREBASE_MEASUREMENT_ID=${VITE_FIREBASE_MEASUREMENT_ID}
     depends_on:
       - traefik
       - server

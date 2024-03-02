@@ -1,100 +1,77 @@
-# MERN project starter template (Typescript)
+# KanjiGami
 
-This is a MERN (MongoDB, Express, React, Node.js) project starter template that uses Typescript.
+Website luyện tập tiếng nhật thông qua game
 
-## Features
+## Giới thiệu
 
-- MERN stack with Typescript
-- Tailwind CSS and Ant Design for UI design
-- Redux Toolkit and RTK Query for state management
-- Base 2 JWT token authentication
-- Login with Google using Firebase Authentication
+- [Yêu cầu hệ thống](#Yêu-cầu-hệ-thống)
+- [Hướng dẫn chạy dự án](#setup-and-configuration)
+- [Các chức năng](#usage)
+- [License](#license)
 
-## Requirement
+## Yêu cầu hệ thống
 
 - Docker >= 20.10
 - Docker compose plugin
-- NodeJS 18
 
-## How to use it
+## Hướng dẫn chạy dự án
 
-Run the following command in the root directory of project:
+Sau khi clone project thực hiện những bước sau:
+
+1. Khởi động docker container:
 
 ```bash
 make devup
 ```
 
-This will create a `.env` file in the root directory. You can configure environment variables in this file according to your needs.
-
-Install dependencies:
+2. Cài đặt các package cần thiết:
 
 ```bash
 make devinstall
+
 ```
 
-Add secret key for JWT token:
+3. Tạo database:
+
+```bash
+make prisma-generate
+make prisma-deploy
+make prisma-seed
+```
+
+4. Tạo một dự án firebase và thêm các thông tin cấu hình tướng ứng vào 2 file: `./client/.env` và `./server/.env`
+
+5. Lấy gmail app key và thêm vào file `./server/.env`
+
+6. Tạo private key cho jwt và thêm vào file `./server/.env` bằng câu lệnh:
 
 ```bash
 make genkey
 ```
 
-Replace the results obtained with the following values in the `server/.env`:
-
-```bash
-ACCESS_TOKEN_SECRET=<your access token secret>
-REFRESH_TOKEN_SECRET=<your refresh token secret>
-```
-
-Deploy database:
-
-```bash
-make prisma-deploy
-```
-
-Set up a Firebase project and configure the necessary environment variables:
-
-1. Create a Firebase project at [https://console.firebase.google.com](https://console.firebase.google.com)
-2. Enable the `Authentication`, `Storage` for the project
-3. Obtain the Firebase configuration values (API key, database URL, etc.)
-4. Add the following environment variables to the `.env` file at `client`:
-
-```bash
-VITE_FIREBASE_APP_ID=
-VITE_FIREBASE_API_KEY=
-VITE_FIREBASE_AUTH_DOMAIN=
-VITE_FIREBASE_PROJECT_ID=
-VITE_FIREBASE_STORAGE_BUCKET=
-VITE_FIREBASE_MESSAGE_SENDER_ID=
-VITE_FIREBASE_MEASUREMENT_ID=
-```
-
-5. Generate a private key file for your service account: `Settings > Service Accounts > Generate New Private Key`
-6. Add the following environment variables to the `.env` file at `server`:
-
-```bash
-FIREBASE_PROJECT_ID=
-FIREBASE_PRIVATE_KEY_ID=
-FIREBASE_PRIVATE_KEY=
-FIREBASE_CLIENT_EMAIL=
-FIREBASE_CLIENT_ID=
-FIREBASE_AUTH_URI=
-FIREBASE_TOKEN_URI=
-FIREBASE_AUTH_PROVIDER_X509_CERT_URL=
-FIREBASE_CLIENT_X509_CERT_URL=
-```
-
-Start the app in the development mode:
+6. Chạy dự án:
 
 ```bash
 make devrun
 ```
 
-The app will run by default at `project.localhost:3000`, and you can custom it in the `.env` file in the root directory.
+## Các chức năng
 
-Stop the application:
+1. Cấu trúc thư mục:
 
-```bash
-make devdown
+```
+├── .github         # Github actions
+├── client          # Frontend
+├── deploy          # Deploy Dockerfile
+└── server          # Backend
 ```
 
-Happy coding ><
+2. Domain truy cập:
+
+- Client: [http://kanjigami.localhost:3000](http://kanjigami.localhost:3000)
+- Server: [http://kanjigami.localhost:3000/api/](http://kanjigami.localhost:3000/api/)
+- Traefik: [http://traefik.localhost:3000](http://traefik.localhost:3000)
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
